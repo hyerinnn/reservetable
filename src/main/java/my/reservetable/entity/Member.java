@@ -24,7 +24,7 @@ public class Member {
 
     @Column(nullable = false)
     private String email;
-
+    
 
     public Member(String userName, String phoneNumber, String email) {
         this.userName = userName;
