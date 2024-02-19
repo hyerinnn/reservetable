@@ -23,7 +23,7 @@ class MemberRepositoryTest {
 
     @Test
     public void testMember(){
-        Member member = new Member("aaaa", "aaa@abc.com");
+        Member member = new Member("aaaa", "aaa@abc.com", "01011112222");
 
         Member newMember = memberRepository.save(member);
         Member findMember = memberRepository.findById(newMember.getId()).get();

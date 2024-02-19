@@ -19,12 +19,16 @@ public class Member {
     @Column(nullable = false)
     private String userName;
 
+    @Column(nullable = false, length = 12)
+    private String phoneNumber;
+
     @Column(nullable = false)
     private String email;
 
 
-    public Member(String userName, String email) {
+    public Member(String userName, String phoneNumber, String email) {
         this.userName = userName;
+        this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
