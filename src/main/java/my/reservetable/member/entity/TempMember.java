@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -39,6 +40,7 @@ public class TempMember {
     private String email;
 
     @Column(nullable = false)
+    //@ColumnDefault(MemberStatus.READY)
     private String status;
 
 

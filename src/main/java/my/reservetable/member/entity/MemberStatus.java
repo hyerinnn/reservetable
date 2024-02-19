@@ -7,10 +7,10 @@ public enum MemberStatus {
     ACCEPT("수락");
 
     @Getter
-    private final String description;
+    private final String desc;
 
-    MemberStatus(String description) {
-        this.description = description;
+    MemberStatus(String desc) {
+        this.desc = desc;
     }
 
 }
