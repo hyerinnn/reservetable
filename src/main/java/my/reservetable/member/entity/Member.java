@@ -1,19 +1,22 @@
-package my.reservetable.entity;
+package my.reservetable.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 //@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     @Column(nullable = false)
@@ -25,6 +28,11 @@ public class Member {
     @Column(nullable = false)
     private String email;
 
+    @OneToMany(mappedBy = "member") // Shop테이블의 member필드에 의해 매핑되었다.
+    private List<Shop> shops = new ArrayList<>();
+
+
+
 
     public Member(String userName, String phoneNumber, String email) {
         this.userName = userName;
@@ -32,7 +40,4 @@ public class Member {
         this.email = email;
     }
 
-    public Member() {
-
-    }
 }

@@ -1,8 +1,8 @@
-package my.reservetable.repository;
+package my.reservetable.tmp;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import my.reservetable.entity.Member;
+import my.reservetable.member.entity.Member;
 import org.springframework.stereotype.Repository;
 
 /**
