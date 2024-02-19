@@ -1,0 +1,1 @@
+insert into member (id, user_name, phone_number, email) values (1, 'test001', '01011112222','test001@abc.com')
