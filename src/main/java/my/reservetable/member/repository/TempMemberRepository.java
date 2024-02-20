@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface TempMemberRepository extends JpaRepository<TempMember, Long> {
     Optional<TempMember> findByPhoneNumber(String phoneNumber);
+    Optional<TempMember> findByIdAndTmpUrl(Long id, String tmpUrl);
+
 }

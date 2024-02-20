@@ -1,10 +1,7 @@
 package my.reservetable.member.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -43,19 +40,22 @@ public class TempMember {
     //@ColumnDefault(MemberStatus.READY)
     private String status;
 
+    @Column
+    private String tmpUrl;
 
 /*
     @Column(nullable = false)
     private String group;
 */
 
-
-    public TempMember(Long inviteId, String userName, String phoneNumber, String email, String status) {
+    @Builder
+    public TempMember(Long inviteId, String userName, String phoneNumber, String email, String status, String tmpUrl) {
         this.inviteId = inviteId;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.status=status;
+        this.tmpUrl=tmpUrl;
     }
 
 }

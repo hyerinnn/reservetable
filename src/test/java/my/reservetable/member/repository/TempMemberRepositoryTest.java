@@ -23,8 +23,8 @@ class TempMemberRepositoryTest {
     @Test
     public void testTempMember(){
 
-        TempMember tempMember = new TempMember(1L,"임시회원1","01022223333","tmp001@abc.com", MemberStatus.READY.toString());
-        TempMember tempMember2 = new TempMember(3L,"임시회원2","01022223333","tmp002@abc.com", MemberStatus.READY.toString());
+        TempMember tempMember = new TempMember(1L,"임시회원1","01022223333","tmp001@abc.com", MemberStatus.READY.toString(), "agdfg");
+        TempMember tempMember2 = new TempMember(3L,"임시회원2","01022223333","tmp002@abc.com", MemberStatus.READY.toString(), "gdsage");
 
         TempMember newTempMember = tempMemberRepository.save(tempMember);
         TempMember newTempMember2 = tempMemberRepository.save(tempMember2);

@@ -1,17 +1,19 @@
 package my.reservetable.member.dto;
 
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class TempMemberDto {
+@Builder
+public class InviteResponse {
 
-    //String inviteId;
-    private String userName;
-    private String phoneNumber;
-    private String email;
+    private Long tempMemberId;
+    private String urlId;
+
 
 }
