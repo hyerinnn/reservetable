@@ -37,6 +37,7 @@ public class MemberService {
             if(findMember.isPresent()){
                 throw new IllegalStateException("이미 초대완료된 회원입니다.");
             }
+
        */
         //request.setStatus(MemberStatus.READY.toString());
 
@@ -68,6 +69,7 @@ public class MemberService {
         // TODO : 이미 수락한 초대 예외처리
 
         member.setStatus(MemberStatus.ACCEPT.toString());
+        // 세터 쓰지말고 빌더쓰기.
 
         tempMemberRepository.save(member);
         return member.getId();

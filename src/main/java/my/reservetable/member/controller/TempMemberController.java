@@ -21,7 +21,6 @@ public class TempMemberController {
 
     private final MemberService memberService;
 
-
     @PostMapping("/invite")
     public ResponseEntity<InviteResponse> inviteTempMember(@RequestBody TempMemberRequest request){
         InviteResponse inviteMember = memberService.inviteTempMember(request);
@@ -29,8 +28,6 @@ public class TempMemberController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(inviteMember);
     }
-
-
 
     @PostMapping("/accept/{randomUrl}/{id}")
     public ResponseEntity<Long> acceptInvite(@PathVariable(name = "id") Long id,
