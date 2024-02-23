@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
 @Transactional
 @RequiredArgsConstructor
@@ -42,13 +43,8 @@ public class MemberService {
         //request.setStatus(MemberStatus.READY.toString());
 
 
-        // 랜덤 url 생성 (소스 가져옴)
-        Random random = new Random();
-        String randomUrl = random.ints(48,122 + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(10)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
+        // 랜덤 url 생성
+        String randomUrl = UUID.randomUUID().toString();
 
         TempMember tempMember = tempMemberRepository.save(request.toEntity());
 
