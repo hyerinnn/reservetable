@@ -1,7 +1,7 @@
 spring:
   datasource:
     #url: jdbc:h2:~/reservetable
-    url: jdbc:h2:tcp://localhost/~/reservetable
+    url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
     username: sa
     password: 1111
     driver-class-name: org.h2.Driver

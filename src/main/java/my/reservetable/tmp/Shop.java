@@ -1,4 +1,4 @@
-package my.reservetable.member.entity;
+package my.reservetable.tmp;
 
 
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import my.reservetable.member.entity.Member;
 
 @Entity
 @Getter

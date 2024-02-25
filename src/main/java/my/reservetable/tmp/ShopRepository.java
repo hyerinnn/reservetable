@@ -1,6 +1,6 @@
-package my.reservetable.member.repository;
+package my.reservetable.tmp;
 
-import my.reservetable.member.entity.Shop;
+import my.reservetable.tmp.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

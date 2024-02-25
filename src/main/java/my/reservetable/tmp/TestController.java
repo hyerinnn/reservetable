@@ -1,4 +1,4 @@
-package my.reservetable.controller;
+package my.reservetable.tmp;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping("/test")
+    @GetMapping("/home")
     public String hello() {
-        return "hello";
+        return "home";
     }
 }
