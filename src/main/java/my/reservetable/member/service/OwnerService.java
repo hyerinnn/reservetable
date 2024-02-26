@@ -2,14 +2,13 @@ package my.reservetable.member.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import my.reservetable.member.dto.request.OwnerUpdateRequest;
 import my.reservetable.member.dto.response.OwnerResponse;
-import my.reservetable.member.dto.request.OwnerRequest;
+import my.reservetable.member.dto.request.OwnerSignupRequest;
 import my.reservetable.member.entity.Owner;
 import my.reservetable.member.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class OwnerService {
      * 사장 가입(등록)
      * */
     @Transactional
-    public OwnerResponse signupOwner(OwnerRequest request){
+    public OwnerResponse signupOwner(OwnerSignupRequest request){
 
         //TODO : 회원가입 밸리데이션 (시큐리티적용)
         Owner newOwner = ownerRepository.save(request.toEntity());
@@ -35,7 +34,7 @@ public class OwnerService {
     public OwnerResponse findOwnerById(Long id){
         return ownerRepository.findById(id)
                 .map(owner -> OwnerResponse.toDto(owner))
-                .orElseThrow(()-> new EntityNotFoundException("회원을 찾을 수 없습니다."));
+                .orElseThrow(()-> new IllegalArgumentException("회원을 찾을 수 없습니다."));
     }
 
 
@@ -45,20 +44,27 @@ public class OwnerService {
     public OwnerResponse findOwnerByOwnerId(String ownerId){
         return ownerRepository.findByOwnerId(ownerId)
                 .map(owner -> OwnerResponse.toDto(owner))
-                .orElseThrow(()-> new EntityNotFoundException("회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
     }
 
     /**
      * 사장 정보 수정
      * */
-/*    public OwnerResponse updateOwner(Long id, OwnerRequest request){
-        Owner owner = ownerRepository.getReferenceById(id);
+    public OwnerResponse updateOwner(Long id, OwnerUpdateRequest request){
+        Owner owner = ownerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다."));
 
-
-        return ownerRepository.getReferenceById(id)
-                .map(OwnerResponse::toDto)
-                .orElseThrow(()-> new EntityNotFoundException("회원을 찾을 수 없습니다."));
+        // 새로운 owner 엔티티를 만들지 않고, 위에서 조회한 owner 엔티티의 값(영속성컨텍스트)을 update()함수를 이용해 수정해준다.
+        // 그래서 OwnerUpdateRequest에 toEntity()가 필요없음.
+        owner.update(
+                request.getOwnerId(),
+                request.getOwnerName(),
+                request.getPassword(),
+                request.getPhoneNumber(),
+                request.getEmail()
+        );
+        return OwnerResponse.toDto(owner);
     }
-    */
+
 
 }

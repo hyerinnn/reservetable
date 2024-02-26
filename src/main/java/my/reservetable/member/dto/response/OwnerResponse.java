@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import my.reservetable.member.entity.Owner;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
-@Builder
 public class OwnerResponse {
 
     private Long id;
@@ -19,6 +17,16 @@ public class OwnerResponse {
     private String password;
     private String phoneNumber;
     private String email;
+
+    @Builder
+    public OwnerResponse(Long id, String ownerId, String ownerName, String password, String phoneNumber, String email) {
+        this.id = id;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 
     // entity를 dto로 변환
     public static OwnerResponse toDto(Owner owner){

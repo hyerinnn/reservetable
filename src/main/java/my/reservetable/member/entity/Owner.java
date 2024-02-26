@@ -30,15 +30,18 @@ public class Owner {
     //@Column(nullable = false)
     private String email;
 
-/*
-    // 양방향 매핑 지양
-    @OneToMany(mappedBy = "owner") // Shop테이블의 owner필드에 의해 매핑되었다.
-    private List<Shop> shops = new ArrayList<>();
-*/
 
     @Builder
     public Owner(String ownerId, String ownerName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public void update(String ownerId, String ownerName, String password, String phoneNumber, String email){
+        if(ownerId != null) this.ownerId = ownerId;
         this.ownerName = ownerName;
         this.password = password;
         this.phoneNumber = phoneNumber;

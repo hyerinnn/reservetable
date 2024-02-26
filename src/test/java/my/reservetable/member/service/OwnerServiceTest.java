@@ -1,8 +1,10 @@
 package my.reservetable.member.service;
 
+import my.reservetable.member.dto.request.OwnerUpdateRequest;
 import my.reservetable.member.dto.response.OwnerResponse;
-import my.reservetable.member.dto.request.OwnerRequest;
-import org.junit.jupiter.api.DisplayName;
+import my.reservetable.member.dto.request.OwnerSignupRequest;
+import my.reservetable.member.entity.Owner;
+import my.reservetable.member.repository.OwnerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +20,11 @@ import static org.assertj.core.api.Assertions.*;
 class OwnerServiceTest {
 
     @Autowired OwnerService ownerService;
+    @Autowired OwnerRepository ownerRepository;
 
     @Test
     void signupOwner(){
-        OwnerRequest request = OwnerRequest.builder()
+        OwnerSignupRequest request = OwnerSignupRequest.builder()
                 .ownerId("test002")
                 .ownerName("사장님A")
                 .password("1111")
@@ -38,36 +41,33 @@ class OwnerServiceTest {
     void findOwnerByOwnerId(){
         String id = "owner001";
         OwnerResponse owner = ownerService.findOwnerByOwnerId(id);
-        //System.out.println("owner.getOwnerName() = " + owner.getOwnerName());
         assertThat(owner.getOwnerId()).isEqualTo(id);
     }
 
     @Test
     void updateOwner(){
-
-        Long id = 1L;
-        OwnerResponse findOwner = ownerService.findOwnerById(id);
-
-        OwnerRequest request = OwnerRequest.builder()
+        Owner owner = Owner.builder()
                 .ownerId("test002")
-                .ownerName("사장님A")
+                .ownerName("사장님B")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
 
+        ownerRepository.save(owner);
 
-        OwnerRequest updateOwner = OwnerRequest.builder()
-                .ownerId("수정아이디")
-                .ownerName("사장님A")
+        OwnerUpdateRequest updateOwner = OwnerUpdateRequest.builder()
+                .ownerId("jpa")
+                .ownerName("jpa사장님")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
 
-        OwnerResponse owner = ownerService.updateOwner(updateOwner);
-        assertThat(owner.getOwnerId()).isEqualTo("수정아이디");
+        ownerService.updateOwner(owner.getId(), updateOwner);
 
+        assertThat(owner.getOwnerId()).isEqualTo(updateOwner.getOwnerId());
+        assertThat(owner.getOwnerName()).isEqualTo(updateOwner.getOwnerName());
     }
 
 }

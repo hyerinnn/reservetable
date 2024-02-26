@@ -3,17 +3,27 @@ package my.reservetable.member.dto.request;
 import lombok.*;
 import my.reservetable.member.entity.Owner;
 
-@Builder
+//@Builder
+//@AllArgsConstructor
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
-public class OwnerRequest {
+public class OwnerSignupRequest {
 
     private String ownerId;
     private String password;
     private String ownerName;
     private String phoneNumber;
     private String email;
+
+    @Builder
+    public OwnerSignupRequest(String ownerId, String password, String ownerName, String phoneNumber, String email) {
+        this.ownerId = ownerId;
+        this.password = password;
+        this.ownerName = ownerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
 
     public Owner toEntity() {
         return Owner.builder()
