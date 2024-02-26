@@ -2,7 +2,7 @@ package my.reservetable.tmp;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import my.reservetable.member.entity.Member;
+import my.reservetable.member.entity.Owner;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,12 +15,12 @@ public class MemberJpaRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public Member save(Member member){
-        em.persist(member);
-        return member;
+    public Owner save(Owner owner){
+        em.persist(owner);
+        return owner;
     }
 
-    public Member find(Long id){
-        return em.find(Member.class, id);
+    public Owner find(Long id){
+        return em.find(Owner.class, id);
     }
 }

@@ -1,17 +1,14 @@
-package my.reservetable.tmp;
+package my.reservetable.shop.domain;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import my.reservetable.member.entity.Member;
+import lombok.*;
+import my.reservetable.member.entity.Owner;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Shop {
 
     @Id
@@ -19,14 +16,17 @@ public class Shop {
     @Column(name = "shop_id")
     private Long id;
 
-    @Column(name = "shop_name")
+    @Column(nullable = false, name = "shop_name")
     private String name;
 
     @ManyToOne(optional = false)  // 연관관계 주인
     @JoinColumn(name="owner_id")
-    private Member member;
+    private Owner owner;
 
-
-    // TODO : 그룹에 속한 임시회원
+    @Builder
+    public Shop(String name, Owner owner) {
+        this.name = name;
+        this.owner = owner;
+    }
 
 }
