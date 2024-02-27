@@ -3,7 +3,6 @@ package my.reservetable.member.dto.request;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import my.reservetable.member.entity.Owner;
 
 @NoArgsConstructor
 @Getter

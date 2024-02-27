@@ -1,10 +1,9 @@
 package my.reservetable.member.dto.request;
 
 import lombok.*;
-import my.reservetable.member.entity.Owner;
+import my.reservetable.member.domain.Owner;
 
-//@Builder
-//@AllArgsConstructor
+
 @NoArgsConstructor
 @Getter
 public class OwnerSignupRequest {

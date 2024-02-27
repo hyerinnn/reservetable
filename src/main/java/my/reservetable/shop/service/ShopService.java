@@ -2,7 +2,7 @@ package my.reservetable.shop.service;
 
 
 import lombok.RequiredArgsConstructor;
-import my.reservetable.member.entity.Owner;
+import my.reservetable.member.domain.Owner;
 import my.reservetable.member.repository.OwnerRepository;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.dto.ShopRegisterRequest;

@@ -1,11 +1,10 @@
 package my.reservetable.member.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.member.dto.request.OwnerUpdateRequest;
 import my.reservetable.member.dto.response.OwnerResponse;
 import my.reservetable.member.dto.request.OwnerSignupRequest;
-import my.reservetable.member.entity.Owner;
+import my.reservetable.member.domain.Owner;
 import my.reservetable.member.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,8 @@ public class OwnerService {
     public OwnerResponse signupOwner(OwnerSignupRequest request){
 
         //TODO : 회원가입 밸리데이션 (시큐리티적용)
+        //ownerRepository.findByOwnerId(request.getOwnerId())
+
         Owner newOwner = ownerRepository.save(request.toEntity());
         return OwnerResponse.toDto(newOwner);
     }

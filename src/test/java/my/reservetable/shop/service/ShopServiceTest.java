@@ -1,6 +1,6 @@
 package my.reservetable.shop.service;
 
-import my.reservetable.member.entity.Owner;
+import my.reservetable.member.domain.Owner;
 import my.reservetable.member.repository.OwnerRepository;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.dto.ShopRegisterRequest;
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
