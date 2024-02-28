@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
@@ -37,22 +38,21 @@ class OwnerServiceTest {
     @Mock OwnerRepository ownerRepository;   // 모의객체생성 (repository bean에 의존하지 않고 테스트 가능)
 
     @Test
-    @DisplayName("사장님 회원가입")
-    void signupOwner(){
+    @DisplayName("사장님 회원가입 성공테스트")
+    void signupOwnerSuccess(){
         //given
         OwnerSignupRequest request = OwnerSignupRequest.builder()
-                .ownerId("test002")
+                .ownerId("test001")
                 .ownerName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
 
-        //가입안된 id인지 확인  -> 이런 부분도 여기서 테스트 하는지?
-        //when(ownerRepository.findByOwnerId(any(String.class))).thenReturn(Optional.empty());
-        //given(ownerRepository.findByOwnerId(anyString())).willReturn(Optional.ofNullable(null));
+        // 이미 가입된 회원이 아닌 경우
+        //given(ownerRepository.save(any(Owner.class))).willReturn(createOwner());
+        given(ownerRepository.findByOwnerId("test001")).willReturn(Optional.empty());
 
-        given(ownerRepository.save(any(Owner.class))).willReturn(createOwner());
 
         //when
         OwnerResponse newOwner = ownerService.signupOwner(request);
@@ -61,9 +61,32 @@ class OwnerServiceTest {
         assertThat(newOwner.getOwnerName()).isEqualTo(request.getOwnerName());
     }
 
+    @Test
+    @DisplayName("사장님 회원가입 실패 테스트 -> 이미 가입된 id인 경우")
+    void signupOwnerWhenAlreadyRegistered(){
+        //given
+        OwnerSignupRequest request = OwnerSignupRequest.builder()
+                .ownerId("alreadyOwner")
+                .ownerName("사장님A")
+                .password("1111")
+                .email("abc@abc.com")
+                .phoneNumber("01027374848")
+                .build();
+
+        // 이미 가입된 회원인 경우
+        Owner existingOwner = mock(Owner.class);
+        given(ownerRepository.findByOwnerId("alreadyOwner")).willReturn(Optional.of(existingOwner));
+
+        //when
+        
+        //then
+        assertThatThrownBy(() -> ownerService.signupOwner(request))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("이미 가입된 회원입니다.");    }
+
     private Owner createOwner(){
         Owner owner = Owner.builder()
-                .ownerId("test002")
+                .ownerId("test001")
                 .ownerName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
@@ -74,8 +97,6 @@ class OwnerServiceTest {
         return owner;
     }
 
-
-
     @Test
     void findOwnerByOwnerId(){
         String id = "owner001";
@@ -84,9 +105,10 @@ class OwnerServiceTest {
     }
 
     @Test
+    @DisplayName("사장님 회원정보 수정 성공테스트")
     void updateOwner(){
         Owner owner = Owner.builder()
-                .ownerId("test002")
+                .ownerId("test001")
                 .ownerName("사장님B")
                 .password("1111")
                 .email("abc@abc.com")

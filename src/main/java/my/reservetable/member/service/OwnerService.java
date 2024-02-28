@@ -23,7 +23,9 @@ public class OwnerService {
     public OwnerResponse signupOwner(OwnerSignupRequest request){
 
         //TODO : 회원가입 밸리데이션 (시큐리티적용)
-        //ownerRepository.findByOwnerId(request.getOwnerId())
+        if (ownerRepository.findByOwnerId(request.getOwnerId()).isPresent()) {
+            throw new IllegalStateException("이미 가입된 회원입니다.");
+        }
 
         Owner newOwner = ownerRepository.save(request.toEntity());
         return OwnerResponse.toDto(newOwner);
