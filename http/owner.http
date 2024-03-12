@@ -1,0 +1,11 @@
+### 사장회원 조회
+GET localhost:8080/owners/1
+Content-Type: application/json
+
+
+### 사장회원 조회
+GET localhost:8080/owners/owner/owner001
+Content-Type: application/json
+
+{
+}
