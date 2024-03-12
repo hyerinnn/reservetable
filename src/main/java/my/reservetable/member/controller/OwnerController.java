@@ -1,5 +1,7 @@
 package my.reservetable.member.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.member.domain.Owner;
@@ -7,14 +9,12 @@ import my.reservetable.member.dto.request.OwnerSignupRequest;
 import my.reservetable.member.dto.response.OwnerResponse;
 import my.reservetable.member.service.OwnerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/owners")
 @RequiredArgsConstructor
+@Tag(name = "Owner", description = "Owner API")
 public class OwnerController {
 
     /*
@@ -26,6 +26,7 @@ public class OwnerController {
 
     private final OwnerService ownerService;
 
+    @Operation(summary = "id로 사장회원 조회")
     @GetMapping("/{id}")
     public OwnerResponse getOwnerById(@PathVariable Long id){
         return ownerService.findOwnerById(id);

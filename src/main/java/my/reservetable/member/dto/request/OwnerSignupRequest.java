@@ -1,5 +1,6 @@
 package my.reservetable.member.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import my.reservetable.member.domain.Owner;
 

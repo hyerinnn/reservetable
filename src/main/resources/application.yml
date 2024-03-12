@@ -1,9 +1,10 @@
 spring:
   datasource:
     #url: jdbc:h2:~/reservetable
-    url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
+    #url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
+    url: jdbc:h2:mem:~/reservetable;NON_KEYWORDS=USER
     username: sa
-    password: 1111
+    password:
     driver-class-name: org.h2.Driver
 
   jpa:
@@ -18,8 +19,24 @@ spring:
     init:
       mode: always
 
+  h2:
+    console:
+      enabled: true
 
 logging:
   level:
     org.hibernate.SQL: debug
   # org.hibernate.type: trace
+
+springdoc:
+  #packages-to-scan: my.reservetable.controllers
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true  # 기본 url 비활성화
+    display-request-duration: true      # swagger-ui에서 try 했을 때 request duration을 알려주는 설정
+    tags-sorter: alpha   # 태그 정렬 순서 (알파벳 순)
+    operations-sorter: method   #컨트롤러 정렬 순서
+  api-docs:
+    path: /api-docs   # openAPI 접근 경로
