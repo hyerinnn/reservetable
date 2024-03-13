@@ -31,7 +31,7 @@ public class AuditingEntity {
     @CreatedBy
     @Column(nullable = false, updatable = false, length = 100)
     private String createdBy;            //생성자
-    
+
     @LastModifiedBy
     @Column(nullable = false, length = 100)
     private String modifiedBy;          //수정자
