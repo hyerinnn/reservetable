@@ -1,31 +1,24 @@
-package my.reservetable.member.service;
+package my.reservetable.owner.service;
 
-import my.reservetable.member.dto.request.OwnerUpdateRequest;
-import my.reservetable.member.dto.response.OwnerResponse;
-import my.reservetable.member.dto.request.OwnerSignupRequest;
-import my.reservetable.member.domain.Owner;
-import my.reservetable.member.repository.OwnerRepository;
+import my.reservetable.owner.dto.request.OwnerUpdateRequest;
+import my.reservetable.owner.dto.response.OwnerResponse;
+import my.reservetable.owner.dto.request.OwnerSignupRequest;
+import my.reservetable.owner.domain.Owner;
+import my.reservetable.owner.repository.OwnerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 //@SpringBootTest

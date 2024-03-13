@@ -1,6 +1,6 @@
-package my.reservetable.member.repository;
+package my.reservetable.owner.repository;
 
-import my.reservetable.member.domain.Owner;
+import my.reservetable.owner.domain.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

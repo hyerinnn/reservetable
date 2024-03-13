@@ -1,13 +1,12 @@
-package my.reservetable.member.dto.request;
+package my.reservetable.owner.dto.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import my.reservetable.member.domain.Owner;
-
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class OwnerSignupRequest {
+public class OwnerUpdateRequest {
 
     private String ownerId;
     private String password;
@@ -16,15 +15,15 @@ public class OwnerSignupRequest {
     private String email;
 
     @Builder
-    public OwnerSignupRequest(String ownerId, String password, String ownerName, String phoneNumber, String email) {
+    public OwnerUpdateRequest(String ownerId, String password, String ownerName, String phoneNumber, String email) {
         this.ownerId = ownerId;
         this.password = password;
         this.ownerName = ownerName;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-
-
+/*
+    // 불필요
     public Owner toEntity() {
         return Owner.builder()
                 .ownerId(ownerId)
@@ -34,4 +33,5 @@ public class OwnerSignupRequest {
                 .phoneNumber(phoneNumber)
                 .build();
     }
+ */
 }

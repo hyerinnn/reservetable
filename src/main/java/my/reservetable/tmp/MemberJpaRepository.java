@@ -2,7 +2,7 @@ package my.reservetable.tmp;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import my.reservetable.member.domain.Owner;
+import my.reservetable.owner.domain.Owner;
 import org.springframework.stereotype.Repository;
 
 /**

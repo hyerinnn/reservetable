@@ -1,14 +1,11 @@
-package my.reservetable.member.controller;
+package my.reservetable.owner.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import my.reservetable.member.domain.Owner;
-import my.reservetable.member.dto.request.OwnerSignupRequest;
-import my.reservetable.member.dto.response.OwnerResponse;
-import my.reservetable.member.service.OwnerService;
-import org.springframework.stereotype.Controller;
+import my.reservetable.owner.dto.request.OwnerSignupRequest;
+import my.reservetable.owner.dto.response.OwnerResponse;
+import my.reservetable.owner.service.OwnerService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -3,7 +3,7 @@ package my.reservetable.shop.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import my.reservetable.member.domain.Owner;
+import my.reservetable.owner.domain.Owner;
 
 @Entity
 @Getter

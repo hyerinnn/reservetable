@@ -3,7 +3,7 @@ package my.reservetable.shop.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import my.reservetable.member.domain.Owner;
+import my.reservetable.owner.domain.Owner;
 import my.reservetable.shop.domain.Shop;
 
 @Builder

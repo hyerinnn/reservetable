@@ -1,10 +1,10 @@
-package my.reservetable.member.dto.response;
+package my.reservetable.owner.dto.response;
 
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import my.reservetable.member.domain.Owner;
+import my.reservetable.owner.domain.Owner;
 
 @NoArgsConstructor
 @Getter

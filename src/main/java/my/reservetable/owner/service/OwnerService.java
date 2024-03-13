@@ -1,11 +1,11 @@
-package my.reservetable.member.service;
+package my.reservetable.owner.service;
 
 import lombok.RequiredArgsConstructor;
-import my.reservetable.member.dto.request.OwnerUpdateRequest;
-import my.reservetable.member.dto.response.OwnerResponse;
-import my.reservetable.member.dto.request.OwnerSignupRequest;
-import my.reservetable.member.domain.Owner;
-import my.reservetable.member.repository.OwnerRepository;
+import my.reservetable.owner.dto.request.OwnerUpdateRequest;
+import my.reservetable.owner.dto.response.OwnerResponse;
+import my.reservetable.owner.dto.request.OwnerSignupRequest;
+import my.reservetable.owner.domain.Owner;
+import my.reservetable.owner.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
