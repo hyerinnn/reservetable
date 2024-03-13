@@ -19,24 +19,13 @@ public class OwnerService {
     /**
      * 사장 가입(등록)
      * */
-    @Transactional
     public OwnerResponse signupOwner(OwnerSignupRequest request){
 
-        //TODO : 회원가입 밸리데이션 (시큐리티적용)
         if (ownerRepository.findByOwnerId(request.getOwnerId()).isPresent()) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
         Owner newOwner = ownerRepository.save(request.toEntity());
         return OwnerResponse.toDto(newOwner);
-    }
-
-    /**
-     * 기본키인 id로 사장 정보 조회
-     * */
-    public OwnerResponse findOwnerById(Long id){
-        return ownerRepository.findById(id)
-                .map(owner -> OwnerResponse.toDto(owner))
-                .orElseThrow(()-> new IllegalArgumentException("회원을 찾을 수 없습니다."));
     }
 
     /**
@@ -57,7 +46,7 @@ public class OwnerService {
 
         owner.update(
                 request.getOwnerId(),
-                request.getOwnerName(),
+                request.getNickName(),
                 request.getPassword(),
                 request.getPhoneNumber(),
                 request.getEmail()

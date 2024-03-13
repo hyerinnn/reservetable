@@ -1,27 +1,26 @@
 package my.reservetable.owner.dto.response;
 
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.owner.domain.Owner;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class OwnerResponse {
 
-    private Long id;
     private String ownerId;
-    private String ownerName;
+    private String nickName;
     private String password;
     private String phoneNumber;
     private String email;
 
     @Builder
-    public OwnerResponse(Long id, String ownerId, String ownerName, String password, String phoneNumber, String email) {
-        this.id = id;
+    private OwnerResponse(String ownerId, String nickName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
-        this.ownerName = ownerName;
+        this.nickName = nickName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
@@ -30,9 +29,8 @@ public class OwnerResponse {
     // entity를 dto로 변환
     public static OwnerResponse toDto(Owner owner){
         return OwnerResponse.builder()
-                .id(owner.getId())
                 .ownerId(owner.getOwnerId())
-                .ownerName(owner.getOwnerName())
+                .nickName(owner.getNickName())
                 .password(owner.getPassword())
                 .phoneNumber(owner.getPhoneNumber())
                 .email(owner.getEmail())

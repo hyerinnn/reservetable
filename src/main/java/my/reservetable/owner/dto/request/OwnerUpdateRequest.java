@@ -1,24 +1,25 @@
 package my.reservetable.owner.dto.request;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OwnerUpdateRequest {
 
     private String ownerId;
     private String password;
-    private String ownerName;
+    private String nickName;
     private String phoneNumber;
     private String email;
 
     @Builder
-    public OwnerUpdateRequest(String ownerId, String password, String ownerName, String phoneNumber, String email) {
+    private OwnerUpdateRequest(String ownerId, String password, String nickName, String phoneNumber, String email) {
         this.ownerId = ownerId;
         this.password = password;
-        this.ownerName = ownerName;
+        this.nickName = nickName;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }

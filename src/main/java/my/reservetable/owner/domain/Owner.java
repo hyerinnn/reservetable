@@ -14,15 +14,18 @@ import my.reservetable.config.AuditingEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Owner extends AuditingEntity {
 
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long manageId;
+*/
 
+    @Id
     @Column(nullable = false)
     private String ownerId;
 
     @Column(nullable = false)
-    private String ownerName;
+    private String nickName;
 
     private String password;
 
@@ -32,20 +35,23 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false)
     private String email;
 
+    //TODO : 다대일 양방향 매핑 고려해보기
+    //private List<Shop> shops = new ArrayList<>();
+
     @Builder
-    public Owner(String ownerId, String ownerName, String password, String phoneNumber, String email) {
+    private Owner(String ownerId, String nickName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
-        this.ownerName = ownerName;
+        this.nickName = nickName;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
-    public void update(String ownerId, String ownerName, String password, String phoneNumber, String email){
+    public void update(String ownerId, String nickName, String password, String phoneNumber, String email){
         if(!StringUtils.isEmpty(ownerId))
             this.ownerId = ownerId;
-        if(!StringUtils.isEmpty(ownerName))
-            this.ownerName = ownerName;
+        if(!StringUtils.isEmpty(nickName))
+            this.nickName = nickName;
         if(!StringUtils.isEmpty(password))
             this.password = password;
         if(!StringUtils.isEmpty(phoneNumber))

@@ -23,13 +23,15 @@ class OwnerServiceClassicTest {
     @Autowired OwnerService ownerService;
     @Autowired OwnerRepository ownerRepository;
 
+    //TODO: OwnerSignupRequest 빌더부분을 따로 메소드로 빼기
+
     @Test
     @DisplayName("사장님 회원가입 성공테스트")
     void signupOwnerSuccess(){
         //given
         OwnerSignupRequest request = OwnerSignupRequest.builder()
                 .ownerId("test001")
-                .ownerName("사장님A")
+                .nickName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
@@ -39,7 +41,7 @@ class OwnerServiceClassicTest {
         OwnerResponse newOwner = ownerService.signupOwner(request);
 
         //then
-        assertThat(newOwner.getOwnerName()).isEqualTo(request.getOwnerName());
+        assertThat(newOwner.getNickName()).isEqualTo(request.getNickName());
     }
 
     @Test
@@ -48,7 +50,7 @@ class OwnerServiceClassicTest {
         //given
         OwnerSignupRequest ownerRequest = OwnerSignupRequest.builder()
                 .ownerId("test001")
-                .ownerName("사장님A")
+                .nickName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
@@ -57,7 +59,7 @@ class OwnerServiceClassicTest {
 
         OwnerSignupRequest existsOwnerRequest = OwnerSignupRequest.builder()
                 .ownerId("test001")
-                .ownerName("사장님A")
+                .nickName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
@@ -73,10 +75,10 @@ class OwnerServiceClassicTest {
     @DisplayName("ownerId로 사장님회원 조회")
     void findOwnerByOwnerId(){
         //given
-        String id = "test001";
+        String ownerId = "test001";
         OwnerSignupRequest request = OwnerSignupRequest.builder()
-                .ownerId(id)
-                .ownerName("사장님A")
+                .ownerId(ownerId)
+                .nickName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
@@ -84,8 +86,8 @@ class OwnerServiceClassicTest {
         ownerService.signupOwner(request);
 
         //when & then
-        OwnerResponse owner = ownerService.findOwnerByOwnerId(id);
-        assertThat(owner.getOwnerId()).isEqualTo(id);
+        OwnerResponse owner = ownerService.findOwnerByOwnerId(ownerId);
+        assertThat(owner.getOwnerId()).isEqualTo(ownerId);
     }
 
     @Test
@@ -93,7 +95,7 @@ class OwnerServiceClassicTest {
     void updateOwner(){
         OwnerSignupRequest ownerRequest = OwnerSignupRequest.builder()
                 .ownerId("test001")
-                .ownerName("사장님A")
+                .nickName("사장님A")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
@@ -102,14 +104,14 @@ class OwnerServiceClassicTest {
 
         OwnerUpdateRequest updateOwner = OwnerUpdateRequest.builder()
                 .ownerId("test001")
-                .ownerName("jpa사장님")
+                .nickName("jpa사장님")
                 .password("1111")
                 .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
         ownerService.updateOwner(updateOwner);
 
-        assertThat(owner.getOwnerName()).isNotEqualTo(updateOwner.getOwnerName());
+        assertThat(owner.getNickName()).isNotEqualTo(updateOwner.getNickName());
     }
 
 }
