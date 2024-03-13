@@ -22,16 +22,5 @@ public class OwnerUpdateRequest {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-/*
-    // 불필요
-    public Owner toEntity() {
-        return Owner.builder()
-                .ownerId(ownerId)
-                .ownerName(ownerName)
-                .password(password)
-                .email(email)
-                .phoneNumber(phoneNumber)
-                .build();
-    }
- */
+
 }

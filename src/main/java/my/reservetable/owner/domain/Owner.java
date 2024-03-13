@@ -32,7 +32,6 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false)
     private String email;
 
-
     @Builder
     public Owner(String ownerId, String ownerName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
