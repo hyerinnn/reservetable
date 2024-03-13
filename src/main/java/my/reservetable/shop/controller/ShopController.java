@@ -1,5 +1,6 @@
 package my.reservetable.shop.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/shops")
+@Tag(name = "Shop", description = "Shop API")
 public class ShopController {
     /*
       - 모든 가게 목록 / 검색
@@ -14,4 +16,5 @@ public class ShopController {
       - (사장 전용) 가게 등록/상세/목록/수정
       - 가게 후기글 조회,상세 -> 따로 빼기
     */
+
 }
