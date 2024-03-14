@@ -25,7 +25,7 @@ public class ShopRegisterRequest {
     private Address address;
     private String description;
     private ShopCountryCategory countryCategory;
-    private ShopStatus status;
+    private ShopStatus status = ShopStatus.READY;
     private LocalTime openTime;
     private LocalTime lastOrderTime;
     private String waitingYn;

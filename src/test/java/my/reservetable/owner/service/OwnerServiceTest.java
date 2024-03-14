@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
-class OwnerServiceClassicTest {
+class OwnerServiceTest {
 
     @Autowired OwnerService ownerService;
     @Autowired OwnerRepository ownerRepository;

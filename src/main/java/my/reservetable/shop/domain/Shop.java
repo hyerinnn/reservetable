@@ -52,9 +52,9 @@ public class Shop extends AuditingEntity {
     private LocalTime lastOrderTime;
 
     //@Column(nullable = false)
-    private String waitingYn;       // 웨이팅 가능여부
+    private String waitingYn;       // 웨이팅 오픈 여부
 
-    //private int capacity;       // TODO: 수용가능 인원
+    //private int capacity;       // 수용가능 인원
 
     @Builder
     private Shop(Owner owner, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
@@ -78,4 +78,5 @@ public class Shop extends AuditingEntity {
             this.lastOrderTime = lastOrderTime;
             this.waitingYn = waitingYn;
     }
+
 }

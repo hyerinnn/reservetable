@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum WaitingStatus {
 
     READY("입장대기"),
-    OK("입장완료"),
+    VISITED("입장완료"),
     CANCEL("웨이팅취소"),
     NOSHOW("노쇼");
 
