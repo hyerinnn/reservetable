@@ -24,13 +24,18 @@ public class ShopService {
     private final ShopRepository shopRepository;
     private final OwnerRepository ownerRepository;
 
-    public List<ShopResponse> getShops(){
+    public List<ShopResponse> getAllShops(){
         List<Shop> shops = shopRepository.findAll();
         return shops.stream().map(ShopResponse::toDto).collect(Collectors.toList());
     }
 
-    public ShopResponse registerShop(ShopRegisterRequest request){
+    public ShopResponse getShop(Long shopId) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new EntityNotFoundException("매장을 찾을 수 없습니다."));
+        return ShopResponse.toDto(shop);
+    }
 
+    public ShopResponse registerShop(ShopRegisterRequest request){
         Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())
                 .orElseThrow(()-> new IllegalArgumentException("사장님 정보를 찾을 수 없습니다."));
 

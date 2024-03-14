@@ -54,6 +54,8 @@ public class Shop extends AuditingEntity {
     //@Column(nullable = false)
     private String waitingYn;       // 웨이팅 가능여부
 
+    //private int capacity;       // TODO: 수용가능 인원
+
     @Builder
     private Shop(Owner owner, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
                 ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {

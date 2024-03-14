@@ -49,7 +49,7 @@ class ShopServiceTest {
         shopRepository.saveAll(List.of(shop1,shop2,shop3,shop4));
 
         //when
-        List<ShopResponse> shops = shopService.getShops();
+        List<ShopResponse> shops = shopService.getAllShops();
 
         // then
         assertThat(shops).hasSize(4);
