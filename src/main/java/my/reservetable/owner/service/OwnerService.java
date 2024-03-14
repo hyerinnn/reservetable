@@ -9,7 +9,7 @@ import my.reservetable.owner.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class OwnerService {
@@ -19,6 +19,7 @@ public class OwnerService {
     /**
      * 사장 가입(등록)
      * */
+    @Transactional
     public OwnerResponse signupOwner(OwnerSignupRequest request){
 
         if (ownerRepository.findByOwnerId(request.getOwnerId()).isPresent()) {
@@ -40,6 +41,7 @@ public class OwnerService {
     /**
      * 사장 정보 수정
      * */
+    @Transactional
     public OwnerResponse updateOwner(OwnerUpdateRequest request){
         Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보를 찾을 수 없습니다."));

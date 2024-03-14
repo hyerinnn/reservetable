@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ShopService {
 
@@ -35,6 +35,7 @@ public class ShopService {
         return ShopResponse.toDto(shop);
     }
 
+    @Transactional
     public ShopResponse registerShop(ShopRegisterRequest request){
         Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())
                 .orElseThrow(()-> new IllegalArgumentException("사장님 정보를 찾을 수 없습니다."));
@@ -43,6 +44,7 @@ public class ShopService {
         return ShopResponse.toDto(shop);
     }
 
+    @Transactional
     public ShopResponse updateShop(Long shopId, ShopUpdateRequest request){
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(()-> new EntityNotFoundException("매장을 찾을 수 없습니다."));
