@@ -28,7 +28,7 @@ class WaitingRepositoryTest {
     @Autowired ShopRepository shopRepository;
     @Autowired OwnerRepository ownerRepository;
 
-    @DisplayName("타켓 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
+    @DisplayName("타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeTargetWaiting() {
         // given
@@ -63,7 +63,7 @@ class WaitingRepositoryTest {
         assertThat(count).isEqualTo(3);
     }
 
-    @DisplayName("타켓 웨이팅생성시간보다 먼저 생성된 웨이팅중, '입장대기'인 웨이팅 수를 조회한다.")
+    @DisplayName("타겟 웨이팅생성시간보다 먼저 생성된 웨이팅중, '입장대기'인 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeAndReadyTargetWaiting() {
         // given
