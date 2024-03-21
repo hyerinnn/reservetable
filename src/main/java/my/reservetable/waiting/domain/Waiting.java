@@ -2,6 +2,7 @@ package my.reservetable.waiting.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
@@ -34,8 +35,6 @@ public class Waiting extends AuditingEntity {
 
     private LocalDateTime registeredDateTime;
 
-/*
-    //아래랑 차이가 뭔지??
 
     @Builder
     private Waiting(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime) {
@@ -52,7 +51,7 @@ public class Waiting extends AuditingEntity {
                 .registeredDateTime(registeredDateTime)
                 .build();
     }
-*/
+/*
     public Waiting(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime) {
         this.shop = shop;
         this.userId = userId;
@@ -64,7 +63,7 @@ public class Waiting extends AuditingEntity {
     public static Waiting create(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime){
         return new Waiting(shop,userId, headCount, registeredDateTime);
     }
-
+*/
     public void changeWaitingStatus(WaitingStatus waitingStatus){
         this.waitingStatus = waitingStatus;
     }

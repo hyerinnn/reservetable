@@ -8,19 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Owner extends AuditingEntity {
 
-/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long manageId;
-*/
+    private Long id;
 
-    @Id
+    //@Id
     @Column(nullable = false)
     private String ownerId;
 
@@ -36,7 +33,10 @@ public class Owner extends AuditingEntity {
     private String email;
 
     //TODO : 다대일 양방향 매핑 고려해보기
-    //private List<Shop> shops = new ArrayList<>();
+/*
+    @OneToMany(mappedBy = "owner")
+    private List<Shop> shops = new ArrayList<>();
+*/
 
     @Builder
     private Owner(String ownerId, String nickName, String password, String phoneNumber, String email) {

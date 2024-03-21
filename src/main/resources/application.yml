@@ -13,7 +13,7 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        # show_sql: true
+        show_sql: true
         format_sql: true
   sql:
     init:
@@ -25,8 +25,9 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-  # org.hibernate.type: trace
+    #org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace  # 파라미터바인딩 표시
+
 
 springdoc:
   #packages-to-scan: my.reservetable.controllers
