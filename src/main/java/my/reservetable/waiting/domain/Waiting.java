@@ -41,6 +41,7 @@ public class Waiting extends AuditingEntity {
         this.shop = shop;
         userId = userId;
         this.headCount = headCount;
+        this.waitingStatus = WaitingStatus.READY;
         this.registeredDateTime = registeredDateTime;
     }
     public static Waiting create(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime){
