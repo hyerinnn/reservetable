@@ -1,12 +1,12 @@
 package my.reservetable.owner.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.owner.dto.request.OwnerSignupRequest;
 import my.reservetable.owner.dto.request.OwnerUpdateRequest;
 import my.reservetable.owner.dto.response.OwnerResponse;
 import my.reservetable.owner.service.OwnerService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +23,7 @@ public class OwnerController {
     }
 
     @PostMapping("/owner/signUp")
-    public OwnerResponse signUpOwner(@Valid @RequestBody OwnerSignupRequest request){
+    public OwnerResponse signUpOwner(@Validated @RequestBody OwnerSignupRequest request){
         return ownerService.signupOwner(request);
     }
 
