@@ -1,6 +1,7 @@
 package my.reservetable.owner.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.owner.dto.request.OwnerSignupRequest;
 import my.reservetable.owner.dto.request.OwnerUpdateRequest;
@@ -23,12 +24,12 @@ public class OwnerController {
     }
 
     @PostMapping("/owner/signUp")
-    public OwnerResponse signUpOwner(@Validated @RequestBody OwnerSignupRequest request){
+    public OwnerResponse signUpOwner(@Valid @RequestBody OwnerSignupRequest request){
         return ownerService.signupOwner(request);
     }
 
     @PutMapping("/owner/update")
-    public OwnerResponse updateOwner(@RequestBody OwnerUpdateRequest request){
+    public OwnerResponse updateOwner(@Validated @RequestBody OwnerUpdateRequest request){
         return ownerService.updateOwner(request);
     }
 

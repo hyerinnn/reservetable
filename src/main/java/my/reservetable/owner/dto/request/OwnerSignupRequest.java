@@ -8,9 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.owner.domain.Owner;
 
-
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OwnerSignupRequest {
 
     @NotBlank(message = "아이디는 필수입니다.")

@@ -32,7 +32,7 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false)
     private String email;
 
-    //TODO : 다대일 양방향 매핑 고려해보기
+    //TODO : 다대일 양방향 매핑
 /*
     @OneToMany(mappedBy = "owner")
     private List<Shop> shops = new ArrayList<>();
