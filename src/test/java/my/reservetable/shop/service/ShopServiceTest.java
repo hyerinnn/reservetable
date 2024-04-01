@@ -71,7 +71,7 @@ class ShopServiceTest {
                 .description("해피식당입니다.")
                 .countryCategory(ShopCountryCategory.KOREAN)
                 .status(ShopStatus.READY)
-                .openTime(LocalTime.of(10,00))          //TODO: LocalTime 파라미터로 받기
+                .openTime(LocalTime.of(10,00))
                 .lastOrderTime(LocalTime.of(21,00))
                 .waitingYn("Y")
                 .build();
@@ -138,6 +138,35 @@ class ShopServiceTest {
         assertThat(modifiedShop.getDescription()).isNotEqualTo("해피식당입니다.");
         assertThat(modifiedShop.getStatus()).isEqualTo(ShopStatus.CLOSE);
 
+    }
+
+    @DisplayName("특정 사장이 등록한 가게를 전체 조회한다.")
+    @Test
+    void getShopsByOwner() {
+        // given
+        String ownerId1 = "test001";
+        Owner owner1 = createOwner(ownerId1);
+        ownerRepository.save(owner1);
+
+        String ownerId2 = "test002";
+        Owner owner2 = createOwner(ownerId2);
+        ownerRepository.save(owner2);
+
+        Shop shop1 = createShop(owner1, "맥도날드", ShopCountryCategory.WESTERN,ShopStatus.READY,
+                LocalTime.of(8,00),LocalTime.of(22,00),"N");
+        Shop shop2 = createShop(owner1, "스시나라", ShopCountryCategory.JAPANESE,ShopStatus.OPEN,
+                LocalTime.of(11,00),LocalTime.of(23,00),"Y");
+        Shop shop3 = createShop(owner1, "오늘의백반", ShopCountryCategory.KOREAN,ShopStatus.BREAK_TIME,
+                LocalTime.of(9,00),LocalTime.of(20,00),"Y");
+        Shop shop4 = createShop(owner2, "중화루", ShopCountryCategory.CHINESE,ShopStatus.CLOSE,
+                LocalTime.of(10,00),LocalTime.of(00,00),"N");
+        shopRepository.saveAll(List.of(shop1,shop2,shop3,shop4));
+
+        //when
+        List<ShopResponse> shops = shopService.getShopsByOwner(ownerId1);
+
+        // then
+        assertThat(shops).hasSize(3);
     }
 
     private Owner createOwner(String ownerId){

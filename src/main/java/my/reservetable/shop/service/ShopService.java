@@ -35,6 +35,14 @@ public class ShopService {
         return ShopResponse.toDto(shop);
     }
 
+    public List<ShopResponse> getShopsByOwner(String ownerId){
+        Owner owner = ownerRepository.findByOwnerId(ownerId)
+                .orElseThrow(()-> new IllegalArgumentException("사장님 정보를 찾을 수 없습니다."));
+        List<ShopResponse> shops = shopRepository.findByOwner(owner)
+                .stream().map(ShopResponse::toDto).collect(Collectors.toList());
+        return shops;
+    }
+
     @Transactional
     public ShopResponse registerShop(ShopRegisterRequest request){
         Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())

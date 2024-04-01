@@ -1,7 +1,9 @@
 package my.reservetable.owner.domain;
 
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +16,6 @@ import my.reservetable.config.AuditingEntity;
 public class Owner extends AuditingEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    //@Id
     @Column(nullable = false)
     private String ownerId;
 
@@ -32,10 +30,11 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false)
     private String email;
 
-    //TODO : 다대일 양방향 매핑
 /*
+    //TODO : 다대일 양방향 매핑
     @OneToMany(mappedBy = "owner")
     private List<Shop> shops = new ArrayList<>();
+
 */
 
     @Builder

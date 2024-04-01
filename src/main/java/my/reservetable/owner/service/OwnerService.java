@@ -59,4 +59,8 @@ public class OwnerService {
         );
         return OwnerResponse.toDto(owner);
     }
+
+    /**
+     * 사장이 등록한 가게 목록 조회
+     * */
 }
