@@ -3,7 +3,8 @@ package my.reservetable.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.error.ErrorCode;
 import my.reservetable.error.ErrorResponse;
-import my.reservetable.exception.NoDataException;
+import my.reservetable.exception.NotExistMemberException;
+import my.reservetable.exception.NotFoundDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -37,10 +38,18 @@ public class ControllerExceptionHandler {
         return response;
     }
 
-    @ExceptionHandler(NoDataException.class)
-    public ErrorResponse validationException(NoDataException e){
+    @ExceptionHandler(NotFoundDataException.class)
+    public ErrorResponse noDataException(NotFoundDataException e){
         log.error("[NoDataException] ex ", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.NOT_FOUND_DATA);
+        return response;
+    }
+
+    @ExceptionHandler(NotExistMemberException.class)
+    public ErrorResponse notExistMemberException(NotExistMemberException e){
+        log.error("[NotExistMemberException] ex ", e);
+        //ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
+        ErrorResponse response = new ErrorResponse(e.getErrorCode());
         return response;
     }
 }

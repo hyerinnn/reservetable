@@ -11,14 +11,19 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ErrorResponse {
 
-    private final HttpStatus code;
+    private final HttpStatus status;
     private final String message;
     private Map<String, String> validation = new HashMap<>();
+
     public void addValidation(String fieldName, String message){
         this.validation.put(fieldName, message);
     }
 
     public ErrorResponse(ErrorCode errorCode){
         this(errorCode.getHttpStatus(), errorCode.getMessage());
+    }
+
+    public ErrorResponse(ErrorCode errorCode, String message){
+        this(errorCode.getHttpStatus(), message);
     }
 }

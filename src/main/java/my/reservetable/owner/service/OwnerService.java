@@ -1,11 +1,13 @@
 package my.reservetable.owner.service;
 
 import lombok.RequiredArgsConstructor;
-import my.reservetable.exception.NoDataException;
+import my.reservetable.error.ErrorCode;
+import my.reservetable.exception.NotExistMemberException;
+import my.reservetable.exception.NotFoundDataException;
+import my.reservetable.owner.domain.Owner;
+import my.reservetable.owner.dto.request.OwnerSignupRequest;
 import my.reservetable.owner.dto.request.OwnerUpdateRequest;
 import my.reservetable.owner.dto.response.OwnerResponse;
-import my.reservetable.owner.dto.request.OwnerSignupRequest;
-import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.repository.OwnerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,8 @@ public class OwnerService {
     public OwnerResponse findOwnerByOwnerId(String ownerId){
         return ownerRepository.findByOwnerId(ownerId)
                 .map(owner -> OwnerResponse.toDto(owner))
-                .orElseThrow(() -> new NoDataException("회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
+                //.orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
     }
 
     /**
@@ -45,7 +48,7 @@ public class OwnerService {
     @Transactional
     public OwnerResponse updateOwner(OwnerUpdateRequest request){
         Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())
-                .orElseThrow(() -> new NoDataException("회원정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundDataException("회원정보를 찾을 수 없습니다."));
 
         owner.update(
                 request.getOwnerId(),
