@@ -9,4 +9,5 @@ import java.util.List;
 public interface ShopRepository extends JpaRepository<Shop,Long> {
 
     List<Shop> findByOwner(Owner owner);
+
 }

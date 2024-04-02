@@ -20,7 +20,7 @@ public class Shop extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shopId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="owner_id")
     private Owner owner;
 

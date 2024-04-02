@@ -1,5 +1,6 @@
 package my.reservetable.shop.service;
 
+import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.repository.OwnerRepository;
 import my.reservetable.shop.domain.Address;
@@ -108,7 +109,7 @@ class ShopServiceTest {
 
         // when & then
         assertThatThrownBy(()-> shopService.registerShop(request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(NotExistMemberException.class)
                 .hasMessage("사장님 정보를 찾을 수 없습니다.");
     }
 

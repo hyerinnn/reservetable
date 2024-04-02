@@ -3,8 +3,9 @@ package my.reservetable.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.error.ErrorCode;
 import my.reservetable.error.ErrorResponse;
+import my.reservetable.exception.DuplicateMemberException;
 import my.reservetable.exception.NotExistMemberException;
-import my.reservetable.exception.NotFoundDataException;
+import my.reservetable.exception.NotFoundEntityException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -38,8 +39,8 @@ public class ControllerExceptionHandler {
         return response;
     }
 
-    @ExceptionHandler(NotFoundDataException.class)
-    public ErrorResponse noDataException(NotFoundDataException e){
+    @ExceptionHandler(NotFoundEntityException.class)
+    public ErrorResponse noDataException(NotFoundEntityException e){
         log.error("[NoDataException] ex ", e);
         ErrorResponse response = new ErrorResponse(ErrorCode.NOT_FOUND_DATA);
         return response;
@@ -49,7 +50,15 @@ public class ControllerExceptionHandler {
     public ErrorResponse notExistMemberException(NotExistMemberException e){
         log.error("[NotExistMemberException] ex ", e);
         //ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
-        ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        //ErrorResponse response = new ErrorResponse(e.getErrorCode());
+        ErrorResponse response = new ErrorResponse(ErrorCode.NOT_EXIST_MEMBER);
+        return response;
+    }
+
+    @ExceptionHandler(DuplicateMemberException.class)
+    public ErrorResponse duplicateMemberException(DuplicateMemberException e){
+        log.error("[DuplicateMemberException] ex ", e);
+        ErrorResponse response = new ErrorResponse(ErrorCode.DUPLICATE_MEMBER);
         return response;
     }
 }

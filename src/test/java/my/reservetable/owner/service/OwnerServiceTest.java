@@ -1,5 +1,6 @@
 package my.reservetable.owner.service;
 
+import my.reservetable.exception.DuplicateMemberException;
 import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.dto.request.OwnerSignupRequest;
 import my.reservetable.owner.dto.request.OwnerUpdateRequest;
@@ -44,7 +45,7 @@ class OwnerServiceTest {
     }
 
     @Test
-    @DisplayName("이미 가입된 id인 경우 사장님 회원가입 실패 테스트")
+    @DisplayName("중복 id인 경우 회원가입 실패 테스트")
     void signupOwnerWhenAlreadyRegistered(){
         //given
         String ownerId = "test001";
@@ -61,7 +62,7 @@ class OwnerServiceTest {
 
         //when & then
         assertThatThrownBy(() -> ownerService.signupOwner(existsOwnerRequest))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(DuplicateMemberException.class)
                 .hasMessage("이미 가입된 회원입니다.");
     }
 

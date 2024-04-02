@@ -12,8 +12,8 @@ import my.reservetable.shop.domain.ShopStatus;
 
 import java.time.LocalTime;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShopResponse {
 
     private Long shopId;

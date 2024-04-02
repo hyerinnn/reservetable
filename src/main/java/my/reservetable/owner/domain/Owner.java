@@ -30,11 +30,11 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false)
     private String email;
 
+    //TODO : Owner와 Shop 양방향 관계설정 시 사용예정
 /*
-    //TODO : 다대일 양방향 매핑
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    //@JoinColumn(name="shop")
     private List<Shop> shops = new ArrayList<>();
-
 */
 
     @Builder

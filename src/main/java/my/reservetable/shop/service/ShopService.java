@@ -1,8 +1,9 @@
 package my.reservetable.shop.service;
 
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import my.reservetable.exception.NotExistMemberException;
+import my.reservetable.exception.NotFoundEntityException;
 import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.repository.OwnerRepository;
 import my.reservetable.shop.domain.Shop;
@@ -31,13 +32,17 @@ public class ShopService {
 
     public ShopResponse getShop(Long shopId) {
         Shop shop = shopRepository.findById(shopId)
-                .orElseThrow(()-> new EntityNotFoundException("매장을 찾을 수 없습니다."));
+                .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
         return ShopResponse.toDto(shop);
     }
 
+
+    /**
+     * 특정 사장이 등록한 가게 목록 조회
+     * */
     public List<ShopResponse> getShopsByOwner(String ownerId){
-        Owner owner = ownerRepository.findByOwnerId(ownerId)
-                .orElseThrow(()-> new IllegalArgumentException("사장님 정보를 찾을 수 없습니다."));
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(()-> new NotExistMemberException("사장님 정보를 찾을 수 없습니다."));
         List<ShopResponse> shops = shopRepository.findByOwner(owner)
                 .stream().map(ShopResponse::toDto).collect(Collectors.toList());
         return shops;
@@ -45,8 +50,8 @@ public class ShopService {
 
     @Transactional
     public ShopResponse registerShop(ShopRegisterRequest request){
-        Owner owner = ownerRepository.findByOwnerId(request.getOwnerId())
-                .orElseThrow(()-> new IllegalArgumentException("사장님 정보를 찾을 수 없습니다."));
+        Owner owner = ownerRepository.findById(request.getOwnerId())
+                .orElseThrow(()-> new NotExistMemberException("사장님 정보를 찾을 수 없습니다."));
 
         Shop shop = shopRepository.save(request.toEntity(owner));
         return ShopResponse.toDto(shop);
@@ -55,7 +60,7 @@ public class ShopService {
     @Transactional
     public ShopResponse updateShop(Long shopId, ShopUpdateRequest request){
         Shop shop = shopRepository.findById(shopId)
-                .orElseThrow(()-> new EntityNotFoundException("매장을 찾을 수 없습니다."));
+                .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
 
         shop.update(
                 request.getDescription(),
