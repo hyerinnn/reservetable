@@ -31,7 +31,6 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ErrorResponse validationException(BindException e){
         log.error("[BindException] ex ", e);
-        //ErrorResponse response = new ErrorResponse("400", "잘못된 요청입니다.");
         ErrorResponse response = new ErrorResponse(ErrorCode.INVALID_REQUEST);
         for(FieldError fieldError : e.getFieldErrors()){
             response.addValidation(fieldError.getField(), fieldError.getDefaultMessage());
@@ -49,16 +48,16 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(NotExistMemberException.class)
     public ErrorResponse notExistMemberException(NotExistMemberException e){
         log.error("[NotExistMemberException] ex ", e);
-        //ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
-        //ErrorResponse response = new ErrorResponse(e.getErrorCode());
-        ErrorResponse response = new ErrorResponse(ErrorCode.NOT_EXIST_MEMBER);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
+        //ErrorResponse response = new ErrorResponse(ErrorCode.NOT_EXIST_MEMBER);
         return response;
     }
 
     @ExceptionHandler(DuplicateMemberException.class)
     public ErrorResponse duplicateMemberException(DuplicateMemberException e){
         log.error("[DuplicateMemberException] ex ", e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.DUPLICATE_MEMBER);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
+        //ErrorResponse response = new ErrorResponse(ErrorCode.DUPLICATE_MEMBER);
         return response;
     }
 }
