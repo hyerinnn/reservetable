@@ -1,5 +1,6 @@
 package my.reservetable.shop.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +27,9 @@ public class ShopRegisterRequest {
     private String description;
     private ShopCountryCategory countryCategory;
     private ShopStatus status = ShopStatus.READY;
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
     private LocalTime openTime;
+    @JsonFormat(pattern = "HH:mm", timezone = "Asia/Seoul")
     private LocalTime lastOrderTime;
     private String waitingYn;
 
