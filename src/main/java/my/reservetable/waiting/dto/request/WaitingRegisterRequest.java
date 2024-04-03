@@ -31,11 +31,12 @@ public class WaitingRegisterRequest {
         this.registeredDateTime = registeredDateTime;
     }
 
-    public Waiting toEntity(Shop shop){
+    public Waiting toEntity(Shop shop, int waitingNumber){
         return Waiting.builder()
                 .shop(shop)
                 .userId(userId)
                 .headCount(headCount)
+                .waitingNumber(waitingNumber)
                 .registeredDateTime(registeredDateTime)
                 .build();
     }

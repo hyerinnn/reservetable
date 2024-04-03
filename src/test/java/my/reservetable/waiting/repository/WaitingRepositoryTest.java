@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@ActiveProfiles("test")
 class WaitingRepositoryTest {
 
     @Autowired WaitingRepository waitingRepository;
@@ -47,12 +49,12 @@ class WaitingRepositoryTest {
         LocalDateTime registeredDateTime4 = LocalDateTime.of(date, LocalTime.of(17, 55, 00));
         LocalDateTime registeredDateTime5 = LocalDateTime.of(date, LocalTime.of(18, 10, 00));
 
-        Waiting waiting1 = Waiting.create(shop,1L,2, registeredDateTime1);
-        Waiting waiting2 = Waiting.create(shop,2L,3, registeredDateTime2);
-        Waiting waiting3 = Waiting.create(shop,3L,4, registeredDateTime3);
-        Waiting targetWaiting = Waiting.create(shop,4L,5, targetDateTime);
-        Waiting waiting4 = Waiting.create(shop,4L,5, registeredDateTime4);
-        Waiting waiting5 = Waiting.create(shop,4L,5, registeredDateTime5);
+        Waiting waiting1 = Waiting.create(shop,1L,2, 1, registeredDateTime1);
+        Waiting waiting2 = Waiting.create(shop,2L,3, 2, registeredDateTime2);
+        Waiting waiting3 = Waiting.create(shop,3L,4, 3, registeredDateTime3);
+        Waiting targetWaiting = Waiting.create(shop,4L,3, 4, targetDateTime);
+        Waiting waiting4 = Waiting.create(shop,4L,5, 5, registeredDateTime4);
+        Waiting waiting5 = Waiting.create(shop,4L,2, 6, registeredDateTime5);
 
         waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
 
@@ -82,12 +84,12 @@ class WaitingRepositoryTest {
         LocalDateTime registeredDateTime4 = LocalDateTime.of(date, LocalTime.of(17, 55, 00));
         LocalDateTime registeredDateTime5 = LocalDateTime.of(date, LocalTime.of(18, 10, 00));
 
-        Waiting waiting1 = Waiting.create(shop,1L,2, registeredDateTime1);
-        Waiting waiting2 = Waiting.create(shop,2L,3, registeredDateTime2);
-        Waiting waiting3 = Waiting.create(shop,3L,4, registeredDateTime3);
-        Waiting targetWaiting = Waiting.create(shop,4L,5, targetDateTime);
-        Waiting waiting4 = Waiting.create(shop,4L,5, registeredDateTime4);
-        Waiting waiting5 = Waiting.create(shop,4L,5, registeredDateTime5);
+        Waiting waiting1 = Waiting.create(shop,1L,2, 1, registeredDateTime1);
+        Waiting waiting2 = Waiting.create(shop,2L,3, 2, registeredDateTime2);
+        Waiting waiting3 = Waiting.create(shop,3L,4, 3, registeredDateTime3);
+        Waiting targetWaiting = Waiting.create(shop,4L,3, 4, targetDateTime);
+        Waiting waiting4 = Waiting.create(shop,4L,5, 5, registeredDateTime4);
+        Waiting waiting5 = Waiting.create(shop,4L,2, 6, registeredDateTime5);
         waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
 
         waiting1.changeWaitingStatus(WaitingStatus.VISITED);

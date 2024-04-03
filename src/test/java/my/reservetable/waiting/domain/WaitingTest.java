@@ -27,7 +27,7 @@ class WaitingTest {
         LocalDateTime registeredDateTime = LocalDateTime.now();
 
         // when
-        Waiting waiting = Waiting.create(shop,3L,3, registeredDateTime);
+        Waiting waiting = Waiting.create(shop,3L,3, 1, registeredDateTime);
 
         // then
         assertThat(waiting.getWaitingStatus()).isEqualTo(WaitingStatus.READY);
@@ -43,7 +43,7 @@ class WaitingTest {
                 LocalTime.of(10,00),LocalTime.of(21,00),"Y");
 
         LocalDateTime registeredDateTime = LocalDateTime.now();
-        Waiting waiting = Waiting.create(shop,3L,3, registeredDateTime);
+        Waiting waiting = Waiting.create(shop,3L,3, 1, registeredDateTime);
 
         //when
         waiting.changeWaitingStatus(WaitingStatus.VISITED);

@@ -21,9 +21,9 @@ insert into shop (shop_name, owner_id, shop_number, zipcode,address1,address2,co
         'owner002', '2024-04-03 05:50:15.666609','owner002', '2024-04-03 05:50:15.666609');
 
 
-insert into waiting (user_id, shop_id, head_count, waiting_status, registered_date_time, created_by, created_date,modified_by, modified_date)
-    values(1, 1, 2, 'READY', CURRENT_TIMESTAMP,'user001', '2024-04-03 05:50:15.666609','user001', '2024-04-03 05:50:15.666609');
-insert into waiting (user_id, shop_id, head_count, waiting_status, registered_date_time, created_by, created_date,modified_by, modified_date)
-    values(2, 1, 4, 'READY', CURRENT_TIMESTAMP,'user002', '2024-04-03 05:50:15.666609','user002', '2024-04-03 05:50:15.666609');
-insert into waiting (user_id, shop_id, head_count, waiting_status, registered_date_time, created_by, created_date,modified_by, modified_date)
-    values(3, 1, 2, 'READY', CURRENT_TIMESTAMP,'user003', '2024-04-03 05:50:15.666609','user003', '2024-04-03 05:50:15.666609');
+insert into waiting (user_id, shop_id, head_count, waiting_status, waiting_number, registered_date_time, created_by, created_date,modified_by, modified_date)
+    values(1, 1, 2, 'READY', 1, CURRENT_TIMESTAMP,'user001', '2024-04-03 05:50:15.666609','user001', '2024-04-03 05:50:15.666609');
+insert into waiting (user_id, shop_id, head_count, waiting_status, waiting_number, registered_date_time, created_by, created_date,modified_by, modified_date)
+    values(2, 1, 4, 'READY', 2, CURRENT_TIMESTAMP,'user002', '2024-04-03 05:50:15.666609','user002', '2024-04-03 05:50:15.666609');
+insert into waiting (user_id, shop_id, head_count, waiting_status, waiting_number, registered_date_time, created_by, created_date,modified_by, modified_date)
+    values(3, 1, 2, 'READY', 3, CURRENT_TIMESTAMP,'user003', '2024-04-03 05:50:15.666609','user003', '2024-04-03 05:50:15.666609');

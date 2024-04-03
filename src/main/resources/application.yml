@@ -2,12 +2,6 @@ spring:
   profiles:
     default: local
 
----
-spring:
-  config:
-    activate:
-      on-profile: local
-
   datasource:
     #url: jdbc:h2:~/reservetable
     url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
@@ -15,6 +9,12 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
 
   jpa:
     defer-datasource-initialization: true
@@ -37,14 +37,6 @@ spring:
   config:
     activate:
       on-profile: test
-
-  datasource:
-    #url: jdbc:h2:~/reservetable
-    url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
-    #url: jdbc:h2:mem:~/reservetable;NON_KEYWORDS=USER
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:

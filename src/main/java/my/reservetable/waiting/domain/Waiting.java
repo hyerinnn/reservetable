@@ -31,23 +31,27 @@ public class Waiting extends AuditingEntity {
 
     private int headCount;  //인원수
 
+    private int waitingNumber;
+
     private LocalDateTime registeredDateTime;
 
 
     @Builder
-    private Waiting(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime) {
+    private Waiting(Shop shop, Long userId, int headCount, int waitingNumber, LocalDateTime registeredDateTime) {
         this.shop = shop;
         this.userId = userId;
         this.headCount = headCount;
         this.waitingStatus = WaitingStatus.READY;
+        this.waitingNumber = waitingNumber;
         this.registeredDateTime = registeredDateTime;
     }
 
-    public static Waiting create(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime){
+    public static Waiting create(Shop shop, Long userId, int headCount, int waitingNumber, LocalDateTime registeredDateTime){
         return Waiting.builder()
                 .shop(shop)
                 .userId(userId)
                 .headCount(headCount)
+                .waitingNumber(waitingNumber)
                 .registeredDateTime(registeredDateTime)
                 .build();
     }
