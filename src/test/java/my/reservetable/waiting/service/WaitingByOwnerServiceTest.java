@@ -10,7 +10,7 @@ import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.repository.ShopRepository;
 import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
-import my.reservetable.waiting.dto.response.WaitingResponse;
+import my.reservetable.waiting.dto.response.WaitingOwnerResponse;
 import my.reservetable.waiting.repository.WaitingRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,7 +86,7 @@ class WaitingByOwnerServiceTest extends IntegrationTestSupport {
         waiting1.changeWaitingStatus(WaitingStatus.VISITED);
 
         // when
-        List<WaitingResponse> waitings = waitingByOwnerService.getNowWaitingsByShopId(shop.getShopId());
+        List<WaitingOwnerResponse> waitings = waitingByOwnerService.getNowWaitingsByShopId(shop.getShopId());
 
         // then
         assertThat(waitings).hasSize(3)

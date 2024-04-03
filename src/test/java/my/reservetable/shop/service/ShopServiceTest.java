@@ -10,6 +10,7 @@ import my.reservetable.shop.domain.ShopCountryCategory;
 import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
+import my.reservetable.shop.dto.response.ShopForOwnerResponse;
 import my.reservetable.shop.dto.response.ShopResponse;
 import my.reservetable.shop.repository.ShopRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -77,7 +78,7 @@ class ShopServiceTest extends IntegrationTestSupport {
                 .build();
 
         //when
-        ShopResponse shop = shopService.registerShop(request);
+        ShopForOwnerResponse shop = shopService.registerShop(request);
 
         // then
         assertThat(ownerId).isEqualTo(shop.getOwner().getOwnerId());
@@ -132,7 +133,7 @@ class ShopServiceTest extends IntegrationTestSupport {
                 .waitingYn("N")
                 .build();
         // when
-        ShopResponse modifiedShop =  shopService.updateShop(shop.getShopId(),request);
+        ShopForOwnerResponse modifiedShop =  shopService.updateShop(shop.getShopId(),request);
 
         // then
         assertThat(modifiedShop.getDescription()).isNotEqualTo("해피식당입니다.");
@@ -163,7 +164,7 @@ class ShopServiceTest extends IntegrationTestSupport {
         shopRepository.saveAll(List.of(shop1,shop2,shop3,shop4));
 
         //when
-        List<ShopResponse> shops = shopService.getShopsByOwner(ownerId1);
+        List<ShopForOwnerResponse> shops = shopService.getShopsByOwner(ownerId1);
 
         // then
         assertThat(shops).hasSize(3);

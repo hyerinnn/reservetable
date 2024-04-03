@@ -8,11 +8,11 @@ import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.repository.ShopRepository;
 import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
-import my.reservetable.waiting.dto.request.MyWaitingRequest;
 import my.reservetable.waiting.dto.request.WaitingRegisterRequest;
 import my.reservetable.waiting.dto.response.WaitingResponse;
 import my.reservetable.waiting.repository.WaitingRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,12 +22,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class WaitingByUserService {
 
     private final WaitingRepository waitingRepository;
     private final ShopRepository shopRepository;
     LocalDate today = LocalDate.now();
 
+    @Transactional
     public WaitingResponse registerWaiting(WaitingRegisterRequest request) {
         Shop shop = shopRepository.findById(request.getShopId())
                 .orElseThrow(() -> new NotFoundEntityException("매장을 찾을 수 없습니다."));
@@ -38,8 +40,8 @@ public class WaitingByUserService {
         return WaitingResponse.toDto(waiting, getMyWaitingOrder(request.getRegisteredDateTime()));
     }
 
-    public WaitingResponse getMyNowWaiting(MyWaitingRequest request){
-        return waitingRepository.findByUserIdAndShopIdAndWaitingStatus(request.getUserId(), request.getShopId(), WaitingStatus.READY)
+    public WaitingResponse getMyNowWaiting(Long userId, Long shopId){
+        return waitingRepository.findByUserIdAndShopIdAndWaitingStatus(userId, shopId, WaitingStatus.READY)
                 .map(myWaiting -> WaitingResponse.toDto(myWaiting, getMyWaitingOrder(myWaiting.getRegisteredDateTime())))
                 .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
     }

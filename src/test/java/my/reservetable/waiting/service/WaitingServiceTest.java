@@ -10,7 +10,6 @@ import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.repository.ShopRepository;
 import my.reservetable.waiting.domain.WaitingStatus;
 import my.reservetable.waiting.dto.request.WaitingRegisterRequest;
-import my.reservetable.waiting.dto.request.WaitingStatusUpdateRequest;
 import my.reservetable.waiting.dto.response.WaitingResponse;
 import my.reservetable.waiting.repository.WaitingRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class WaitingServiceTest extends IntegrationTestSupport {
 
@@ -54,13 +52,8 @@ class WaitingServiceTest extends IntegrationTestSupport {
                 .build();
         waitingByUserService.registerWaiting(request);
 
-        WaitingStatusUpdateRequest updateRequest = WaitingStatusUpdateRequest.builder()
-                .waitingId(1L)
-                .waitingStatus(WaitingStatus.NOSHOW)
-                .build();
-
         // when
-        WaitingResponse changeWaitingStatue = waitingService.changeWaitingStatus(updateRequest);
+        WaitingResponse changeWaitingStatue = waitingService.changeWaitingStatus(1L,WaitingStatus.NOSHOW);
 
         // then
         assertThat(changeWaitingStatue.getWaitingStatus()).isEqualTo(WaitingStatus.NOSHOW);

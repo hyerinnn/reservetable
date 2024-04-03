@@ -11,7 +11,6 @@ import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.repository.ShopRepository;
 import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
-import my.reservetable.waiting.dto.request.MyWaitingRequest;
 import my.reservetable.waiting.dto.request.WaitingRegisterRequest;
 import my.reservetable.waiting.dto.response.WaitingResponse;
 import my.reservetable.waiting.repository.WaitingRepository;
@@ -163,11 +162,7 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
         WaitingResponse waitingResponse = waitingService.registerWaiting(request);
 
         // when
-        MyWaitingRequest myWaiting = MyWaitingRequest.builder()
-                .shopId(waitingResponse.getShopId())
-                .userId(waitingResponse.getUserId())
-                .build();
-        WaitingResponse myWaitingResponse = waitingService.getMyNowWaiting(myWaiting);
+        WaitingResponse myWaitingResponse = waitingService.getMyNowWaiting(waitingResponse.getUserId(),waitingResponse.getShopId());
 
         // then
         assertThat(myWaitingResponse.getWaitingId()).isEqualTo(waitingResponse.getWaitingId());
