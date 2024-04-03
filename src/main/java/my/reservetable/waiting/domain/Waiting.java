@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Waiting extends AuditingEntity {
 
-    // 최대 웨이팅수
-    private static final int MAX_WAITING = 50;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long waitingId;
@@ -29,6 +26,7 @@ public class Waiting extends AuditingEntity {
     //private User user;    //TODO : 일반회원
     private Long userId;
 
+    @Enumerated(EnumType.STRING)
     private WaitingStatus waitingStatus;
 
     private int headCount;  //인원수
@@ -39,11 +37,12 @@ public class Waiting extends AuditingEntity {
     @Builder
     private Waiting(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime) {
         this.shop = shop;
-        userId = userId;
+        this.userId = userId;
         this.headCount = headCount;
         this.waitingStatus = WaitingStatus.READY;
         this.registeredDateTime = registeredDateTime;
     }
+
     public static Waiting create(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime){
         return Waiting.builder()
                 .shop(shop)
@@ -52,19 +51,7 @@ public class Waiting extends AuditingEntity {
                 .registeredDateTime(registeredDateTime)
                 .build();
     }
-/*
-    public Waiting(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime) {
-        this.shop = shop;
-        this.userId = userId;
-        this.headCount = headCount;
-        this.waitingStatus = WaitingStatus.READY;
-        this.registeredDateTime = registeredDateTime;
-    }
 
-    public static Waiting create(Shop shop, Long userId, int headCount, LocalDateTime registeredDateTime){
-        return new Waiting(shop,userId, headCount, registeredDateTime);
-    }
-*/
     public void changeWaitingStatus(WaitingStatus waitingStatus){
         this.waitingStatus = waitingStatus;
     }

@@ -28,7 +28,7 @@ class WaitingRepositoryTest {
     @Autowired ShopRepository shopRepository;
     @Autowired OwnerRepository ownerRepository;
 
-    @DisplayName("타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
+    @DisplayName("[웨이팅 번호] 타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeTargetWaiting() {
         // given
@@ -57,13 +57,13 @@ class WaitingRepositoryTest {
         waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
 
         // when
-        Long count = waitingRepository.getRegisteredDateTimeBefore(targetDateTime);
+        int count = waitingRepository.getRegisteredDateTimeBefore(targetDateTime, date);
 
         // then
         assertThat(count).isEqualTo(3);
     }
 
-    @DisplayName("타겟 웨이팅생성시간보다 먼저 생성된 웨이팅중, '입장대기'인 웨이팅 수를 조회한다.")
+    @DisplayName("[현재 나의 순서] 타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 중, '입장대기'인 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeAndReadyTargetWaiting() {
         // given
@@ -93,10 +93,13 @@ class WaitingRepositoryTest {
         waiting1.changeWaitingStatus(WaitingStatus.VISITED);
 
         // when
-        Long count = waitingRepository.getRegisteredDateTimeBeforeAndWaitingReady(targetDateTime, WaitingStatus.READY);
+        int count = waitingRepository.countByStatusAndToday(WaitingStatus.READY,targetDateTime,date);
 
         // then
         assertThat(count).isEqualTo(2);
+        // 나의 대기 순서 = 3번째
+        assertThat(count+1).isEqualTo(3);
+
     }
 
     private Owner createOwner(String ownerId){
