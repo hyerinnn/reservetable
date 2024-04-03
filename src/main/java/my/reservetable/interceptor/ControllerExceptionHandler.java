@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.reservetable.error.ErrorCode;
 import my.reservetable.error.ErrorResponse;
 import my.reservetable.exception.DuplicateMemberException;
+import my.reservetable.exception.NoRegisterWaitingException;
 import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.exception.NotFoundEntityException;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-/*
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponse validationException(IllegalArgumentException e){
+    public ErrorResponse illegalArgumentException(IllegalArgumentException e){
         //e.printStackTrace();
-        log.error("[exceptionHandler] ex", e);
+        log.error("[IllegalArgumentException] ex", e);
         return new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
-*/
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
@@ -39,9 +38,9 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundEntityException.class)
-    public ErrorResponse noDataException(NotFoundEntityException e){
-        log.error("[NoDataException] ex ", e);
-        ErrorResponse response = new ErrorResponse(ErrorCode.NOT_FOUND_DATA);
+    public ErrorResponse notFoundEntityException(NotFoundEntityException e){
+        log.error("[NotFoundEntityException] ex ", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
         return response;
     }
 
@@ -58,6 +57,13 @@ public class ControllerExceptionHandler {
         log.error("[DuplicateMemberException] ex ", e);
         ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
         //ErrorResponse response = new ErrorResponse(ErrorCode.DUPLICATE_MEMBER);
+        return response;
+    }
+
+    @ExceptionHandler(NoRegisterWaitingException.class)
+    public ErrorResponse noRegisterWaitingException(NoRegisterWaitingException e){
+        log.error("[NoRegisterWaitingException] ex ", e);
+        ErrorResponse response = new ErrorResponse(e.getErrorCode(), e.getMessage());
         return response;
     }
 }
