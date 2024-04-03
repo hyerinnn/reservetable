@@ -10,7 +10,6 @@ import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
 import my.reservetable.waiting.dto.request.MyWaitingRequest;
 import my.reservetable.waiting.dto.request.WaitingRegisterRequest;
-import my.reservetable.waiting.dto.request.WaitingStatusUpdateRequest;
 import my.reservetable.waiting.dto.response.WaitingResponse;
 import my.reservetable.waiting.repository.WaitingRepository;
 import org.springframework.stereotype.Service;
@@ -34,16 +33,14 @@ public class WaitingByUserService {
                 .orElseThrow(() -> new NotFoundEntityException("매장을 찾을 수 없습니다."));
 
         validationWaitingEnable(shop, request);
-        Waiting waiting = waitingRepository.save(request.toEntity(shop));
-        return WaitingResponse.toDto(waiting, getMyWaitingNumber(request.getRegisteredDateTime()), getMyWaitingOrder(request.getRegisteredDateTime()));
+        int waitingNumber = createWaitingNumber(request.getRegisteredDateTime());
+        Waiting waiting = waitingRepository.save(request.toEntity(shop, waitingNumber));
+        return WaitingResponse.toDto(waiting, getMyWaitingOrder(request.getRegisteredDateTime()));
     }
 
     public WaitingResponse getMyNowWaiting(MyWaitingRequest request){
-        Waiting waiting = waitingRepository.findByUserIdAndShopId(request.getUserId(), request.getShopId(), WaitingStatus.READY)
-                .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
-
-        return waitingRepository.findByUserIdAndShopId(request.getUserId(), request.getShopId(), WaitingStatus.READY)
-                .map(myWaiting -> WaitingResponse.toDto(myWaiting, getMyWaitingNumber(waiting.getRegisteredDateTime()), getMyWaitingOrder(waiting.getRegisteredDateTime())))
+        return waitingRepository.findByUserIdAndShopIdAndWaitingStatus(request.getUserId(), request.getShopId(), WaitingStatus.READY)
+                .map(myWaiting -> WaitingResponse.toDto(myWaiting, getMyWaitingOrder(myWaiting.getRegisteredDateTime())))
                 .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
     }
 
@@ -52,13 +49,6 @@ public class WaitingByUserService {
                 .stream()
                 .map(WaitingResponse::toDto)
                 .collect(Collectors.toList());
-    }
-
-    public WaitingResponse changeWaitingStatus(WaitingStatusUpdateRequest request) {
-        Waiting waiting = waitingRepository.findById(request.getWaitingId())
-                .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
-        waiting.changeWaitingStatus(request.getWaitingStatus());
-        return WaitingResponse.toDto(waiting);
     }
 
     private void validationWaitingEnable(Shop shop, WaitingRegisterRequest request) {
@@ -70,8 +60,8 @@ public class WaitingByUserService {
         if (ShopStatus.OPEN != shop.getStatus()) {
             throw new NoRegisterWaitingException("웨이팅을 할 수 없습니다.");
         }
-        //3. 이미 웨이팅한 유저인지 확인
-        Optional<Waiting> findWaitingByUserId = waitingRepository.findByUserIdAndShopId(request.getUserId(), request.getShopId(), WaitingStatus.READY);
+        //3. 이미 웨이팅중인 유저인지 확인
+        Optional<Waiting> findWaitingByUserId = waitingRepository.findByUserIdAndShopIdAndWaitingStatus(request.getUserId(), request.getShopId(), WaitingStatus.READY);
         if (findWaitingByUserId.isPresent()) {
             throw new NoRegisterWaitingException("이미 웨이팅한 회원입니다.");
         }
@@ -81,7 +71,7 @@ public class WaitingByUserService {
         }
     }
 
-    private int getMyWaitingNumber(LocalDateTime registeredDateTime) {
+    private int createWaitingNumber(LocalDateTime registeredDateTime) {
         int waitingNumber = waitingRepository.getRegisteredDateTimeBefore(registeredDateTime, today);
         return waitingNumber + 1;
     }

@@ -16,13 +16,16 @@ public interface WaitingRepository extends JpaRepository<Waiting, Long> {
     List<Waiting> findByUserId(Long userId);
 
     @Query("SELECT w FROM Waiting w WHERE w.userId = :userId AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
-    Optional<Waiting> findByUserIdAndShopId(Long userId, Long shopId, WaitingStatus status);
+    Optional<Waiting> findByUserIdAndShopIdAndWaitingStatus(Long userId, Long shopId, WaitingStatus status);
 
-    @Query("SELECT count (*) FROM Waiting w WHERE CAST(w.registeredDateTime AS date) = CURRENT_DATE")
-    Long getCountAllWaitingToday();
+    @Query("SELECT w FROM Waiting w WHERE CAST(w.registeredDateTime AS date) = CURRENT_DATE AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
+    List<Waiting> getNowWaitingsByShopId(Long shopId, WaitingStatus status);
 
-    @Query("SELECT w FROM Waiting w WHERE CAST(w.registeredDateTime AS date) = CURRENT_DATE")
-    List<Waiting> getListAllWaitingToday();
+    @Query("SELECT count (*) FROM Waiting w WHERE CAST(w.registeredDateTime AS date) = CURRENT_DATE AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
+    int getCountNowWaitingsByShopId(Long shopId, WaitingStatus status);
+
+    @Query("SELECT w FROM Waiting w WHERE w.shop.shopId = :shopId")
+    List<Waiting> getListAllWaitingByShopId(Long shopId);
 
     // [웨이팅번호] 오늘기준, 상태와 상관없이 특정시간(웨이팅 생성시간)보다 먼저 생성된 웨이팅 수 조회
     @Query("SELECT count (*) FROM Waiting w WHERE w.registeredDateTime < :registeredDateTime AND CAST(w.registeredDateTime AS date) = :today")
