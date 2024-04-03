@@ -1,6 +1,6 @@
 package my.reservetable.waiting.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,9 +12,9 @@ import my.reservetable.waiting.domain.Waiting;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MyWaitingRequest {
 
-    @NotBlank(message = "userId는 필수입니다.")
+    @NotNull(message = "userId는 필수입니다.")
     private Long userId;
-    @NotBlank(message = "shopId는 필수입니다.")
+    @NotNull(message = "shopId는 필수입니다.")
     private Long shopId;
 
     @Builder
