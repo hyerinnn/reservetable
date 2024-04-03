@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.owner.domain.Owner;
+import my.reservetable.owner.dto.response.OwnerForShopResponse;
 import my.reservetable.shop.domain.Address;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.domain.ShopCountryCategory;
@@ -18,7 +19,8 @@ public class ShopResponse {
 
     private Long shopId;
     private String shopName;
-    private Owner owner;
+    //private Owner owner;
+    private OwnerForShopResponse owner;
     private String shopNumber;
     private Address address;
     private String description;
@@ -34,7 +36,7 @@ public class ShopResponse {
                         LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
         this.shopId = shopId;
         this.shopName = shopName;
-        this.owner = owner;
+        this.owner = OwnerForShopResponse.toDto(owner);
         this.shopNumber = shopNumber;
         this.address = address;
         this.description = description;
