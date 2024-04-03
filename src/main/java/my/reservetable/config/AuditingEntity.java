@@ -9,7 +9,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -18,14 +17,14 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)  //Spring Data JPA에서 제공하는 이벤트 리스너로 엔티티의 영속, 수정 이벤트를 감지하는 역할
 public class AuditingEntity {
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime createdDate;     //생성일
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime modifiedDate;   //수정일
 
     @CreatedBy
