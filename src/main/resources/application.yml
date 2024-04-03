@@ -1,4 +1,13 @@
 spring:
+  profiles:
+    default: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
   datasource:
     #url: jdbc:h2:~/reservetable
     url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
@@ -22,6 +31,36 @@ spring:
   h2:
     console:
       enabled: true
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    #url: jdbc:h2:~/reservetable
+    url: jdbc:h2:tcp://localhost/~/reservetable;NON_KEYWORDS=USER
+    #url: jdbc:h2:mem:~/reservetable;NON_KEYWORDS=USER
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+  h2:
+    console:
+      enabled: true
+---
 
 logging:
   level:
