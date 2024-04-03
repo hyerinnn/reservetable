@@ -1,10 +1,11 @@
 package my.reservetable.shop.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import my.reservetable.owner.domain.Owner;
+import my.reservetable.owner.dto.response.OwnerForShopResponse;
 import my.reservetable.shop.domain.Address;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.domain.ShopCountryCategory;
@@ -14,27 +15,28 @@ import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShopResponse {
+public class ShopForOwnerResponse {
 
     private Long shopId;
     private String shopName;
+    //private Owner owner;
+    private OwnerForShopResponse owner;
     private String shopNumber;
     private Address address;
     private String description;
     private ShopCountryCategory countryCategory;
     private ShopStatus status;
-    @JsonFormat(pattern = "HH:mm:ss", timezone = "Asia/Seoul")
     private LocalTime openTime;
-    @JsonFormat(pattern = "HH:mm:ss", timezone = "Asia/Seoul")
     private LocalTime lastOrderTime;
     private String waitingYn;
 
     @Builder
-    private ShopResponse(Long shopId, String shopName, String shopNumber, Address address,
-                        String description, ShopCountryCategory countryCategory, ShopStatus status,
-                        LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
+    private ShopForOwnerResponse(Long shopId, String shopName, Owner owner, String shopNumber, Address address,
+                                 String description, ShopCountryCategory countryCategory, ShopStatus status,
+                                 LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
         this.shopId = shopId;
         this.shopName = shopName;
+        this.owner = OwnerForShopResponse.toDto(owner);
         this.shopNumber = shopNumber;
         this.address = address;
         this.description = description;
@@ -46,10 +48,11 @@ public class ShopResponse {
 
     }
 
-    public static ShopResponse toDto(Shop shop){
-        return ShopResponse.builder()
+    public static ShopForOwnerResponse toDto(Shop shop){
+        return ShopForOwnerResponse.builder()
                 .shopId(shop.getShopId())
                 .shopName(shop.getShopName())
+                .owner(shop.getOwner())
                 .shopNumber(shop.getShopNumber())
                 .address(shop.getAddress())
                 .description(shop.getDescription())
