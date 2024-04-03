@@ -1,5 +1,6 @@
 package my.reservetable.shop.service;
 
+import my.reservetable.IntegrationTestSupport;
 import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.repository.OwnerRepository;
@@ -14,8 +15,6 @@ import my.reservetable.shop.repository.ShopRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -23,9 +22,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
-class ShopServiceTest {
+//@SpringBootTest
+//@Transactional
+class ShopServiceTest extends IntegrationTestSupport {
 
     @Autowired ShopService shopService;
     @Autowired ShopRepository shopRepository;

@@ -1,5 +1,6 @@
 package my.reservetable.owner.service;
 
+import my.reservetable.IntegrationTestSupport;
 import my.reservetable.exception.DuplicateMemberException;
 import my.reservetable.owner.domain.Owner;
 import my.reservetable.owner.dto.request.OwnerSignupRequest;
@@ -9,16 +10,14 @@ import my.reservetable.owner.repository.OwnerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-@SpringBootTest
-@Transactional
-class OwnerServiceTest {
+//@SpringBootTest
+//@Transactional
+class OwnerServiceTest extends IntegrationTestSupport {
 
     @Autowired OwnerService ownerService;
     @Autowired OwnerRepository ownerRepository;
