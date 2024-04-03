@@ -6,5 +6,5 @@
 
 
 ## ERD
-![reservetable-erd.png](..%2F..%2FDownloads%2Freservetable-erd.png)
+![reservetable-erd](https://github.com/hyerinnn/reservetable/assets/46141895/bbc8086a-c62b-4c6c-943e-83b2930b8b4e)
 
