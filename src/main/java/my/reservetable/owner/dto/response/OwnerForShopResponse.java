@@ -10,11 +10,11 @@ import my.reservetable.owner.domain.Owner;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OwnerForShopResponse {
 
-    private String ownerId;
+    private Long ownerId;
     private String nickName;
 
     @Builder
-    private OwnerForShopResponse(String ownerId, String nickName) {
+    private OwnerForShopResponse(Long ownerId, String nickName) {
         this.ownerId = ownerId;
         this.nickName = nickName;
     }

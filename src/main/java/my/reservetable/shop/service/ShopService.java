@@ -37,7 +37,7 @@ public class ShopService {
         return ShopResponse.toDto(shop);
     }
 
-    public List<ShopForOwnerResponse> getShopsByOwner(String ownerId){
+    public List<ShopForOwnerResponse> getShopsByOwner(Long ownerId){
         Owner owner = ownerRepository.findById(ownerId)
                 .orElseThrow(()-> new NotExistMemberException("사장님 정보를 찾을 수 없습니다."));
         List<ShopForOwnerResponse> shops = shopRepository.findByOwner(owner)

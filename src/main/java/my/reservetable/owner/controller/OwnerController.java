@@ -19,7 +19,7 @@ public class OwnerController {
     private final OwnerService ownerService;
 
     @GetMapping("/owner/{ownerId}")
-    public OwnerResponse getOwnerByOwnerId(@PathVariable String ownerId){
+    public OwnerResponse getOwnerByOwnerId(@PathVariable Long ownerId){
         return ownerService.findOwnerByOwnerId(ownerId);
     }
 

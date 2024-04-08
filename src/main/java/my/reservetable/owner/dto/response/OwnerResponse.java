@@ -11,14 +11,15 @@ import my.reservetable.owner.domain.Owner;
 @Getter
 public class OwnerResponse {
 
-    private String ownerId;
+    private Long ownerId;
+    private String email;
     private String nickName;
     private String password;
     private String phoneNumber;
-    private String email;
+
 
     @Builder
-    private OwnerResponse(String ownerId, String nickName, String password, String phoneNumber, String email) {
+    private OwnerResponse(Long ownerId, String nickName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
         this.nickName = nickName;
         this.password = password;

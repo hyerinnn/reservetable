@@ -31,7 +31,7 @@ public class ShopController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<ShopForOwnerResponse> getShopByOwner(@PathVariable String ownerId){
+    public List<ShopForOwnerResponse> getShopByOwner(@PathVariable Long ownerId){
         return shopService.getShopsByOwner(ownerId);
     }
 

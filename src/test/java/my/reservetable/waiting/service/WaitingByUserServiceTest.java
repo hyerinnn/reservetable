@@ -40,8 +40,8 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
     void registerWaiting() {
 
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
@@ -80,8 +80,8 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
     void registerWaitingFail1() {
 
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.BREAK_TIME,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
@@ -112,8 +112,8 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
     void registerWaitingFail2() {
 
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
@@ -144,8 +144,8 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
     void getMyWaiting() {
 
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
@@ -171,10 +171,9 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
     @DisplayName("나의 모든 웨이팅을 조회한다.")
     @Test
     void getMyWaitings() {
-
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
@@ -196,12 +195,11 @@ class WaitingByUserServiceTest extends IntegrationTestSupport {
                 .contains(2,3);
     }
 
-    private Owner createOwner(String ownerId) {
+    private Owner createOwner(String email) {
         return Owner.builder()
-                .ownerId(ownerId)
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
+                .email(email)
                 .phoneNumber("01027374848")
                 .build();
     }

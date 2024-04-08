@@ -1,9 +1,7 @@
 package my.reservetable.owner.domain;
 
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +14,12 @@ import my.reservetable.config.AuditingEntity;
 public class Owner extends AuditingEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private String ownerId;
+    private Long ownerId;
+
+    //@Column(nullable = false)
+    private String email;
 
     @Column(nullable = false)
     private String nickName;
@@ -27,9 +29,6 @@ public class Owner extends AuditingEntity {
     //@Column(nullable = false, length = 12)
     private String phoneNumber;
 
-    //@Column(nullable = false)
-    private String email;
-
     //TODO : Owner와 Shop 양방향 관계설정 시 사용예정
 /*
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
@@ -38,7 +37,7 @@ public class Owner extends AuditingEntity {
 */
 
     @Builder
-    private Owner(String ownerId, String nickName, String password, String phoneNumber, String email) {
+    private Owner(Long ownerId, String nickName, String password, String phoneNumber, String email) {
         this.ownerId = ownerId;
         this.nickName = nickName;
         this.password = password;
@@ -46,9 +45,7 @@ public class Owner extends AuditingEntity {
         this.email = email;
     }
 
-    public void update(String ownerId, String nickName, String password, String phoneNumber, String email){
-        if(!StringUtils.isEmpty(ownerId))
-            this.ownerId = ownerId;
+    public void update(String nickName, String password, String phoneNumber, String email){
         if(!StringUtils.isEmpty(nickName))
             this.nickName = nickName;
         if(!StringUtils.isEmpty(password))

@@ -21,7 +21,7 @@ public class ShopRegisterRequest {
     @NotBlank(message = "식당 이름은 필수입니다.")
     private String shopName;
     @NotBlank(message = "ownerId는 필수입니다.")
-    private String ownerId;
+    private Long ownerId;
     private String shopNumber;
     private Address address;
     private String description;
@@ -49,7 +49,7 @@ public class ShopRegisterRequest {
     }
 
     @Builder
-    private ShopRegisterRequest(String shopName, String ownerId, String shopNumber, Address address, String description,
+    private ShopRegisterRequest(String shopName, Long ownerId, String shopNumber, Address address, String description,
                                ShopCountryCategory countryCategory, ShopStatus status, LocalTime openTime, LocalTime lastOrderTime,
                                String waitingYn) {
         this.shopName = shopName;

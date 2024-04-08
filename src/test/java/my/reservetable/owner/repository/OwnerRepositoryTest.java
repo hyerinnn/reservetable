@@ -24,7 +24,7 @@ class OwnerRepositoryTest {
     void ownerSaveOk() {
         // given
         Owner owner = Owner.builder()
-                .ownerId("owner002")
+                .email("owner@owner.com")
                 .nickName("새로운사장님")
                 .build();
         // when

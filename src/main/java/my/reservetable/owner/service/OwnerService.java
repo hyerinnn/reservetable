@@ -22,20 +22,27 @@ public class OwnerService {
 
     @Transactional
     public OwnerResponse signupOwner(OwnerSignupRequest request) {
-        validateDuplicateOwner(request.getOwnerId());
+        validateDuplicateOwner(request.getEmail());
         Owner newOwner = ownerRepository.save(request.toEntity());
         return OwnerResponse.toDto(newOwner);
     }
 
-    private void validateDuplicateOwner(String ownerId) {
-        Optional<Owner> findOwners = ownerRepository.findById(ownerId);
+    private void validateDuplicateOwner(String email) {
+        Optional<Owner> findOwners = ownerRepository.findByEmail(email);
+        // TODO : ifPresent
         if (findOwners.isPresent()) {
             throw new DuplicateMemberException("이미 가입된 회원입니다.");
         }
     }
 
-    public OwnerResponse findOwnerByOwnerId(String ownerId) {
+    public OwnerResponse findOwnerByOwnerId(Long ownerId) {
         return ownerRepository.findById(ownerId)
+                .map(owner -> OwnerResponse.toDto(owner))
+                .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
+    }
+
+    public OwnerResponse findOwnerByEmail(String email) {
+        return ownerRepository.findByEmail(email)
                 .map(owner -> OwnerResponse.toDto(owner))
                 .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
     }
@@ -46,7 +53,6 @@ public class OwnerService {
                 .orElseThrow(() -> new NotExistMemberException("회원정보를 찾을 수 없습니다."));
 
         owner.update(
-                request.getOwnerId(),
                 request.getNickName(),
                 request.getPassword(),
                 request.getPhoneNumber(),

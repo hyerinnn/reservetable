@@ -35,8 +35,8 @@ class ShopServiceTest extends IntegrationTestSupport {
     @Test
     void getAllShops() {
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
 
         Shop shop1 = createShop(owner, "맥도날드", ShopCountryCategory.WESTERN,ShopStatus.READY,
@@ -60,13 +60,13 @@ class ShopServiceTest extends IntegrationTestSupport {
     @Test
     void registerShopSuccess() {
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
-        ownerRepository.save(owner);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
+        Owner saveOwner = ownerRepository.save(owner);
 
         ShopRegisterRequest request = ShopRegisterRequest.builder()
                 .shopName("해피식당")
-                .ownerId(ownerId)
+                .ownerId(saveOwner.getOwnerId())
                 .shopNumber("02-1234-5678")
                 .address(new Address("15151","서울특별시 00로 32"))
                 .description("해피식당입니다.")
@@ -81,7 +81,7 @@ class ShopServiceTest extends IntegrationTestSupport {
         ShopForOwnerResponse shop = shopService.registerShop(request);
 
         // then
-        assertThat(ownerId).isEqualTo(shop.getOwner().getOwnerId());
+        assertThat(saveOwner.getOwnerId()).isEqualTo(shop.getOwner().getOwnerId());
         assertThat(request.getShopName()).isEqualTo(shop.getShopName());
     }
 
@@ -89,14 +89,9 @@ class ShopServiceTest extends IntegrationTestSupport {
     @Test
     void registerShopFail() {
         // given
-        String ownerId = "test001";
-        String npeOwnerId = "npe001";
-        Owner owner = createOwner(ownerId);
-        ownerRepository.save(owner);
-
         ShopRegisterRequest request = ShopRegisterRequest.builder()
                 .shopName("해피식당")
-                .ownerId(npeOwnerId)
+                .ownerId(1L)
                 .shopNumber("02-1234-5678")
                 .address(new Address("15151","서울특별시 00로 32"))
                 .description("해피식당입니다.")
@@ -117,8 +112,8 @@ class ShopServiceTest extends IntegrationTestSupport {
     @Test
     void updateShopSuccess() {
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
 
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
@@ -145,12 +140,12 @@ class ShopServiceTest extends IntegrationTestSupport {
     @Test
     void getShopsByOwner() {
         // given
-        String ownerId1 = "test001";
-        Owner owner1 = createOwner(ownerId1);
-        ownerRepository.save(owner1);
+        String owner1Email = "owner@owner.com";
+        Owner owner1 = createOwner(owner1Email);
+        Owner saveOwner = ownerRepository.save(owner1);
 
-        String ownerId2 = "test002";
-        Owner owner2 = createOwner(ownerId2);
+        String owner2Email = "test@test.com";
+        Owner owner2 = createOwner(owner2Email);
         ownerRepository.save(owner2);
 
         Shop shop1 = createShop(owner1, "맥도날드", ShopCountryCategory.WESTERN,ShopStatus.READY,
@@ -164,21 +159,21 @@ class ShopServiceTest extends IntegrationTestSupport {
         shopRepository.saveAll(List.of(shop1,shop2,shop3,shop4));
 
         //when
-        List<ShopForOwnerResponse> shops = shopService.getShopsByOwner(ownerId1);
+        List<ShopForOwnerResponse> shops = shopService.getShopsByOwner(saveOwner.getOwnerId());
 
         // then
         assertThat(shops).hasSize(3);
     }
 
-    private Owner createOwner(String ownerId){
+    private Owner createOwner(String email){
         return Owner.builder()
-                .ownerId(ownerId)
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
+                .email(email)
                 .phoneNumber("01027374848")
                 .build();
     }
+
 
     private Shop createShop(Owner owner, String description, ShopCountryCategory countryCategory,
                             ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn){

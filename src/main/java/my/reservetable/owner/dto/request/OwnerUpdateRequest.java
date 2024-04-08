@@ -9,14 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OwnerUpdateRequest {
 
-    private String ownerId;
+    private Long ownerId;
+    private String email;
     private String password;
     private String nickName;
     private String phoneNumber;
-    private String email;
+
 
     @Builder
-    private OwnerUpdateRequest(String ownerId, String password, String nickName, String phoneNumber, String email) {
+    private OwnerUpdateRequest(Long ownerId, String password, String nickName, String phoneNumber, String email) {
         this.ownerId = ownerId;
         this.password = password;
         this.nickName = nickName;

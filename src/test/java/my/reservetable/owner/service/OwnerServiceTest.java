@@ -29,10 +29,9 @@ class OwnerServiceTest extends IntegrationTestSupport {
     void signupOwnerSuccess(){
         //given
         OwnerSignupRequest request = OwnerSignupRequest.builder()
-                .ownerId("test001")
+                .email("test@test.com")
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
 
@@ -47,15 +46,14 @@ class OwnerServiceTest extends IntegrationTestSupport {
     @DisplayName("중복 id인 경우 회원가입 실패 테스트")
     void signupOwnerWhenAlreadyRegistered(){
         //given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "test001@test001.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
 
         OwnerSignupRequest existsOwnerRequest = OwnerSignupRequest.builder()
-                .ownerId("test001")
+                .email("test001@test001.com")
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
 
@@ -69,29 +67,41 @@ class OwnerServiceTest extends IntegrationTestSupport {
     @DisplayName("ownerId로 사장님회원 조회")
     void findOwnerByOwnerId(){
         //given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "test001@test001.com";
+        Owner owner = createOwner(email);
+        Owner savedOwner = ownerRepository.save(owner);
+
+        //when & then
+        OwnerResponse ownerResponse = ownerService.findOwnerByOwnerId(savedOwner.getOwnerId());
+        assertThat(owner.getEmail()).isEqualTo(ownerResponse.getEmail());
+    }
+
+    @Test
+    @DisplayName("이메일로 사장님회원 조회")
+    void findOwnerByEmail(){
+        //given
+        String email = "test001@test001.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
 
         //when & then
-        OwnerResponse ownerResponse = ownerService.findOwnerByOwnerId(ownerId);
-        assertThat(ownerResponse.getOwnerId()).isEqualTo(ownerId);
+        OwnerResponse ownerResponse = ownerService.findOwnerByEmail(email);
+        assertThat(ownerResponse.getEmail()).isEqualTo(email);
     }
 
     @Test
     @DisplayName("사장님 회원정보 수정 성공테스트")
     void updateOwner(){
         OwnerSignupRequest ownerRequest = OwnerSignupRequest.builder()
-                .ownerId("test001")
+                .email("owner@owner.com")
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
                 .phoneNumber("01027374848")
                 .build();
         OwnerResponse owner = ownerService.signupOwner(ownerRequest);
 
         OwnerUpdateRequest updateOwner = OwnerUpdateRequest.builder()
-                .ownerId("test001")
+                .ownerId(owner.getOwnerId())
                 .nickName("jpa사장님")
                 .password("1111")
                 .email("abc@abc.com")
@@ -102,12 +112,11 @@ class OwnerServiceTest extends IntegrationTestSupport {
         assertThat(owner.getNickName()).isNotEqualTo(updateOwner.getNickName());
     }
 
-    private Owner createOwner(String ownerId){
+    private Owner createOwner(String email){
         return Owner.builder()
-                .ownerId(ownerId)
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
+                .email(email)
                 .phoneNumber("01027374848")
                 .build();
     }

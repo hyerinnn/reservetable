@@ -41,6 +41,7 @@ public class WaitingByUserController {
         return waitingByUserService.registerWaiting(request);
     }
 
+    // TODO : PatchMapping
     @GetMapping("/change/{waitingId}")
     public WaitingResponse cancelMyWaiting(@PathVariable Long waitingId){
         return waitingService.changeWaitingStatus(waitingId, WaitingStatus.CANCEL);

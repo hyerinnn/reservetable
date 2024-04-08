@@ -34,10 +34,10 @@ class WaitingServiceTest extends IntegrationTestSupport {
     @Test
     void changeWaitingStatus() {
         // given
-        String ownerId = "test001";
-        Owner owner = createOwner(ownerId);
+        String email = "owner@owner.com";
+        Owner owner = createOwner(email);
         ownerRepository.save(owner);
-        Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.READY,
+        Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10,00),LocalTime.of(21,00),"Y");
         shopRepository.save(shop);
 
@@ -59,12 +59,11 @@ class WaitingServiceTest extends IntegrationTestSupport {
         assertThat(changeWaitingStatue.getWaitingStatus()).isEqualTo(WaitingStatus.NOSHOW);
     }
 
-    private Owner createOwner(String ownerId){
+    private Owner createOwner(String email){
         return Owner.builder()
-                .ownerId(ownerId)
                 .nickName("사장님A")
                 .password("1111")
-                .email("abc@abc.com")
+                .email(email)
                 .phoneNumber("01027374848")
                 .build();
     }
