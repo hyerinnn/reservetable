@@ -37,8 +37,7 @@ public class Owner extends AuditingEntity {
 */
 
     @Builder
-    private Owner(Long ownerId, String nickName, String password, String phoneNumber, String email) {
-        this.ownerId = ownerId;
+    private Owner(String nickName, String password, String phoneNumber, String email) {
         this.nickName = nickName;
         this.password = password;
         this.phoneNumber = phoneNumber;
