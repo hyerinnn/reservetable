@@ -1,6 +1,7 @@
 package my.reservetable.waiting.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import my.reservetable.exception.NoRegisterWaitingException;
 import my.reservetable.exception.NotFoundEntityException;
 import my.reservetable.shop.domain.Shop;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,7 +29,7 @@ public class WaitingByUserService {
 
     private final WaitingRepository waitingRepository;
     private final ShopRepository shopRepository;
-    LocalDate today = LocalDate.now();
+
 
     @Transactional
     public WaitingResponse registerWaiting(WaitingRegisterRequest request) {
@@ -74,11 +76,13 @@ public class WaitingByUserService {
     }
 
     private int createWaitingNumber(LocalDateTime registeredDateTime) {
+        LocalDate today = LocalDate.now();
         int waitingNumber = waitingRepository.getRegisteredDateTimeBefore(registeredDateTime, today);
         return waitingNumber + 1;
     }
 
     private int getMyWaitingOrder(LocalDateTime registeredDateTime) {
+        LocalDate today = LocalDate.now();
         int myOrderBefore = waitingRepository.countByStatusAndToday(WaitingStatus.READY, registeredDateTime, today);
         return myOrderBefore + 1;
     }
