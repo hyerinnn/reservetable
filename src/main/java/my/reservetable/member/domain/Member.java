@@ -1,5 +1,6 @@
-package my.reservetable.member;
+package my.reservetable.member.domain;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,5 +42,11 @@ public class Member extends AuditingEntity {
         this.role = role;
     }
 
+    public void update(String nickName, String phoneNumber){
+        if(!StringUtils.isEmpty(nickName))
+            this.nickName = nickName;
+        if(!StringUtils.isEmpty(phoneNumber))
+            this.phoneNumber = phoneNumber;
+    }
 
 }

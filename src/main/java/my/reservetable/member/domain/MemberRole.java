@@ -1,4 +1,4 @@
-package my.reservetable.member;
+package my.reservetable.member.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
