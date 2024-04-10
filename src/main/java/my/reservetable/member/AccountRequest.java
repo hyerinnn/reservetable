@@ -24,15 +24,15 @@ public class AccountRequest {
     //@NotBlank(message = "휴대폰 번호는 필수입니다.")
     private String phoneNumber;
 
-    private String roles;
+    private MemberRole role;
 
     @Builder
-    private AccountRequest(String email, String password, String nickName, String phoneNumber, String roles) {
+    private AccountRequest(String email, String password, String nickName, String phoneNumber, MemberRole role) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
         this.phoneNumber = phoneNumber;
-        this.roles = roles;
+        this.role = role;
     }
 
 
@@ -42,7 +42,7 @@ public class AccountRequest {
                 .password(password)
                 .nickName(nickName)
                 .phoneNumber(phoneNumber)
-                .roles(roles)
+                .role(role)
                 .build();
     }
 }

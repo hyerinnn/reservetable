@@ -13,10 +13,10 @@ public class ErrorResponse {
 
     private final HttpStatus status;
     private final String message;
-    private Map<String, String> validation = new HashMap<>();
+    private Map<String, String> data = new HashMap<>();
 
     public void addValidation(String fieldName, String message){
-        this.validation.put(fieldName, message);
+        this.data.put(fieldName, message);
     }
 
     public ErrorResponse(ErrorCode errorCode){

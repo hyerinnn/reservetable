@@ -2,13 +2,11 @@ package my.reservetable.member;
 
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberResponse {
 
@@ -17,6 +15,4 @@ public class MemberResponse {
     private String nickName;
     private String password;
     private String phoneNumber;
-
-
 }
