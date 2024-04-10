@@ -29,15 +29,16 @@ public class Member extends AuditingEntity {
     @Column(nullable = false, length = 12)
     private String phoneNumber;
 
-    private String roles;
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
 
     @Builder
-    private Member(String email, String nickName, String password, String phoneNumber, String roles) {
+    private Member(String email, String nickName, String password, String phoneNumber, MemberRole role) {
         this.email = email;
         this.nickName = nickName;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.roles = roles;
+        this.role = role;
     }
 
 
