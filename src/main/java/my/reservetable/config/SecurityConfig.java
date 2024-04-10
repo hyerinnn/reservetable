@@ -1,71 +1,78 @@
-/*
 package my.reservetable.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    */
-/**
-     * TODO : 리팩토링 필요
-     *          1. web.ignorig()으로 인한 warn경고 해결하기 (spring security 5.x부터 경고추가됨) -> permitAll()사용 권장
-     *          2. webSecurityCustomizer에서 "/h2-console" matcher추가하면 오류발생 -> 리소스용 SecurityFileChain을 추가하여 수정필요
-     *              :임시 : spring버전 3.2.2에서 3.0.5로 버전내리고,  securityFilterChain에 permitAll()로 추가해놓음
-     * *//*
-
-
+/*
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
         // 아래 리소스에 대해 스프링시큐리티 기능 비활성화
         return web -> web.ignoring()
-                .requestMatchers("/favicon.ico")
-                .requestMatchers("/error")
+                //.requestMatchers("/favicon.ico")
+                //.requestMatchers("/error")
                 .requestMatchers(PathRequest.toH2Console());
     }
 
+*/
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        return http
-                .authorizeHttpRequests()
-                    //.requestMatchers("/auth/login").permitAll()
-                    .requestMatchers("/").permitAll()
-                    //.requestMatchers("/h2-console/**").permitAll()
-                    //.requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .requestMatchers("/home").permitAll()
-                    .requestMatchers("/swagger-ui/**").permitAll()
-                    .requestMatchers("/api-docs/**").permitAll()
-                    .requestMatchers("/owners/** ").permitAll()
-                    .anyRequest().authenticated()   // 위의 요청들을 제외한 나머지 요청은 인증이 필요
-                .and()
-                .formLogin()
-*/
-/*                .formLogin() // form 방식 로그인 사용
-                    .loginPage("/auth/login")
-                    .loginProcessingUrl("/auth/login")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/")*//*
+         http.authorizeHttpRequests( auth -> auth   //요청에 대한 인가 설정
+                         .requestMatchers("/css/**","/favicon.*","/error","/js/**","/images/**").permitAll() //정적자원 무시보다 허용해주는 편이 보안상 좋음
+                         .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+                         .requestMatchers(PathRequest.toH2Console()).permitAll()
+                         //.requestMatchers("/h2-console/**").permitAll()
+                         .requestMatchers("/","/home").permitAll()
+                         .requestMatchers("/auth/login/**","/auth/signup/**").permitAll()
+                         .requestMatchers("/shop/**").permitAll()
+                         //.requestMatchers("/owners/** ").permitAll()
+                         .requestMatchers("/shops/all").permitAll()
+                         .anyRequest().authenticated()   // 위의 요청들을 제외한 나머지 요청은 인증이 필요
+                 )
+                //.formLogin(Customizer.withDefaults())
+                 .formLogin(form -> form
+                         .loginPage("/auth/login/main")
+                         .loginProcessingUrl("/auth/login")
+                         .usernameParameter("email")
+                         .passwordParameter("password")
+                         .defaultSuccessUrl("/owner")
+                 )
+                 //.userDetailsService(userDetailsService)
+                .csrf(AbstractHttpConfigurer::disable);  //csrf 비활성화
+        return http.build();
+    }
 
-                .and()
-                //.disable()
-                .csrf(AbstractHttpConfigurer::disable)  //csrf 비활성화
-                .build();
+    @Bean
+    public UserDetailsService userDetailsService(){
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+
+        UserDetails owner = User.withUsername("owner").password("{noop}1111").roles("OWNER").build();
+        UserDetails user = User.withUsername("user").password("{noop}1111").roles("USER").build();
+        manager.createUser(owner);
+        manager.createUser(user);
+        return manager;
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // 기본적으로 bcrypt 암호화 알고리즘의 BCryptPasswordEncoder객체를 생성하고 사용한다.
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }
-*/
+
