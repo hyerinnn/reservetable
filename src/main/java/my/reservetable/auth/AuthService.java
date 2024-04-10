@@ -28,10 +28,10 @@ public class AuthService {
     @Transactional
     public String signup(AccountRequest request){
 
-        String passwordEncode = passwordEncoder.encode(request.getPassword());
-        log.info("passwordEncode = {}", passwordEncode);
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+        log.info("passwordEncode = {}", encryptedPassword);
 
-        memberRepository.save(request.toEntity(passwordEncode));
+        memberRepository.save(request.toEntity(encryptedPassword));
         return "가입 성공";
     }
 
