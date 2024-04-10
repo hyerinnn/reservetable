@@ -1,11 +1,9 @@
 package my.reservetable.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import my.reservetable.error.ErrorResponse;
+import my.reservetable.exception.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -34,16 +32,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        //TODO : exception handling처리용 클래스 따로 빼기
-        http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ErrorResponse responseDto = new ErrorResponse(HttpStatus.FORBIDDEN, "권한없음");
-            String responseBody = mapper.writeValueAsString(responseDto);
-
-             response.setContentType("application/json; charset=utf-8");
-             response.setStatus(403);
-             response.getWriter().println(responseBody);
-        });
+        // 인증되지 않은 사용자(로그인안한 사용자) 접근시 exception
+        http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
 
         http
                 .authorizeHttpRequests( auth -> auth   //요청에 대한 인가 설정
