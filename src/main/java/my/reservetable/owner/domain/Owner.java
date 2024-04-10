@@ -24,6 +24,7 @@ public class Owner extends AuditingEntity {
     @Column(nullable = false)
     private String nickName;
 
+    @Column(nullable = false)
     private String password;
 
     //@Column(nullable = false, length = 12)

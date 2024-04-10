@@ -7,7 +7,6 @@ import my.reservetable.owner.dto.request.OwnerSignupRequest;
 import my.reservetable.owner.dto.request.OwnerUpdateRequest;
 import my.reservetable.owner.dto.response.OwnerResponse;
 import my.reservetable.owner.service.OwnerService;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,7 +28,7 @@ public class OwnerController {
     }
 
     @PutMapping("/owner/update")
-    public OwnerResponse updateOwner(@Validated @RequestBody OwnerUpdateRequest request){
+    public OwnerResponse updateOwner(@Valid @RequestBody OwnerUpdateRequest request){
         return ownerService.updateOwner(request);
     }
 
