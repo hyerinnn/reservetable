@@ -6,8 +6,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import my.reservetable.member.Member;
-import my.reservetable.member.MemberRole;
+import my.reservetable.member.domain.Member;
+import my.reservetable.member.domain.MemberRole;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

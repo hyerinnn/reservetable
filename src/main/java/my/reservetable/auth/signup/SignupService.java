@@ -2,10 +2,17 @@ package my.reservetable.auth.signup;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import my.reservetable.exception.DuplicateMemberException;
+import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.member.MemberRepository;
+import my.reservetable.member.MemberResponse;
+import my.reservetable.member.MemberUpdateRequest;
+import my.reservetable.member.domain.Member;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -17,13 +24,30 @@ public class SignupService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public String signup(SignupRequest request){
-
+    public MemberResponse signup(SignupRequest request){
+        validateDuplicateMember(request.getEmail());
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        log.info("passwordEncode = {}", encryptedPassword);
+        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword));
+        return MemberResponse.toDto(newMember);
+    }
 
-        memberRepository.save(request.toEntity(encryptedPassword));
-        return "가입 성공";
+    private void validateDuplicateMember(String email) {
+        Optional<Member> findMember = memberRepository.findByEmail(email);
+        if (findMember.isPresent()) {
+            throw new DuplicateMemberException("이미 가입된 회원입니다.");
+        }
+    }
+
+    @Transactional
+    public MemberResponse updatePassword(MemberUpdateRequest request){
+        Member member = memberRepository.findById(request.getId())
+                .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
+
+/*        member.update(
+                request.getNickName(),
+                request.getPhoneNumber()
+        );*/
+        return MemberResponse.toDto(member);
     }
 
 }
