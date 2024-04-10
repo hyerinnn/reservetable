@@ -1,8 +1,7 @@
-package my.reservetable.auth;
+package my.reservetable.auth.signup;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import my.reservetable.auth.signup.SignupRequest;
 import my.reservetable.member.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,17 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AuthService {
+public class SignupService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public String login(LoginRequest request){
-        log.info("========================================");
-        log.info("email = {}", request.getEmail());
-        log.info("password = {}", request.getPassword());
+    @Transactional
+    public String signup(SignupRequest request){
 
-        return "로그인 성공";
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+        log.info("passwordEncode = {}", encryptedPassword);
+
+        memberRepository.save(request.toEntity(encryptedPassword));
+        return "가입 성공";
     }
 
 }

@@ -1,4 +1,4 @@
-package my.reservetable.member;
+package my.reservetable.auth.signup;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,10 +6,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import my.reservetable.member.Member;
+import my.reservetable.member.MemberRole;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AccountRequest {
+public class SignupRequest {
 
     @NotBlank(message = "이메일은 필수입니다.")
     @Email(message = "이메일형식이 올바르지 않습니다.")
@@ -27,7 +29,7 @@ public class AccountRequest {
     private MemberRole role;
 
     @Builder
-    private AccountRequest(String email, String password, String nickName, String phoneNumber, MemberRole role) {
+    private SignupRequest(String email, String password, String nickName, String phoneNumber, MemberRole role) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
