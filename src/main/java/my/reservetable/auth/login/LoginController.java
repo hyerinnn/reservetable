@@ -1,4 +1,4 @@
-package my.reservetable.auth;
+package my.reservetable.auth.login;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Auth", description = "Auth API")
-public class AuthController {
+public class LoginController {
 
-    private final AuthService authService;
+    private final LoginService loginService;
 
     @GetMapping("/login/main")
     public String loginPage(){
@@ -22,16 +22,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(LoginRequest request){
-        return authService.login(request);
+        return loginService.login(request);
     }
 
-    @GetMapping("/signup/main")
-    public String signUpPage(){
-        return "회원가입 페이지 입니다.";
-    }
-
-/*    @PostMapping("/signup")
-    public String signUp(@Valid @RequestBody SignupRequest request){
-        return authService.signup(request);
-    }*/
 }

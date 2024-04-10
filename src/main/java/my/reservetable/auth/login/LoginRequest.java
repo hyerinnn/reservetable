@@ -1,4 +1,4 @@
-package my.reservetable.auth;
+package my.reservetable.auth.login;
 
 
 import jakarta.validation.constraints.NotBlank;

@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.member.MemberResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,6 +14,11 @@ public class SignupController {
 
     private final SignupService signupService;
 
+    @GetMapping("/signup/main")
+    public String signUpPage(){
+        return "회원가입 페이지 입니다.";
+    }
+    
     @PostMapping("/signup")
     public MemberResponse signUp(@Valid @RequestBody SignupRequest request){
         return signupService.signup(request);
