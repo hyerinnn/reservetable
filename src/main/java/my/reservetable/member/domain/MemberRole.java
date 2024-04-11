@@ -10,5 +10,5 @@ public enum MemberRole {
     OWNER("사장님"),
     USER("사용자");
 
-    private final String value;
+    private final String text;
 }

@@ -18,7 +18,7 @@ public class SignupController {
     public String signUpPage(){
         return "회원가입 페이지 입니다.";
     }
-    
+
     @PostMapping("/signup")
     public MemberResponse signUp(@Valid @RequestBody SignupRequest request){
         return signupService.signup(request);

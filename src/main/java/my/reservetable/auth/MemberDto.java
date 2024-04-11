@@ -1,11 +1,11 @@
-package my.reservetable.auth.securityAuthStudy;
+package my.reservetable.auth;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class AccountDto {
+public class MemberDto {
 
     private Long id;
 
@@ -17,5 +17,5 @@ public class AccountDto {
 
     private String phoneNumber;
 
-    private String roles;
+    private String role;
 }
