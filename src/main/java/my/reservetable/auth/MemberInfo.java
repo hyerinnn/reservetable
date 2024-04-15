@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Builder
@@ -16,8 +15,7 @@ import java.util.List;
 public class MemberInfo implements UserDetails {
 
     private final MemberDto memberDto;
-    private final List<GrantedAuthority> authorities;
-    //private final Member member;
+    //private final List<GrantedAuthority> authorities;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

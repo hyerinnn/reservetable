@@ -1,5 +1,7 @@
 package my.reservetable.config;
 
+import lombok.RequiredArgsConstructor;
+import my.reservetable.auth.MemberInfoService;
 import my.reservetable.exception.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -21,7 +19,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final MemberInfoService memberInfoService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -46,6 +47,13 @@ public class SecurityConfig {
                      .requestMatchers("/shops/all").permitAll()
                      .anyRequest().authenticated()   // 위의 요청들을 제외한 나머지 요청은 인증이 필요
                  )
+                .formLogin(AbstractHttpConfigurer::disable)
+                // jSessionId를 서버쪽에서 관리하지 않겠다. (jwt와 같이 세션을 사용하지 않는 경우 사용) = 무상태성
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(AbstractHttpConfigurer::disable) // 기본인증 팝업창 사용을 하지 않겠다.
+                .userDetailsService(memberInfoService)
+                .csrf(AbstractHttpConfigurer::disable)  //csrf 비활성화
+                .cors().configurationSource(configurationSource());
 /*
         // form 로그인으로 진행하는 경우 설정
          .formLogin(form -> form
@@ -56,12 +64,6 @@ public class SecurityConfig {
                  .defaultSuccessUrl("/owner")
          )
 */
-                 .formLogin(AbstractHttpConfigurer::disable)
-                 // jSessionId를 서버쪽에서 관리하지 않겠다. (jwt와 같이 세션을 사용하지 않는 경우 사용) = 무상태성
-                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                 .httpBasic(AbstractHttpConfigurer::disable) // 기본인증 팝업창 사용을 하지 않겠다.
-                 .csrf(AbstractHttpConfigurer::disable)  //csrf 비활성화
-                 .cors().configurationSource(configurationSource());
         return http.build();
     }
 
@@ -77,6 +79,8 @@ public class SecurityConfig {
         return source;
     }
 
+/*
+
     // formLogin사용 시, 임시 계정
     @Bean
     public UserDetailsService userDetailsService(){
@@ -88,6 +92,7 @@ public class SecurityConfig {
         manager.createUser(user);
         return manager;
     }
+*/
 
 }
 

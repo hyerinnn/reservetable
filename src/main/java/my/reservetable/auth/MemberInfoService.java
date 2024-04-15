@@ -6,18 +6,14 @@ import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.member.MemberRepository;
 import my.reservetable.member.domain.Member;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Slf4j
-@Service
+@Service("userDetailsService")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberInfoService implements UserDetailsService {
@@ -33,11 +29,11 @@ public class MemberInfoService implements UserDetailsService {
             () -> new NotExistMemberException("해당 회원을 찾을 수 없습니다.")
 
         );
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(member.getRole().name()));
+        //List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(member.getRole().name()));
         ModelMapper mapper = new ModelMapper();
         MemberDto memberDto = mapper.map(member, MemberDto.class);
 
-        return new MemberInfo(memberDto, authorities);
+        return new MemberInfo(memberDto);
 
     }
 
