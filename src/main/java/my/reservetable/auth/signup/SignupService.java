@@ -8,6 +8,7 @@ import my.reservetable.member.MemberRepository;
 import my.reservetable.member.MemberResponse;
 import my.reservetable.member.MemberUpdateRequest;
 import my.reservetable.member.domain.Member;
+import my.reservetable.member.domain.MemberRole;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,18 @@ public class SignupService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MemberResponse signup(SignupRequest request){
+    public MemberResponse signupOwner(SignupRequest request){
         validateDuplicateMember(request.getEmail());
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword));
+        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword, MemberRole.OWNER));
+        return MemberResponse.toDto(newMember);
+    }
+
+    @Transactional
+    public MemberResponse signupMember(SignupRequest request){
+        validateDuplicateMember(request.getEmail());
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword, MemberRole.MEMBER));
         return MemberResponse.toDto(newMember);
     }
 

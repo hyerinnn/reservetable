@@ -26,25 +26,24 @@ public class SignupRequest {
     //@NotBlank(message = "휴대폰 번호는 필수입니다.")
     private String phoneNumber;
 
-    private MemberRole role;
+    //private String role;
 
     @Builder
-    private SignupRequest(String email, String password, String nickName, String phoneNumber, MemberRole role) {
+    private SignupRequest(String email, String password, String nickName, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
         this.phoneNumber = phoneNumber;
-        this.role = role;
     }
 
 
-    public Member toEntity(String password) {
+    public Member toEntity(String password, MemberRole role) {
         return Member.builder()
                 .email(email)
                 .password(password)
                 .nickName(nickName)
                 .phoneNumber(phoneNumber)
-                .role(role)
+                .role(role.equals("MEMBER") ? MemberRole.MEMBER : MemberRole.OWNER)
                 .build();
     }
 }

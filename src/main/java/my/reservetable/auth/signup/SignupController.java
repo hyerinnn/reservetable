@@ -19,9 +19,14 @@ public class SignupController {
         return "회원가입 페이지 입니다.";
     }
 
-    @PostMapping("/signup")
-    public MemberResponse signUp(@Valid @RequestBody SignupRequest request){
-        return signupService.signup(request);
+    @PostMapping("/signup/owner")
+    public MemberResponse signUpOwner(@Valid @RequestBody SignupRequest request){
+        return signupService.signupOwner(request);
+    }
+
+    @PostMapping("/signup/member")
+    public MemberResponse signUpMember(@Valid @RequestBody SignupRequest request){
+        return signupService.signupMember(request);
     }
 
     //todo : 패스워드 변경
