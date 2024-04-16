@@ -1,10 +1,10 @@
 package my.reservetable.member.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
+@Data
+@NoArgsConstructor
 public class MemberDto {
 
     private Long id;
