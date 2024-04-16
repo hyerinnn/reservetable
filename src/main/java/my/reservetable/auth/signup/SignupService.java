@@ -9,7 +9,7 @@ import my.reservetable.member.MemberResponse;
 import my.reservetable.member.MemberUpdateRequest;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class SignupService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
     public MemberResponse signupOwner(SignupRequest request){

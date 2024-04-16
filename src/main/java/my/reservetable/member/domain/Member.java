@@ -34,7 +34,8 @@ public class Member extends AuditingEntity {
     private MemberRole role;
 
     @Builder
-    private Member(String email, String nickName, String password, String phoneNumber, MemberRole role) {
+    private Member(Long id, String email, String nickName, String password, String phoneNumber, MemberRole role) {
+        this.id = id;
         this.email = email;
         this.nickName = nickName;
         this.password = password;
