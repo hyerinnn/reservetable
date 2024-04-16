@@ -1,13 +1,15 @@
-package my.reservetable.auth.signup;
+package my.reservetable.member.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import my.reservetable.member.MemberResponse;
+import my.reservetable.member.dto.MemberResponse;
+import my.reservetable.member.service.SignupService;
+import my.reservetable.member.dto.SignupRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/member")
 @RequiredArgsConstructor
 @Tag(name = "Auth", description = "Auth API")
 public class SignupController {
@@ -24,9 +26,9 @@ public class SignupController {
         return signupService.signupOwner(request);
     }
 
-    @PostMapping("/signup/member")
-    public MemberResponse signUpMember(@Valid @RequestBody SignupRequest request){
-        return signupService.signupMember(request);
+    @PostMapping("/signup/user")
+    public MemberResponse signUpUser(@Valid @RequestBody SignupRequest request){
+        return signupService.signupUser(request);
     }
 
     //todo : 패스워드 변경

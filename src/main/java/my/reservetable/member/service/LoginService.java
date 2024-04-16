@@ -1,11 +1,12 @@
-package my.reservetable.auth.login;
+package my.reservetable.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.config.jwt.JwtTokenProvider;
 import my.reservetable.exception.NotExistMemberException;
-import my.reservetable.member.MemberRepository;
+import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.member.domain.Member;
+import my.reservetable.member.dto.LoginRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

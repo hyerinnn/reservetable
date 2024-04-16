@@ -1,4 +1,4 @@
-package my.reservetable.member;
+package my.reservetable.member.repository;
 
 import my.reservetable.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

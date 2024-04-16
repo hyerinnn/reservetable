@@ -1,4 +1,4 @@
-package my.reservetable.auth.signup;
+package my.reservetable.member.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -43,7 +43,7 @@ public class SignupRequest {
                 .password(password)
                 .nickName(nickName)
                 .phoneNumber(phoneNumber)
-                .role(role.equals(MemberRole.OWNER) ? MemberRole.OWNER : MemberRole.MEMBER)
+                .role(role.equals(MemberRole.OWNER) ? MemberRole.OWNER : MemberRole.USER)
                 .build();
     }
 }

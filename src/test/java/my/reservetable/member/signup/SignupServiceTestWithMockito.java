@@ -1,10 +1,12 @@
-package my.reservetable.auth.signup;
+package my.reservetable.member.signup;
 
 import my.reservetable.config.dummy.DummyObject;
-import my.reservetable.member.MemberRepository;
-import my.reservetable.member.MemberResponse;
+import my.reservetable.member.repository.MemberRepository;
+import my.reservetable.member.dto.MemberResponse;
+import my.reservetable.member.dto.SignupRequest;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.service.SignupService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,12 +57,12 @@ class SignupServiceTestWithMockito extends DummyObject {
         assertThat(ownerMember.getRole()).isEqualTo(MemberRole.OWNER);
     }
 
-    @DisplayName("사장님 회원가입 시, OWNER 권한으로 회원가입에 성공한다.")
+    @DisplayName("일반사용자 회원가입 시, USER 권한으로 회원가입에 성공한다.")
     @Test
-    void signupMemberSuccess() {
+    void signupUserSuccess() {
         // given
         SignupRequest request = SignupRequest.builder()
-                .email("member@member.com")
+                .email("user@user.com")
                 .password("1234")
                 .nickName("새로운회원")
                 .phoneNumber("01012345678")
@@ -68,7 +70,7 @@ class SignupServiceTestWithMockito extends DummyObject {
 
         when(memberRepository.findByEmail(any())).thenReturn(Optional.empty());
 
-        Member newMember = newMockMember(1L, "member@member.com", MemberRole.MEMBER);
+        Member newMember = newMockMember(1L, "user@user.com", MemberRole.USER);
         when(memberRepository.save(any())).thenReturn(newMember);
 
         // when
@@ -76,6 +78,6 @@ class SignupServiceTestWithMockito extends DummyObject {
 
         // then
         assertThat(ownerMember.getId()).isEqualTo(1L);
-        assertThat(ownerMember.getRole()).isEqualTo(MemberRole.MEMBER);
+        assertThat(ownerMember.getRole()).isEqualTo(MemberRole.USER);
     }
 }

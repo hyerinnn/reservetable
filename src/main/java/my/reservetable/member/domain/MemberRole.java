@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum MemberRole {
 
     OWNER("사장님"),
-    MEMBER("사용자");
+    USER("사용자");
 
     private final String text;
 }

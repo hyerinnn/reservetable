@@ -1,7 +1,7 @@
 package my.reservetable.config;
 
 import lombok.RequiredArgsConstructor;
-import my.reservetable.auth.MemberInfoService;
+import my.reservetable.member.service.CustomUserDetailsService;
 import my.reservetable.exception.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final MemberInfoService memberInfoService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -41,7 +41,7 @@ public class SecurityConfig {
                      .requestMatchers("/css/**","/favicon.*","/error","/js/**","/images/**","/swagger-ui/**","/api-docs/**").permitAll() //정적자원 무시보다 허용해주는 편이 보안상 좋음
                      .requestMatchers(PathRequest.toH2Console()).permitAll()
                      .requestMatchers("/","/home").permitAll()
-                     .requestMatchers("/auth/login/**","/auth/signup/**").permitAll()
+                     .requestMatchers("/member/login/**","/member/signup/**").permitAll()
                      //.requestMatchers("/shop/**").permitAll()
                      .requestMatchers("/owners/** ").hasRole("OWNER")
                      .requestMatchers("/shops/all").permitAll()
@@ -51,19 +51,10 @@ public class SecurityConfig {
                 // jSessionId를 서버쪽에서 관리하지 않겠다. (jwt와 같이 세션을 사용하지 않는 경우 사용) = 무상태성
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(AbstractHttpConfigurer::disable) // 기본인증 팝업창 사용을 하지 않겠다.
-                .userDetailsService(memberInfoService)
+                .userDetailsService(customUserDetailsService)
                 .csrf(AbstractHttpConfigurer::disable)  //csrf 비활성화
                 .cors().configurationSource(configurationSource());
-/*
-        // form 로그인으로 진행하는 경우 설정
-         .formLogin(form -> form
-                 .loginPage("/auth/login/main")
-                 .loginProcessingUrl("/auth/login")
-                 .usernameParameter("email")
-                 .passwordParameter("password")
-                 .defaultSuccessUrl("/owner")
-         )
-*/
+
         return http.build();
     }
 
@@ -78,21 +69,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-/*
-
-    // formLogin사용 시, 임시 계정
-    @Bean
-    public UserDetailsService userDetailsService(){
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-
-        UserDetails owner = User.withUsername("owner").password("{noop}1111").roles("OWNER").build();
-        UserDetails user = User.withUsername("user").password("{noop}1111").roles("USER").build();
-        manager.createUser(owner);
-        manager.createUser(user);
-        return manager;
-    }
-*/
-
 }
 

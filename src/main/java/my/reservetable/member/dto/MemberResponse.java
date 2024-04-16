@@ -1,4 +1,4 @@
-package my.reservetable.member;
+package my.reservetable.member.dto;
 
 
 import lombok.AccessLevel;

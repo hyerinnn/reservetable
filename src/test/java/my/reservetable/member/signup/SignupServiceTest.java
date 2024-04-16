@@ -1,8 +1,10 @@
-package my.reservetable.auth.signup;
+package my.reservetable.member.signup;
 
 import my.reservetable.IntegrationTestSupport;
-import my.reservetable.member.MemberResponse;
+import my.reservetable.member.dto.MemberResponse;
+import my.reservetable.member.dto.SignupRequest;
 import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.service.SignupService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class SignupServiceTest extends IntegrationTestSupport {
 
-    @Autowired SignupService signupService;
+    @Autowired
+    SignupService signupService;
     @Autowired BCryptPasswordEncoder passwordEncoder;
 
     @DisplayName("비밀번호는 암호화돼서 저장된다.")
@@ -48,20 +51,20 @@ class SignupServiceTest extends IntegrationTestSupport {
 
     @DisplayName("일반사용자 회원가입 시, MEMBER 권한으로 회원가입에 성공한다.")
     @Test
-    void signupMemberSuccess() {
+    void signupUserSuccess() {
         // given
         SignupRequest request = SignupRequest.builder()
-                .email("member@member.com")
+                .email("user@user.com")
                 .password("1234")
                 .nickName("새로운회원")
                 .phoneNumber("01012345678")
                 .build();
 
         // when
-        MemberResponse member = signupService.signupMember(request);
+        MemberResponse member = signupService.signupUser(request);
 
         // then
         assertThat(member.getId()).isNotNull();
-        assertThat(member.getRole()).isEqualTo(MemberRole.MEMBER);
+        assertThat(member.getRole()).isEqualTo(MemberRole.USER);
     }
 }

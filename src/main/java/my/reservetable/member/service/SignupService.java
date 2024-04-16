@@ -1,14 +1,15 @@
-package my.reservetable.auth.signup;
+package my.reservetable.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.exception.DuplicateMemberException;
 import my.reservetable.exception.NotExistMemberException;
-import my.reservetable.member.MemberRepository;
-import my.reservetable.member.MemberResponse;
-import my.reservetable.member.MemberUpdateRequest;
+import my.reservetable.member.repository.MemberRepository;
+import my.reservetable.member.dto.MemberResponse;
+import my.reservetable.member.dto.MemberUpdateRequest;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.dto.SignupRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,10 @@ public class SignupService {
     }
 
     @Transactional
-    public MemberResponse signupMember(SignupRequest request){
+    public MemberResponse signupUser(SignupRequest request){
         validateDuplicateMember(request.getEmail());
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
-        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword, MemberRole.MEMBER));
+        Member newMember =  memberRepository.save(request.toEntity(encryptedPassword, MemberRole.USER));
         return MemberResponse.toDto(newMember);
     }
 

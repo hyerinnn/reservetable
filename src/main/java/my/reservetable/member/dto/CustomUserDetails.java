@@ -1,4 +1,4 @@
-package my.reservetable.auth;
+package my.reservetable.member.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.Collection;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class MemberInfo implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private final MemberDto memberDto;
     //private final List<GrantedAuthority> authorities;

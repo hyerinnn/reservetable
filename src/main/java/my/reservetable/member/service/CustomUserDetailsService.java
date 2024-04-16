@@ -1,9 +1,11 @@
-package my.reservetable.auth;
+package my.reservetable.member.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.exception.NotExistMemberException;
-import my.reservetable.member.MemberRepository;
+import my.reservetable.member.repository.MemberRepository;
+import my.reservetable.member.dto.MemberDto;
+import my.reservetable.member.dto.CustomUserDetails;
 import my.reservetable.member.domain.Member;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userDetailsService")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberInfoService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -33,7 +35,7 @@ public class MemberInfoService implements UserDetailsService {
         ModelMapper mapper = new ModelMapper();
         MemberDto memberDto = mapper.map(member, MemberDto.class);
 
-        return new MemberInfo(memberDto);
+        return new CustomUserDetails(memberDto);
 
     }
 

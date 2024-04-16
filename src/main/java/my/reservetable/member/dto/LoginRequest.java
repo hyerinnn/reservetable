@@ -1,4 +1,4 @@
-package my.reservetable.auth.login;
+package my.reservetable.member.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package my.reservetable.auth;
+package my.reservetable.member.dto;
 
 import lombok.Builder;
 import lombok.Getter;
