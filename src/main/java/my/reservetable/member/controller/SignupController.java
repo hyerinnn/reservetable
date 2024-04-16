@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.member.dto.MemberResponse;
-import my.reservetable.member.service.SignupService;
 import my.reservetable.member.dto.SignupRequest;
+import my.reservetable.member.service.SignupService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
