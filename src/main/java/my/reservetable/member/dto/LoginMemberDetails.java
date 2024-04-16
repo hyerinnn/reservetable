@@ -12,7 +12,7 @@ import java.util.Collection;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
+public class LoginMemberDetails implements UserDetails {
 
     private final MemberDto memberDto;
     //private final List<GrantedAuthority> authorities;

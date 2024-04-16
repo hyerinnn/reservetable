@@ -1,7 +1,7 @@
 package my.reservetable.config;
 
 import lombok.RequiredArgsConstructor;
-import my.reservetable.member.service.CustomUserDetailsService;
+import my.reservetable.member.service.LoginService;
 import my.reservetable.exception.CustomAuthenticationEntryPoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final LoginService customUserDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
