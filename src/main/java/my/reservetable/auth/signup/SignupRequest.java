@@ -43,7 +43,7 @@ public class SignupRequest {
                 .password(password)
                 .nickName(nickName)
                 .phoneNumber(phoneNumber)
-                .role(role.equals("MEMBER") ? MemberRole.MEMBER : MemberRole.OWNER)
+                .role(role.equals(MemberRole.OWNER) ? MemberRole.OWNER : MemberRole.MEMBER)
                 .build();
     }
 }
