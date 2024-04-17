@@ -1,13 +1,11 @@
 package my.reservetable.comon;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class CommonResponseDto<T> {
 
     private HttpStatus status;
@@ -15,24 +13,18 @@ public class CommonResponseDto<T> {
     private T data;
 
     public CommonResponseDto(HttpStatus httpStatus, String message, T data) {
-        CommonResponseDto.builder()
-                .status(httpStatus)
-                .message(message)
-                .data(data)
-                .build();
+        this.status = httpStatus;
+        this.message = message;
+        this.data = data;
     }
 
     public CommonResponseDto(HttpStatus httpStatus, String message) {
-        CommonResponseDto.builder()
-                .status(httpStatus)
-                .message(message)
-                .build();
+        this.status = httpStatus;
+        this.message = message;
     }
 
     public CommonResponseDto(HttpStatus httpStatus, T data) {
-        CommonResponseDto.builder()
-                .status(httpStatus)
-                .data(data)
-                .build();
+        this.status = httpStatus;
+        this.data = data;
     }
 }

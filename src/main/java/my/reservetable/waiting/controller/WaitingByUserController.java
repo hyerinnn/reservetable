@@ -21,7 +21,7 @@ public class WaitingByUserController {
     private final WaitingByUserService waitingByUserService;
     private final WaitingService waitingService;
 
-    @GetMapping("/{userId}/all")
+    @GetMapping("/{userId}")
     public List<WaitingResponse> getAllMyWaitings(@PathVariable Long userId){
         return waitingByUserService.getAllMyWaitings(userId);
     }

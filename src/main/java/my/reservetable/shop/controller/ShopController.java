@@ -35,12 +35,12 @@ public class ShopController {
         return shopService.getShopsByOwner(ownerId);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/owner/register")
     public ShopForOwnerResponse registerShop(@Valid @RequestBody ShopRegisterRequest request){
         return shopService.registerShop(request);
     }
 
-    @PutMapping("/update/{shopId}")
+    @PutMapping("/owner/update/{shopId}")
     public ShopForOwnerResponse updateShop(@PathVariable Long shopId, @Valid @RequestBody ShopUpdateRequest request){
         return shopService.updateShop(shopId, request);
     }

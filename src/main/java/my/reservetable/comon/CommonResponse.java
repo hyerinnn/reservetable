@@ -33,4 +33,15 @@ public class CommonResponse<T> {
         response.setStatus(200);
         response.getWriter().println(responseBody);
     }
+
+    public static void errorResponse(HttpServletResponse response, String message) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        CommonResponseDto<?> responseDto = new CommonResponseDto<>(HttpStatus.UNAUTHORIZED, message);
+        String responseBody = mapper.writeValueAsString(responseDto);
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(401);
+        response.getWriter().println(responseBody);
+    }
 }

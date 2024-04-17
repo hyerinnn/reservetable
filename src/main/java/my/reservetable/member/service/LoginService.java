@@ -28,6 +28,9 @@ public class LoginService implements UserDetailsService {
                 // 시큐리티 과정 중에 발생한 exception은 controllerAdvice까지 연결되지 못해서, 아래 오류로 처리해야함
                 () -> new InternalAuthenticationServiceException("인증실패")
         );
+
+        // TODO : 로그인 유효성 검증
+
         ModelMapper mapper = new ModelMapper();
         MemberDto memberDto = mapper.map(member, MemberDto.class);
         return new LoginMemberDetails(memberDto);
