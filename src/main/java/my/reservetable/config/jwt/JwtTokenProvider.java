@@ -58,6 +58,12 @@ public class JwtTokenProvider {
         List<GrantedAuthority> roles = getRoles(jwt).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+/*
+        //ROLE_ 없이 저장했을 때, hasRole()통과하는 지 테스트
+       List<SimpleGrantedAuthority> roles2 = getRoles(jwt).stream()
+                .map(role -> new SimpleGrantedAuthority(role))
+                .collect(Collectors.toList());
+ */
         return new UsernamePasswordAuthenticationToken(getEmail(jwt),null, roles);
     }
 

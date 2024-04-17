@@ -21,7 +21,7 @@ public class LoginMemberDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(() -> "ROLE_" + memberDto.getRole());
-        //authorities.add(() ->memberDto.getRole());  //인가 안됨
+        //authorities.add(() ->memberDto.getRole());
         return authorities;
     }
 
