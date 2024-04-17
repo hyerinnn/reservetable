@@ -2,6 +2,7 @@ package my.reservetable.config.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,13 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +43,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return authentication;
         } catch (Exception e){
+            //unsuccessfulAuthentication를 호출
             throw new InternalAuthenticationServiceException(e.getMessage());
         }
     }
@@ -48,7 +53,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException {
         LoginMemberDetails loginMemberDetails = (LoginMemberDetails) authResult.getPrincipal();
-        String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails);
+
+        List<String> roles = loginMemberDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles.toString());
         response.addHeader("Authorization", "Bearer " + jwtToken);
 
         Map<String, Object> tokens = Map.of(
@@ -56,5 +66,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                // "expiredTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(expiredTime)
         );
         CommonResponse.successResponse(response, "로그인성공", tokens);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        CommonResponse.errorResponse(response, "로그인실패");
     }
 }

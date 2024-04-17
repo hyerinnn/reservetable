@@ -1,8 +1,8 @@
 package my.reservetable.member.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
-@Builder
+@Slf4j
 @RequiredArgsConstructor
 public class LoginMemberDetails implements UserDetails {
 
@@ -20,7 +20,7 @@ public class LoginMemberDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(() -> "ROLE_" + memberDto.getRole());
+        authorities.add(() ->memberDto.getRole());
         return authorities;
     }
 

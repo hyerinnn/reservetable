@@ -1,10 +1,11 @@
 package my.reservetable.config;
 
 import lombok.RequiredArgsConstructor;
+import my.reservetable.config.jwt.JwtAuthorizationFilter;
+import my.reservetable.config.jwt.JwtTokenProvider;
 import my.reservetable.config.jwt.LoginFilter;
+import my.reservetable.exception.CustomAccessDeniedEntryPoint;
 import my.reservetable.exception.CustomAuthenticationEntryPoint;
-import my.reservetable.member.service.LoginService;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -23,12 +25,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final LoginService customUserDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         // 기본적으로 bcrypt 암호화 알고리즘의 BCryptPasswordEncoder 객체를 생성하고 사용한다.
-        //return PasswordEncoderFactories.createDelegatingPasswordEncoder();
         return new BCryptPasswordEncoder();
     }
 
@@ -46,29 +47,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+/*
                 .authorizeHttpRequests( auth -> auth   //요청에 대한 인가 설정
                      .requestMatchers("/css/**","/favicon.*","/error","/js/**","/images/**","/swagger-ui/**","/api-docs/**").permitAll() //정적자원 무시보다 허용해주는 편이 보안상 좋음
                      .requestMatchers(PathRequest.toH2Console()).permitAll()
-                     .requestMatchers("/","/home").permitAll()
-                     .requestMatchers("/member/login/**","/member/signup/**").permitAll()
-                     //.requestMatchers("/shop/**").permitAll()
+                     .requestMatchers("/home").permitAll()
+                     .requestMatchers("/member/signup/**").permitAll()
+                     //.requestMatchers("/member/login/**","/member/signup/**").permitAll()
                      .requestMatchers("/owners/** ").hasRole("OWNER")
-                     .requestMatchers("/shops/all").permitAll()
+                     .requestMatchers("/waitings/owner/**").hasRole("OWNER")
+                     .requestMatchers("/waitings/user/**").hasRole("USER")
+                     .requestMatchers("/shops/owner/**").hasRole("OWNER")
+                     .requestMatchers("/shops/**").permitAll()
                      .anyRequest().authenticated()   // 위의 요청들을 제외한 나머지 요청은 인증이 필요
-                 )
+*/
+                .authorizeHttpRequests( auth -> auth
+                        .requestMatchers("/member/owner").hasRole("OWNER")  // 테스트용
+                        .requestMatchers("/member/user").hasRole("USER")    // 테스트용
+                        .anyRequest().permitAll()
+                )
                 .formLogin(AbstractHttpConfigurer::disable)
                 // jSessionId를 서버쪽에서 관리하지 않겠다. (jwt와 같이 세션을 사용하지 않는 경우 사용) = 무상태성
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                //.addFilterAt(new CustomSecurityFilterManager(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(AbstractHttpConfigurer::disable) // 기본인증 팝업창 사용을 하지 않겠다.
-                //.userDetailsService(customUserDetailsService)
                 .csrf(AbstractHttpConfigurer::disable)  //csrf 비활성화
                 .cors().configurationSource(configurationSource());
         // 커스텀 필터 적용 (시큐리티 필터 교환)
         http.apply(new CustomSecurityFilterManager());
+        http.addFilterBefore(new JwtAuthorizationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         // 인증되지 않은 사용자(로그인안한 사용자) 접근시 exception
         http.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-
+        // 인증된 사용자가 권한이 없는 곳에 접근시 exception
+        http.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedEntryPoint());
         return http.build();
     }
 
