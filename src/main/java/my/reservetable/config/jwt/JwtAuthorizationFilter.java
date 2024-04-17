@@ -27,8 +27,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             if(jwtTokenProvider.verifyToken(token)){
                 // 임시 세션 생성 후 강제 로그인
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                log.info("==================== getAuthorities={}",authentication.getAuthorities());
-
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

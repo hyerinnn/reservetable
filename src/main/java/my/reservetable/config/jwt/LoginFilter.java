@@ -58,7 +58,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles.toString());
+        String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles);
         response.addHeader("Authorization", "Bearer " + jwtToken);
 
         Map<String, Object> tokens = Map.of(

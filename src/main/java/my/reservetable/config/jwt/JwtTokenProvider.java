@@ -12,9 +12,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -30,7 +30,7 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     }
 
-    public static String createJwtToken(MemberDto member, String role) {
+    public static String createJwtToken(MemberDto member, List<String> roles) {
         return Jwts.builder()
                 //.subject(SUBJECT)
                 .issuer("issuer@gmail.com")
@@ -39,7 +39,7 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .claim("id", member.getId())
                 .claim("email", member.getEmail())
-                .claim("role", member.getRole())
+                .claim("roles", roles)
                 .claim("nickName", member.getNickName())
                 .compact();
     }
@@ -49,31 +49,16 @@ public class JwtTokenProvider {
         return (List<String>) claims.get("roles");
     }
 
-/*
-    public String getRoles(String jwt){
-        Claims claims = Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(jwt).getPayload();
-                //.parseClaimsJws(jwt).getPayload();
-        log.info("=============================== = {}",claims.get("roles"));
-        return claims.get("roles").toString();
-    }
-*/
-
     public String getEmail(String jwt){
         Claims claims = Jwts.parser().verifyWith(getSigningKey()).build().parseClaimsJws(jwt).getPayload();
         return claims.get("email").toString();
     }
 
     public Authentication getAuthentication(String jwt){
-        Claims claims = Jwts.parser().verifyWith(getSigningKey()).build().parseClaimsJws(jwt).getPayload();
-
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add((new SimpleGrantedAuthority((String) claims.get("role"))));
-
-/*
         List<GrantedAuthority> roles = getRoles(jwt).stream()
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());*/
-        return new UsernamePasswordAuthenticationToken(getEmail(jwt),null,authorities);
+                .collect(Collectors.toList());
+        return new UsernamePasswordAuthenticationToken(getEmail(jwt),null, roles);
     }
 
     public boolean verifyToken(String jwt) {
