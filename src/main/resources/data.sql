@@ -1,4 +1,11 @@
 --select * from owner;
+insert into MEMBER (role, nick_name, password, phone_number, email, created_by, created_date,modified_by, modified_date)
+values ('OWNER','오너계정','$2a$10$nyOJzE5TYbAIpKXCx5ST6OqYM.PKxvZeRPpdqsZHWm7DLb5/zBfw.', '01011112222','owner@owner.com','owner', '2024-04-03 18:50:15.666609','owner','2024-04-03 18:50:15.666609');
+insert into MEMBER (role, nick_name, password, phone_number, email, created_by, created_date,modified_by, modified_date)
+values ('USER','유저계정','$2a$10$nyOJzE5TYbAIpKXCx5ST6OqYM.PKxvZeRPpdqsZHWm7DLb5/zBfw.', '01048452111','user@user.com','user', '2024-04-03 18:50:15.666609','user', '2024-04-03 18:50:15.666609');
+
+
+
 insert into owner (nick_name, password, phone_number, email, created_by, created_date,modified_by, modified_date)
     values ('분식집오너','1234', '01011112222','owner001@owner001.com','owner001', '2024-04-03 18:50:15.666609','owner001','2024-04-03 18:50:15.666609');
 insert into owner (nick_name, password, phone_number, email, created_by, created_date,modified_by, modified_date)
