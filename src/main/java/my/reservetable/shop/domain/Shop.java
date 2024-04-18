@@ -7,9 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
+import my.reservetable.like.Likes;
 import my.reservetable.owner.domain.Owner;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,24 +40,25 @@ public class Shop extends AuditingEntity {
     //@Column(nullable = false)
     private String description;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ShopCountryCategory countryCategory;        // 국가 카테고리(한식,중식 등)
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ShopStatus status;          // 식당 상태(오픈전, 오픈, 브레이크, 마감, 휴일 등)
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private LocalTime openTime;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private LocalTime lastOrderTime;
 
-    //@Column(nullable = false)
-    private String waitingYn;       // 웨이팅 오픈 여부
+    @Column(nullable = false)
+    private String waitingYn;       // 웨이팅 오픈여부
 
-    //private int capacity;       // 수용가능 인원
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    private List<Likes> likes = new ArrayList<>();
 
     @Builder
     private Shop(Owner owner, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
@@ -78,5 +82,4 @@ public class Shop extends AuditingEntity {
             this.lastOrderTime = lastOrderTime;
             this.waitingYn = waitingYn;
     }
-
 }
