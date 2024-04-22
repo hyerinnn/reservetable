@@ -59,7 +59,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 .collect(Collectors.toList());
 
         String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles);
-        response.addHeader("Authorization", "Bearer " + jwtToken);
+        //response.addHeader("Authorization", "Bearer " + jwtToken);
 
         Map<String, Object> tokens = Map.of(
                 "accessToken", jwtToken
