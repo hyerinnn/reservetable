@@ -1,4 +1,4 @@
-package my.reservetable.config.dummy;
+package my.reservetable.comon.dummy;
 
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
