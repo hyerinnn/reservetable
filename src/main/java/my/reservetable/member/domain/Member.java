@@ -50,4 +50,8 @@ public class Member extends AuditingEntity {
             this.phoneNumber = phoneNumber;
     }
 
+    public void updatePassword(String password){
+        this.password = password;
+    }
+
 }

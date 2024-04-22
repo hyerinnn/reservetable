@@ -18,21 +18,21 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public MemberResponse getMemberByEmail(String email) {
-        return memberRepository.findByEmail(email)
-                .map(member -> MemberResponse.toDto(member))
-                .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
-    }
-
     public MemberResponse getMemberById(Long id) {
         return memberRepository.findById(id)
                 .map(member -> MemberResponse.toDto(member))
                 .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
     }
 
+    public MemberResponse getMemberByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .map(member -> MemberResponse.toDto(member))
+                .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
+    }
+
     @Transactional
-    public MemberResponse updateMember(MemberUpdateRequest request){
-        Member member = memberRepository.findById(request.getId())
+    public MemberResponse update(MemberUpdateRequest request, Long id){
+        Member member = memberRepository.findById(id)
                 .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
 
         member.update(
@@ -41,5 +41,7 @@ public class MemberService {
         );
         return MemberResponse.toDto(member);
     }
+
+    //TODO : 비밀번호 수정
 
 }

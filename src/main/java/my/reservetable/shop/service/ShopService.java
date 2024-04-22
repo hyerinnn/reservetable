@@ -3,12 +3,11 @@ package my.reservetable.shop.service;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.exception.NotFoundEntityException;
-import my.reservetable.owner.domain.Owner;
-import my.reservetable.owner.repository.OwnerRepository;
+import my.reservetable.member.domain.Member;
+import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
-import my.reservetable.shop.dto.response.ShopForOwnerResponse;
 import my.reservetable.shop.dto.response.ShopResponse;
 import my.reservetable.shop.repository.ShopRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class ShopService {
 
     private final ShopRepository shopRepository;
-    private final OwnerRepository ownerRepository;
+    private final MemberRepository memberRepository;
 
     //TODO : 검색 필터링 필요(queryDSL 적용시 개발예정)
     public List<ShopResponse> getAllShops(){
@@ -37,25 +36,24 @@ public class ShopService {
         return ShopResponse.toDto(shop);
     }
 
-    public List<ShopForOwnerResponse> getShopsByOwner(Long ownerId){
-        Owner owner = ownerRepository.findById(ownerId)
+    public List<ShopResponse> getShopsByOwner(Long ownerId){
+        Member ownerMember = memberRepository.findById(ownerId)
                 .orElseThrow(()-> new NotExistMemberException("사장님 정보를 찾을 수 없습니다."));
-        List<ShopForOwnerResponse> shops = shopRepository.findByOwner(owner)
-                .stream().map(ShopForOwnerResponse::toDto).collect(Collectors.toList());
+        List<ShopResponse> shops = shopRepository.findByMember(ownerMember)
+                .stream().map(ShopResponse::toDto).collect(Collectors.toList());
         return shops;
     }
 
     @Transactional
-    public ShopForOwnerResponse registerShop(ShopRegisterRequest request){
-        Owner owner = ownerRepository.findById(request.getOwnerId())
+    public ShopResponse registerShop(ShopRegisterRequest request){
+        Member ownerMember = memberRepository.findById(request.getMemberId())
                 .orElseThrow(()-> new NotExistMemberException("사장님 정보를 찾을 수 없습니다."));
-
-        Shop shop = shopRepository.save(request.toEntity(owner));
-        return ShopForOwnerResponse.toDto(shop);
+        Shop shop = shopRepository.save(request.toEntity(ownerMember));
+        return ShopResponse.toDto(shop);
     }
 
     @Transactional
-    public ShopForOwnerResponse updateShop(Long shopId, ShopUpdateRequest request){
+    public ShopResponse updateShop(Long shopId, ShopUpdateRequest request){
         Shop shop = shopRepository.findById(shopId)
                 .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
 
@@ -66,7 +64,7 @@ public class ShopService {
                 request.getLastOrderTime(),
                 request.getWaitingYn()
         );
-        return ShopForOwnerResponse.toDto(shop);
+        return ShopResponse.toDto(shop);
     }
 
 }

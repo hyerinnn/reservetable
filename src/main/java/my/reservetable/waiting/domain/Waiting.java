@@ -19,7 +19,7 @@ public class Waiting extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long waitingId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="shop_id")
     private Shop shop;
 

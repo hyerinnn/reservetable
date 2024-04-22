@@ -29,8 +29,6 @@ public class LoginService implements UserDetailsService {
                 () -> new InternalAuthenticationServiceException("인증실패")
         );
 
-        // TODO : 로그인 유효성 검증
-
         ModelMapper mapper = new ModelMapper();
         MemberDto memberDto = mapper.map(member, MemberDto.class);
         return new LoginMemberDetails(memberDto);

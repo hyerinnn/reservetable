@@ -1,7 +1,8 @@
 package my.reservetable.waiting.repository;
 
-import my.reservetable.owner.domain.Owner;
-import my.reservetable.owner.repository.OwnerRepository;
+import my.reservetable.member.domain.Member;
+import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.shop.domain.Address;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.domain.ShopCountryCategory;
@@ -28,15 +29,14 @@ class WaitingRepositoryTest {
 
     @Autowired WaitingRepository waitingRepository;
     @Autowired ShopRepository shopRepository;
-    @Autowired OwnerRepository ownerRepository;
+    @Autowired MemberRepository memberRepository;
 
     @DisplayName("[웨이팅 번호] 타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeTargetWaiting() {
         // given
-        String email = "owner@owner.com";
-        Owner owner = createOwner(email);
-        ownerRepository.save(owner);
+        Member owner = createOwnerMember("owner@owner.com");
+        memberRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
                 LocalTime.of(10,00),LocalTime.of(21,00),"Y");
         shopRepository.save(shop);
@@ -69,9 +69,8 @@ class WaitingRepositoryTest {
     @Test
     void getCountBeforeAndReadyTargetWaiting() {
         // given
-        String email = "owner@owner.com";
-        Owner owner = createOwner(email);
-        ownerRepository.save(owner);
+        Member owner = createOwnerMember("owner@owner.com");
+        memberRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
                 LocalTime.of(10,00),LocalTime.of(21,00),"Y");
         shopRepository.save(shop);
@@ -104,20 +103,21 @@ class WaitingRepositoryTest {
 
     }
 
-    private Owner createOwner(String email){
-        return Owner.builder()
+    private Member createOwnerMember(String email){
+        return Member.builder()
                 .nickName("사장님A")
                 .password("1111")
                 .email(email)
                 .phoneNumber("01027374848")
+                .role(MemberRole.OWNER)
                 .build();
     }
 
-    private Shop createShop(Owner owner, String description, ShopCountryCategory countryCategory,
+    private Shop createShop(Member ownerMember, String description, ShopCountryCategory countryCategory,
                             ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn){
         return Shop.builder()
                 .shopName("해피식당")
-                .owner(owner)
+                .member(ownerMember)
                 .shopNumber("02-1234-5678")
                 .address(new Address("15151","서울특별시 00로 32"))
                 .description(description)

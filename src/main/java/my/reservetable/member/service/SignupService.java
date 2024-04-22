@@ -3,13 +3,11 @@ package my.reservetable.member.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.exception.DuplicateMemberException;
-import my.reservetable.exception.NotExistMemberException;
-import my.reservetable.member.repository.MemberRepository;
-import my.reservetable.member.dto.MemberResponse;
-import my.reservetable.member.dto.MemberUpdateRequest;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.dto.MemberResponse;
 import my.reservetable.member.dto.SignupRequest;
+import my.reservetable.member.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,18 +44,6 @@ public class SignupService {
         if (findMember.isPresent()) {
             throw new DuplicateMemberException("이미 가입된 회원입니다.");
         }
-    }
-
-    @Transactional
-    public MemberResponse updatePassword(MemberUpdateRequest request){
-        Member member = memberRepository.findById(request.getId())
-                .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
-
-/*        member.update(
-                request.getNickName(),
-                request.getPhoneNumber()
-        );*/
-        return MemberResponse.toDto(member);
     }
 
 }

@@ -1,6 +1,5 @@
 package my.reservetable.shop.domain;
 
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -8,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
 import my.reservetable.like.Likes;
-import my.reservetable.owner.domain.Owner;
+import my.reservetable.member.domain.Member;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ public class Shop extends AuditingEntity {
     private Long shopId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="owner_id")
-    private Owner owner;
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @Column(nullable = false)
     private String shopName;
@@ -61,9 +60,9 @@ public class Shop extends AuditingEntity {
     private List<Likes> likes = new ArrayList<>();
 
     @Builder
-    private Shop(Owner owner, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
+    private Shop(Member member, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
                 ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
-        this.owner = owner;
+        this.member = member;
         this.shopName = shopName;
         this.shopNumber = shopNumber;
         this.address = address;
@@ -82,4 +81,9 @@ public class Shop extends AuditingEntity {
             this.lastOrderTime = lastOrderTime;
             this.waitingYn = waitingYn;
     }
+
+/*    public void addLike(Likes like) {
+        like.setShop(this);
+        this.likes.add(like);
+    }*/
 }

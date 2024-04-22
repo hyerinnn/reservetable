@@ -1,6 +1,6 @@
 package my.reservetable.member.signup;
 
-import my.reservetable.config.dummy.DummyObject;
+import my.reservetable.comon.dummy.DummyObject;
 import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.member.dto.MemberResponse;
 import my.reservetable.member.dto.SignupRequest;

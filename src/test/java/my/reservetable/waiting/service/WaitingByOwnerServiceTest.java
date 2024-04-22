@@ -1,8 +1,9 @@
 package my.reservetable.waiting.service;
 
 import my.reservetable.IntegrationTestSupport;
-import my.reservetable.owner.domain.Owner;
-import my.reservetable.owner.repository.OwnerRepository;
+import my.reservetable.member.domain.Member;
+import my.reservetable.member.domain.MemberRole;
+import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.shop.domain.Address;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.domain.ShopCountryCategory;
@@ -28,15 +29,14 @@ class WaitingByOwnerServiceTest extends IntegrationTestSupport {
     @Autowired WaitingByOwnerService waitingByOwnerService;
     @Autowired WaitingRepository waitingRepository;
     @Autowired ShopRepository shopRepository;
-    @Autowired OwnerRepository ownerRepository;
+    @Autowired MemberRepository memberRepository;
 
     @DisplayName("현재 남은 웨이팅 수를 조회한다.")
     @Test
     void getCountNowWaitingsByShopId() {
         // given
-        String email = "owner@owner.com";
-        Owner owner = createOwner(email);
-        ownerRepository.save(owner);
+        Member owner = createOwnerMember("owner@owner.com");
+        memberRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
         shopRepository.save(shop);
@@ -65,9 +65,8 @@ class WaitingByOwnerServiceTest extends IntegrationTestSupport {
     @Test
     void getNowWaitingsByShopId() {
         // given
-        String email = "owner@owner.com";
-        Owner owner = createOwner(email);
-        ownerRepository.save(owner);
+        Member owner = createOwnerMember("owner@owner.com");
+        memberRepository.save(owner);
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10, 00), LocalTime.of(21, 00), "Y");
         shopRepository.save(shop);
@@ -94,22 +93,23 @@ class WaitingByOwnerServiceTest extends IntegrationTestSupport {
                 .doesNotContain(1);
     }
 
-    private Owner createOwner(String email) {
-        return Owner.builder()
+    private Member createOwnerMember(String email){
+        return Member.builder()
                 .nickName("사장님A")
                 .password("1111")
                 .email(email)
                 .phoneNumber("01027374848")
+                .role(MemberRole.OWNER)
                 .build();
     }
 
-    private Shop createShop(Owner owner, String description, ShopCountryCategory countryCategory,
-                            ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
+    private Shop createShop(Member ownerMember, String description, ShopCountryCategory countryCategory,
+                            ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn){
         return Shop.builder()
                 .shopName("해피식당")
-                .owner(owner)
+                .member(ownerMember)
                 .shopNumber("02-1234-5678")
-                .address(new Address("15151", "서울특별시 00로 32"))
+                .address(new Address("15151","서울특별시 00로 32"))
                 .description(description)
                 .countryCategory(countryCategory)
                 .status(status)
@@ -118,5 +118,4 @@ class WaitingByOwnerServiceTest extends IntegrationTestSupport {
                 .waitingYn(waitingYn)
                 .build();
     }
-
 }

@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
-import my.reservetable.shop.dto.response.ShopForOwnerResponse;
 import my.reservetable.shop.dto.response.ShopResponse;
 import my.reservetable.shop.service.ShopService;
 import org.springframework.web.bind.annotation.*;
@@ -31,17 +30,17 @@ public class ShopController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<ShopForOwnerResponse> getShopByOwner(@PathVariable Long ownerId){
+    public List<ShopResponse> getShopByOwner(@PathVariable Long ownerId){
         return shopService.getShopsByOwner(ownerId);
     }
 
-    @PostMapping("/owner/register")
-    public ShopForOwnerResponse registerShop(@Valid @RequestBody ShopRegisterRequest request){
+    @PostMapping("/owner")
+    public ShopResponse registerShop(@Valid @RequestBody ShopRegisterRequest request){
         return shopService.registerShop(request);
     }
 
-    @PutMapping("/owner/update/{shopId}")
-    public ShopForOwnerResponse updateShop(@PathVariable Long shopId, @Valid @RequestBody ShopUpdateRequest request){
+    @PutMapping("/owner/{shopId}")
+    public ShopResponse updateShop(@PathVariable Long shopId, @Valid @RequestBody ShopUpdateRequest request){
         return shopService.updateShop(shopId, request);
     }
 
