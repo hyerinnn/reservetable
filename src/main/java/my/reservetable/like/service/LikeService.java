@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class LikeService {
 
-
     private final LikesRepository likeRepository;
     private final ShopRepository shopRepository;
     private final MemberRepository memberRepository;
@@ -57,18 +56,6 @@ public class LikeService {
         return likeRepository.countByMemberAndShop(member, shop);
     }
 
-    public int getCountLikesByShop(Long shopId) {
-        Shop shop = shopRepository.findById(shopId)
-                .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
-        return likeRepository.countByShop(shop);
-    }
-
-    public int getCountLikesByMember(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
-        return likeRepository.countByMember(member);
-    }
-
     public LikesWithCountResponse getLikesByMember(Long memberId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
@@ -82,4 +69,17 @@ public class LikeService {
                 .count(count)
                 .build();
     }
+
+    private int getCountLikesByMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
+        return likeRepository.countByMember(member);
+    }
+
+    public int getCountLikesByShop(Long shopId) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
+        return likeRepository.countByShop(shop);
+    }
+
 }

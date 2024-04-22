@@ -14,7 +14,6 @@ import my.reservetable.shop.domain.Shop;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Likes extends AuditingEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,11 +22,9 @@ public class Likes extends AuditingEntity {
     @JoinColumn(name="shop_id")
     private Shop shop;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
-
 
     @Builder
     private Likes(Shop shop, Member member) {
