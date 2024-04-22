@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
-import my.reservetable.like.Likes;
+import my.reservetable.like.domain.Likes;
 import my.reservetable.member.domain.Member;
 
 import java.time.LocalTime;

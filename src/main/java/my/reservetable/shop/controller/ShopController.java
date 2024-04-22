@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
-import my.reservetable.shop.dto.response.ShopResponse;
+import my.reservetable.shop.dto.response.ShopDetailResponse;
 import my.reservetable.shop.service.ShopService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,27 +20,27 @@ public class ShopController {
     private final ShopService shopService;
 
     @GetMapping("/all")
-    public List<ShopResponse> getAllShops(){
+    public List<ShopDetailResponse> getAllShops(){
         return shopService.getAllShops();
     }
 
     @GetMapping("/{shopId}")
-    public ShopResponse getShop(@PathVariable Long shopId){
+    public ShopDetailResponse getShop(@PathVariable Long shopId){
         return shopService.getShop(shopId);
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<ShopResponse> getShopByOwner(@PathVariable Long ownerId){
+    public List<ShopDetailResponse> getShopByOwner(@PathVariable Long ownerId){
         return shopService.getShopsByOwner(ownerId);
     }
 
     @PostMapping("/owner")
-    public ShopResponse registerShop(@Valid @RequestBody ShopRegisterRequest request){
+    public ShopDetailResponse registerShop(@Valid @RequestBody ShopRegisterRequest request){
         return shopService.registerShop(request);
     }
 
     @PutMapping("/owner/{shopId}")
-    public ShopResponse updateShop(@PathVariable Long shopId, @Valid @RequestBody ShopUpdateRequest request){
+    public ShopDetailResponse updateShop(@PathVariable Long shopId, @Valid @RequestBody ShopUpdateRequest request){
         return shopService.updateShop(shopId, request);
     }
 
