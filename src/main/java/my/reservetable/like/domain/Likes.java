@@ -1,4 +1,4 @@
-package my.reservetable.like;
+package my.reservetable.like.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
+import my.reservetable.member.domain.Member;
 import my.reservetable.shop.domain.Shop;
 
 @Entity
@@ -22,25 +23,23 @@ public class Likes extends AuditingEntity {
     @JoinColumn(name="shop_id")
     private Shop shop;
 
-/*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id")
-    private Member member;
-*/
 
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
+
 
     @Builder
-    private Likes(Long id, Shop shop, Long memberId) {
-        this.id = id;
+    private Likes(Shop shop, Member member) {
         this.shop = shop;
-        this.memberId = memberId;
+        this.member = member;
     }
 
-    // == 연관관계 메서드 == //
+
+/*    // == 연관관계 메서드 == //
     public void setShop(Shop shop) {
         this.shop = shop;
         shop.getLikes().add(this);
-    }
+    }*/
 
 }
