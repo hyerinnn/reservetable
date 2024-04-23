@@ -6,6 +6,7 @@ import my.reservetable.exception.NotFoundEntityException;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.shop.domain.Shop;
+import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
 import my.reservetable.shop.dto.response.ShopDetailResponse;
@@ -67,4 +68,12 @@ public class ShopService {
         return ShopDetailResponse.toDto(shop);
     }
 
+    @Transactional
+    public ShopDetailResponse changeShopStatus(Long shopId, ShopStatus status){
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
+
+        shop.changeStatus(status);
+        return ShopDetailResponse.toDto(shop);
+    }
 }

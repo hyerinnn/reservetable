@@ -74,12 +74,16 @@ public class Shop extends AuditingEntity {
         this.waitingYn = waitingYn;
     }
 
-    public void update(String description,ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
+    public void update(String description, ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
             this.description = description;
             this.status = status;
             this.openTime = openTime;
             this.lastOrderTime = lastOrderTime;
             this.waitingYn = waitingYn;
+    }
+
+    public void changeStatus(ShopStatus status){
+        this.status = status;
     }
 
 /*    public void addLike(Likes like) {
