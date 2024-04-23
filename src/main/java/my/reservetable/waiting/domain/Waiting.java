@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
+import my.reservetable.member.domain.Member;
 import my.reservetable.shop.domain.Shop;
 
 import java.time.LocalDateTime;
@@ -23,8 +24,9 @@ public class Waiting extends AuditingEntity {
     @JoinColumn(name="shop_id")
     private Shop shop;
 
-    //private User user;    //TODO : 일반회원
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @Enumerated(EnumType.STRING)
     private WaitingStatus waitingStatus;
@@ -37,19 +39,19 @@ public class Waiting extends AuditingEntity {
 
 
     @Builder
-    private Waiting(Shop shop, Long userId, int headCount, int waitingNumber, LocalDateTime registeredDateTime) {
+    private Waiting(Shop shop, Member member, int headCount, int waitingNumber, LocalDateTime registeredDateTime) {
         this.shop = shop;
-        this.userId = userId;
+        this.member = member;
         this.headCount = headCount;
         this.waitingStatus = WaitingStatus.READY;
         this.waitingNumber = waitingNumber;
         this.registeredDateTime = registeredDateTime;
     }
 
-    public static Waiting create(Shop shop, Long userId, int headCount, int waitingNumber, LocalDateTime registeredDateTime){
+    public static Waiting create(Shop shop, Member member, int headCount, int waitingNumber, LocalDateTime registeredDateTime){
         return Waiting.builder()
                 .shop(shop)
-                .userId(userId)
+                .member(member)
                 .headCount(headCount)
                 .waitingNumber(waitingNumber)
                 .registeredDateTime(registeredDateTime)
