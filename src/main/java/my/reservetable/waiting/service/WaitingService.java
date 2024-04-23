@@ -18,6 +18,8 @@ public class WaitingService {
 
     @Transactional
     public WaitingResponse changeWaitingStatus(Long waitingId, WaitingStatus status) {
+        //TODO : 지난 웨이팅, 입장완료 등의 상태는 변경하면 안되므로, 현재 입장순서 웨이팅에 대해서만 특정 변경할 수 있도록 제한을 걸어야함
+
         Waiting waiting = waitingRepository.findById(waitingId)
                 .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
         waiting.changeWaitingStatus(status);
