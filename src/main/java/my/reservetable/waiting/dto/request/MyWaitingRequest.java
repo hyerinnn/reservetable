@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import my.reservetable.member.domain.Member;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.waiting.domain.Waiting;
 
@@ -23,10 +24,10 @@ public class MyWaitingRequest {
         this.shopId = shopId;
     }
 
-    public Waiting toEntity(Shop shop){
+    public Waiting toEntity(Shop shop, Member member){
         return Waiting.builder()
                 .shop(shop)
-                .userId(userId)
+                .member(member)
                 .build();
     }
 }

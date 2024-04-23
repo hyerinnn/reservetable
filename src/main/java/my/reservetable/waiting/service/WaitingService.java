@@ -16,7 +16,6 @@ public class WaitingService {
 
     private final WaitingRepository waitingRepository;
 
-    //public WaitingResponse changeWaitingStatus(WaitingStatusUpdateRequest request) {
     @Transactional
     public WaitingResponse changeWaitingStatus(Long waitingId, WaitingStatus status) {
         Waiting waiting = waitingRepository.findById(waitingId)

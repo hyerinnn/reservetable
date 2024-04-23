@@ -41,7 +41,7 @@ public class WaitingResponse {
     public static WaitingResponse toDto(Waiting waiting, int myWaitingOrder){
         return WaitingResponse.builder()
                 .waitingId(waiting.getWaitingId())
-                .userId(waiting.getUserId())
+                .userId(waiting.getMember().getId())
                 .shopId(waiting.getShop().getShopId())
                 .shopName(waiting.getShop().getShopName())
                 .headCount(waiting.getHeadCount())
@@ -55,7 +55,7 @@ public class WaitingResponse {
     public static WaitingResponse toDto(Waiting waiting){
         return WaitingResponse.builder()
                 .waitingId(waiting.getWaitingId())
-                .userId(waiting.getUserId())
+                .userId(waiting.getMember().getId())
                 .shopId(waiting.getShop().getShopId())
                 .shopName(waiting.getShop().getShopName())
                 .headCount(waiting.getHeadCount())

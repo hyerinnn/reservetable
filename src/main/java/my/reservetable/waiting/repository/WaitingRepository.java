@@ -1,5 +1,6 @@
 package my.reservetable.waiting.repository;
 
+import my.reservetable.member.domain.Member;
 import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,11 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WaitingRepository extends JpaRepository<Waiting, Long> {
-    // TODO :  mysql인 경우 cast대신 date로 작성 ( CAST(w.registeredDateTime AS date) -> DATE(w.registeredDateTime) )
-    List<Waiting> findByUserId(Long userId);
+    // mysql인 경우 cast대신 date로 작성 ( CAST(w.registeredDateTime AS date) -> DATE(w.registeredDateTime) )
+    List<Waiting> findByMember(Member member);
 
-    @Query("SELECT w FROM Waiting w WHERE w.userId = :userId AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
-    Optional<Waiting> findByUserIdAndShopIdAndWaitingStatus(Long userId, Long shopId, WaitingStatus status);
+    @Query("SELECT w FROM Waiting w WHERE w.member.id = :memberId AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
+    Optional<Waiting> findByUserIdAndShopIdAndWaitingStatus(Long memberId, Long shopId, WaitingStatus status);
 
     @Query("SELECT w FROM Waiting w WHERE CAST(w.registeredDateTime AS date) = CURRENT_DATE AND w.shop.shopId = :shopId AND w.waitingStatus = :status")
     List<Waiting> getNowWaitingsByShopId(Long shopId, WaitingStatus status);

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,8 +36,9 @@ class WaitingServiceTest extends IntegrationTestSupport {
     @Test
     void changeWaitingStatus() {
         // given
-        Member owner = createOwnerMember("owner@owner.com");
-        memberRepository.save(owner);
+        Member owner = createMember("ownerTest@ownerTest.com", MemberRole.OWNER);
+        Member user = createMember("userTest@userTest.com", MemberRole.USER);
+        memberRepository.saveAll(List.of(owner, user));
         Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN, ShopStatus.OPEN,
                 LocalTime.of(10,00),LocalTime.of(21,00),"Y");
         shopRepository.save(shop);
@@ -45,8 +47,8 @@ class WaitingServiceTest extends IntegrationTestSupport {
         LocalDateTime registeredDateTime = LocalDateTime.of(date, LocalTime.of(17, 30, 2));
 
         WaitingRegisterRequest request = WaitingRegisterRequest.builder()
-                .userId(4L)
-                .shopId(1L)
+                .memberId(user.getId())
+                .shopId(shop.getShopId())
                 .headCount(5)
                 .registeredDateTime(registeredDateTime)
                 .build();
@@ -59,20 +61,20 @@ class WaitingServiceTest extends IntegrationTestSupport {
         assertThat(changeWaitingStatue.getWaitingStatus()).isEqualTo(WaitingStatus.NOSHOW);
     }
 
-    private Member createOwnerMember(String email){
+    private Member createMember(String email, MemberRole role){
         return Member.builder()
-                .nickName("사장님A")
+                .nickName("뉴멤버")
                 .password("1111")
                 .email(email)
                 .phoneNumber("01027374848")
-                .role(MemberRole.OWNER)
+                .role(role)
                 .build();
     }
 
     private Shop createShop(Member ownerMember, String description, ShopCountryCategory countryCategory,
                             ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn){
         return Shop.builder()
-                .shopName("해피식당")
+                .shopName("테스트용식당")
                 .member(ownerMember)
                 .shopNumber("02-1234-5678")
                 .address(new Address("15151","서울특별시 00로 32"))

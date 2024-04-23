@@ -39,7 +39,7 @@ public class WaitingOwnerResponse {
     public static WaitingOwnerResponse toDto(Waiting waiting){
         return WaitingOwnerResponse.builder()
                 .waitingId(waiting.getWaitingId())
-                .userId(waiting.getUserId())
+                .userId(waiting.getMember().getId())
                 .shopId(waiting.getShop().getShopId())
                 .shopName(waiting.getShop().getShopName())
                 .headCount(waiting.getHeadCount())
