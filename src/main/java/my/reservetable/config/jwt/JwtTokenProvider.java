@@ -5,6 +5,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import my.reservetable.member.dto.MemberDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,20 +20,20 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtTokenProvider {
-    // todo : SECRET_KEY 등 숨기기
-    private static final String SUBJECT = "subject@gmail.com";
-    private static final String SECRET_KEY = "Q4NSl604sgyHJj1qwEkR3ycUeR4uUAt7WJraD7EN3O9DVM4yyYuHxMEbSF4XXyYJkal13eqgB0F7Bq4H";
-    private static final int EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7; //일주일
-    private static final String TOKEN_PREFIX = "Bearer ";
-    private static final String HEADER = "Authorization";
+
+    @Value("${security.jwt.secret-key}")
+    private static String JWT_SECRET;
+
+    // 토큰 유효시간
+    @Value("${security.jwt.access-expired-time}")
+    private static Long EXPIRATION_TIME;
 
     private static SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_SECRET));
     }
 
     public static String createJwtToken(MemberDto member, List<String> roles) {
         return Jwts.builder()
-                //.subject(SUBJECT)
                 .issuer("issuer@gmail.com")
                 .signWith(getSigningKey())
                 .setIssuedAt(new Date(System.currentTimeMillis()))

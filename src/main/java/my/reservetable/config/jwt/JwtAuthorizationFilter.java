@@ -14,6 +14,8 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
+    private static final String TOKEN_PREFIX = "Bearer ";
+    private static final String HEADER = "Authorization";
     private final JwtTokenProvider jwtTokenProvider;
 
     public JwtAuthorizationFilter(JwtTokenProvider jwtTokenProvider) {
@@ -23,7 +25,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         if(isHeaderVerify(request,response)){
-            String token = request.getHeader("Authorization").replace("Bearer ","");
+            String token = request.getHeader(HEADER).replace(TOKEN_PREFIX,"");
             if(jwtTokenProvider.verifyToken(token)){
                 // 임시 세션 생성 후 강제 로그인
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
@@ -34,8 +36,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private boolean isHeaderVerify(HttpServletRequest request, HttpServletResponse response){
-        String header = request.getHeader("Authorization");
-        if(header == null || !header.startsWith("Bearer ")){
+        String header = request.getHeader(HEADER);
+        if(header == null || !header.startsWith(TOKEN_PREFIX)){
             return false;
         }
         else {

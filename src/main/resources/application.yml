@@ -72,3 +72,11 @@ springdoc:
     operations-sorter: method   #컨트롤러 정렬 순서
   api-docs:
     path: /api-docs   # openAPI 접근 경로
+
+security:
+  jwt:
+    secret-key: $2a$10$ubAW8wgtddxdQ1p0g0ZbquNgqhRymtknL2pbpRqv/QhALnaFacJ621096
+    access-expired-time: 1000 * 60 * 60 * 24 * 7 #일주일
+    #access-expired-time: 15552000000   # 1시간(ms) TODO 임시로 180일 설정
+    refresh-expired-time: 36000000     # 8시간(ms) => 604800000 : 7일(ms) / 10시간 => 36000000로 변경
+    #cookie-max-age: 7                  # 7일(d)
