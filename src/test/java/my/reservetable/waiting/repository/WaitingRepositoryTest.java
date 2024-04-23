@@ -1,15 +1,16 @@
 package my.reservetable.waiting.repository;
 
+import my.reservetable.comon.dummy.DummyObject;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.domain.MemberRole;
 import my.reservetable.member.repository.MemberRepository;
-import my.reservetable.shop.domain.Address;
 import my.reservetable.shop.domain.Shop;
 import my.reservetable.shop.domain.ShopCountryCategory;
 import my.reservetable.shop.domain.ShopStatus;
 import my.reservetable.shop.repository.ShopRepository;
 import my.reservetable.waiting.domain.Waiting;
 import my.reservetable.waiting.domain.WaitingStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,39 +26,56 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-class WaitingRepositoryTest {
+class WaitingRepositoryTest extends DummyObject {
 
     @Autowired WaitingRepository waitingRepository;
     @Autowired ShopRepository shopRepository;
     @Autowired MemberRepository memberRepository;
 
+    Member owner;
+    Member user1, user2, user3, user4;
+    Shop shop;
+    Waiting waiting1, waiting2, waiting3, waiting4, waiting5, targetWaiting;
+    LocalDate date;
+    LocalDateTime targetDateTime;
+
+    @BeforeEach
+    void setUp(){
+        owner = newMember("owner@owner.com", MemberRole.OWNER);
+        memberRepository.save(owner);
+
+        shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
+                LocalTime.of(10,00),LocalTime.of(21,00),"Y");
+        shopRepository.save(shop);
+
+        user1 = newMember("user1@user.com", MemberRole.USER);
+        user2 = newMember("user2@user.com", MemberRole.USER);
+        user3 = newMember("user3@user.com", MemberRole.USER);
+        user4 = newMember("user4@user.com", MemberRole.USER);
+        memberRepository.saveAll(List.of(owner, user1, user2, user3, user4));
+
+        date = LocalDate.now();
+        LocalDateTime registeredDateTime1 = LocalDateTime.of(date, LocalTime.of(17, 30, 2));
+        LocalDateTime registeredDateTime2 = LocalDateTime.of(date, LocalTime.of(17, 30, 4));
+        LocalDateTime registeredDateTime3 = LocalDateTime.of(date, LocalTime.of(17, 33, 48));
+        targetDateTime = LocalDateTime.of(date, LocalTime.of(17, 40, 13));
+        LocalDateTime registeredDateTime4 = LocalDateTime.of(date, LocalTime.of(17, 55, 00));
+        LocalDateTime registeredDateTime5 = LocalDateTime.of(date, LocalTime.of(18, 10, 00));
+
+        waiting1 = Waiting.create(shop,user1,2, 1, registeredDateTime1);
+        waiting2 = Waiting.create(shop,user2,3, 2, registeredDateTime2);
+        waiting3 = Waiting.create(shop,user3,4, 3, registeredDateTime3);
+        targetWaiting = Waiting.create(shop,user4,3, 4, targetDateTime);
+        waiting4 = Waiting.create(shop,user4,5, 5, registeredDateTime4);
+        waiting5 = Waiting.create(shop,user4,2, 6, registeredDateTime5);
+
+        waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
+    }
+
     @DisplayName("[웨이팅 번호] 타겟 웨이팅생성시간보다 먼저 생성된 웨이팅 수를 조회한다.")
     @Test
     void getCountBeforeTargetWaiting() {
         // given
-        Member owner = createOwnerMember("owner@owner.com");
-        memberRepository.save(owner);
-        Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
-                LocalTime.of(10,00),LocalTime.of(21,00),"Y");
-        shopRepository.save(shop);
-
-        LocalDate date = LocalDate.now();
-        LocalDateTime registeredDateTime1 = LocalDateTime.of(date, LocalTime.of(17, 30, 2));
-        LocalDateTime registeredDateTime2 = LocalDateTime.of(date, LocalTime.of(17, 30, 4));
-        LocalDateTime registeredDateTime3 = LocalDateTime.of(date, LocalTime.of(17, 33, 48));
-        LocalDateTime targetDateTime = LocalDateTime.of(date, LocalTime.of(17, 40, 13));
-        LocalDateTime registeredDateTime4 = LocalDateTime.of(date, LocalTime.of(17, 55, 00));
-        LocalDateTime registeredDateTime5 = LocalDateTime.of(date, LocalTime.of(18, 10, 00));
-
-        Waiting waiting1 = Waiting.create(shop,1L,2, 1, registeredDateTime1);
-        Waiting waiting2 = Waiting.create(shop,2L,3, 2, registeredDateTime2);
-        Waiting waiting3 = Waiting.create(shop,3L,4, 3, registeredDateTime3);
-        Waiting targetWaiting = Waiting.create(shop,4L,3, 4, targetDateTime);
-        Waiting waiting4 = Waiting.create(shop,4L,5, 5, registeredDateTime4);
-        Waiting waiting5 = Waiting.create(shop,4L,2, 6, registeredDateTime5);
-
-        waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
-
         // when
         int count = waitingRepository.getRegisteredDateTimeBefore(targetDateTime, date);
 
@@ -69,28 +87,6 @@ class WaitingRepositoryTest {
     @Test
     void getCountBeforeAndReadyTargetWaiting() {
         // given
-        Member owner = createOwnerMember("owner@owner.com");
-        memberRepository.save(owner);
-        Shop shop = createShop(owner, "해피식당입니다.", ShopCountryCategory.KOREAN,ShopStatus.READY,
-                LocalTime.of(10,00),LocalTime.of(21,00),"Y");
-        shopRepository.save(shop);
-
-        LocalDate date = LocalDate.now();
-        LocalDateTime registeredDateTime1 = LocalDateTime.of(date, LocalTime.of(17, 30, 2));
-        LocalDateTime registeredDateTime2 = LocalDateTime.of(date, LocalTime.of(17, 30, 4));
-        LocalDateTime registeredDateTime3 = LocalDateTime.of(date, LocalTime.of(17, 33, 48));
-        LocalDateTime targetDateTime = LocalDateTime.of(date, LocalTime.of(17, 40, 13));
-        LocalDateTime registeredDateTime4 = LocalDateTime.of(date, LocalTime.of(17, 55, 00));
-        LocalDateTime registeredDateTime5 = LocalDateTime.of(date, LocalTime.of(18, 10, 00));
-
-        Waiting waiting1 = Waiting.create(shop,1L,2, 1, registeredDateTime1);
-        Waiting waiting2 = Waiting.create(shop,2L,3, 2, registeredDateTime2);
-        Waiting waiting3 = Waiting.create(shop,3L,4, 3, registeredDateTime3);
-        Waiting targetWaiting = Waiting.create(shop,4L,3, 4, targetDateTime);
-        Waiting waiting4 = Waiting.create(shop,4L,5, 5, registeredDateTime4);
-        Waiting waiting5 = Waiting.create(shop,4L,2, 6, registeredDateTime5);
-        waitingRepository.saveAll(List.of(waiting1,waiting2,waiting3,waiting4,waiting5,targetWaiting));
-
         waiting1.changeWaitingStatus(WaitingStatus.VISITED);
 
         // when
@@ -100,32 +96,6 @@ class WaitingRepositoryTest {
         assertThat(count).isEqualTo(2);
         // 나의 대기 순서 = 3번째
         assertThat(count+1).isEqualTo(3);
-
     }
 
-    private Member createOwnerMember(String email){
-        return Member.builder()
-                .nickName("사장님A")
-                .password("1111")
-                .email(email)
-                .phoneNumber("01027374848")
-                .role(MemberRole.OWNER)
-                .build();
-    }
-
-    private Shop createShop(Member ownerMember, String description, ShopCountryCategory countryCategory,
-                            ShopStatus status, LocalTime openTime, LocalTime lastOrderTime, String waitingYn){
-        return Shop.builder()
-                .shopName("해피식당")
-                .member(ownerMember)
-                .shopNumber("02-1234-5678")
-                .address(new Address("15151","서울특별시 00로 32"))
-                .description(description)
-                .countryCategory(countryCategory)
-                .status(status)
-                .openTime(openTime)
-                .lastOrderTime(lastOrderTime)
-                .waitingYn(waitingYn)
-                .build();
-    }
 }
