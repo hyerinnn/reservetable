@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import my.reservetable.shop.domain.ShopCountryCategory;
 import my.reservetable.shop.domain.ShopStatus;
 
 import java.time.LocalTime;
@@ -15,7 +14,6 @@ import java.time.LocalTime;
 public class ShopUpdateRequest {
 
     private String description;
-    private ShopCountryCategory countryCategory;
     private ShopStatus status;
     private LocalTime openTime;
     private LocalTime lastOrderTime;
