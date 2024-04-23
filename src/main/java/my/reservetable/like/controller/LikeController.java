@@ -1,5 +1,6 @@
 package my.reservetable.like.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,19 @@ public class LikeController {
 
     private final LikeService likeService;
 
+    @Operation(summary = "좋아요 버튼 클릭", description = "찜하기 버튼 클릭 시, 찜하기 or 찜하기 취소")
     @PostMapping("/like")
     public int likeShop(@Valid @RequestBody LikeRequest request){
         return likeService.likeShop(request);
     }
 
+    @Operation(summary = "나의 '좋아요'목록 조회", description = "내가 '좋아요'한 shop의 목록과 수를 조회한다.")
     @GetMapping("/member/{memberId}")
     public LikesWithCountResponse getLikesByMember(@PathVariable Long memberId){
         return likeService.getLikesByMember(memberId);
     }
 
+    @Operation(summary = "가게의 좋아요 수 조회", description = "특정 가게의 좋아요 수를 조회한다.")
     @GetMapping("/shop/{shopId}")
     public int getCountLikesByShop(Long shopId){
         return likeService.getCountLikesByShop(shopId);
