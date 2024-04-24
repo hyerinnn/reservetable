@@ -24,12 +24,15 @@ public class PointService {
     private static final int signUpPoint = 50;
     private static final int generalPoint = 10;
 
+
     @Transactional
     public int addPoint(Long memberId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
 
         Optional<Point> myPoint = pointRepository.findByMember(member);
+
+        //TODO: isPresent map, orElse 등으로 작업해보기
 
         // 포인트 정보가 없으면, 회원가입 포인트 지급
         Point pointEntity = myPoint.orElseGet(() ->{

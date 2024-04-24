@@ -25,4 +25,15 @@ public class WaitingService {
         waiting.changeWaitingStatus(status);
         return WaitingResponse.toDto(waiting);
     }
+
+    @Transactional
+    public void 미루기(Long waitingId){
+        Waiting waiting = waitingRepository.findById(waitingId)
+                .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
+
+        // TODO : 웨이팅 미루기 구현
+        // 현재 진행중인 웨이팅인지 확인
+        // 웨이팅 미루기
+        // 포인트 차감
+    }
 }

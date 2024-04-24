@@ -38,6 +38,9 @@ public class LikeService {
                 .orElseThrow(() ->  new NotExistMemberException("회원을 찾을 수 없습니다."));
 
         likeRepository.findByMemberAndShop(member, shop)
+
+                //TODO: ifPresentOrElse말고 map, orElse 등으로 작업해보기
+
                 .ifPresentOrElse(
                         //'좋아요'를 누른적이 있다면 '좋아요' 취소
                         likes -> {
