@@ -33,6 +33,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //TODO : 왜 securityFilterChain안에서 만들지 않고 CustomSecurityFilterManager로 따로 뺐는지
     public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity>{
         @Override
         public void configure(HttpSecurity builder) throws Exception {
