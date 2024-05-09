@@ -9,13 +9,6 @@ https://www.notion.so/0a56150a0fa745f0a0f1bc4f1582731a
 
 <br/><br/>
 
-## ERD  
-
-![reservetable-erd drawio](https://github.com/hyerinnn/reservetable/assets/46141895/51ad113d-5470-4ea9-9557-767b08338ab2)
-
-
-<br/><br/>
-
 ## TODO
 ### 진행중인 프로젝트로 앞으로 해야 할 것들
 - [ ] QueryDSL 적용하기
@@ -26,4 +19,13 @@ https://www.notion.so/0a56150a0fa745f0a0f1bc4f1582731a
 - [ ] 성능테스트
 - [ ] 
 
+<br/><br/>
+
+
+## ERD  
+
+![reservetable-erd drawio](https://github.com/hyerinnn/reservetable/assets/46141895/51ad113d-5470-4ea9-9557-767b08338ab2)
+
+
+<br/><br/>
 
