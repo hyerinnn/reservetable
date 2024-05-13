@@ -39,7 +39,7 @@ public class WaitingService {
         // TODO : 웨이팅 로직 수정필요
 
         // 포인트차감
-        pointService.subtractPoint(waiting.getMember().getId() ,PointType.GENERAL.getPoint());
+        pointService.subtractPoint(waiting.getMember().getId() ,PointType.POST_PONE.getPoint());
     }
 
     private void checkWaitingStatusForChange(Waiting waiting){
