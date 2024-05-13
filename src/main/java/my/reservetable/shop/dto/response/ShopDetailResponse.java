@@ -28,11 +28,12 @@ public class ShopDetailResponse {
     @JsonFormat(pattern = "HH:mm:ss", timezone = "Asia/Seoul")
     private LocalTime lastOrderTime;
     private String waitingYn;
+    private int likeCnt;
 
     @Builder
     private ShopDetailResponse(Long shopId, String shopName, String shopNumber, Address address,
                                String description, ShopCountryCategory countryCategory, ShopStatus status,
-                               LocalTime openTime, LocalTime lastOrderTime, String waitingYn) {
+                               LocalTime openTime, LocalTime lastOrderTime, String waitingYn, int likeCnt) {
         this.shopId = shopId;
         this.shopName = shopName;
         this.shopNumber = shopNumber;
@@ -43,6 +44,7 @@ public class ShopDetailResponse {
         this.openTime = openTime;
         this.lastOrderTime = lastOrderTime;
         this.waitingYn = waitingYn;
+        this.likeCnt = likeCnt;
 
     }
 
@@ -58,6 +60,7 @@ public class ShopDetailResponse {
                 .openTime(shop.getOpenTime())
                 .lastOrderTime(shop.getLastOrderTime())
                 .waitingYn(shop.getWaitingYn())
+                .likeCnt(shop.getLikeCnt())
                 .build();
     }
 }

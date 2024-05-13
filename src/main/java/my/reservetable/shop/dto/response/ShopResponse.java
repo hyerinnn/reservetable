@@ -16,16 +16,18 @@ public class ShopResponse {
     private String shopName;
     private Address address;
     private String description;
+    private int likeCnt;
     private ShopCountryCategory countryCategory;
 
     @Builder
     private ShopResponse(Long shopId, String shopName, Address address,
-                         String description, ShopCountryCategory countryCategory) {
+                         String description, ShopCountryCategory countryCategory, int likeCnt) {
         this.shopId = shopId;
         this.shopName = shopName;
         this.address = address;
         this.description = description;
         this.countryCategory = countryCategory;
+        this.likeCnt = likeCnt;
     }
 
     public static ShopResponse toDto(Shop shop){
@@ -35,6 +37,7 @@ public class ShopResponse {
                 .address(shop.getAddress())
                 .description(shop.getDescription())
                 .countryCategory(shop.getCountryCategory())
+                .likeCnt(shop.getLikeCnt())
                 .build();
     }
 }

@@ -6,12 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.reservetable.config.AuditingEntity;
-import my.reservetable.like.domain.Likes;
 import my.reservetable.member.domain.Member;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -29,10 +26,10 @@ public class Shop extends AuditingEntity {
     @Column(nullable = false)
     private String shopName;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     private String shopNumber;
 
-    //@Column(nullable = false)
+    @Column(nullable = false)
     @Embedded
     private Address address;
 
@@ -56,8 +53,7 @@ public class Shop extends AuditingEntity {
     @Column(nullable = false)
     private String waitingYn;       // 웨이팅 오픈여부
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<Likes> likes = new ArrayList<>();
+    private int likeCnt;
 
     @Builder
     private Shop(Member member, String shopName, String shopNumber, Address address, String description, ShopCountryCategory countryCategory,
@@ -86,8 +82,19 @@ public class Shop extends AuditingEntity {
         this.status = status;
     }
 
-/*    public void addLike(Likes like) {
+    public int addLike(){
+        return this.likeCnt++;
+    }
+
+    public int subtractLike(){
+        return this.likeCnt--;
+    }
+
+/*
+    // == 연관관계 메서드 == //
+    public void addLike(Likes like) {
         like.setShop(this);
         this.likes.add(like);
-    }*/
+    }
+*/
 }
