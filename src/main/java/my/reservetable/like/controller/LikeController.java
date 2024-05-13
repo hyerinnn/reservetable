@@ -30,14 +30,14 @@ public class LikeController {
     }
 
     @Operation(summary = "나의 '좋아요'목록 조회", description = "내가 '좋아요'한 shop의 목록과 수를 조회한다.")
-    @GetMapping("/member/{memberId}")
-    public LikesWithCountResponse getLikesByMember(@PathVariable Long memberId){
+    @GetMapping
+    public LikesWithCountResponse getLikesByMember(@RequestParam Long memberId){
         return likeService.getLikesByMember(memberId);
     }
 
     @Operation(summary = "가게의 좋아요 수 조회", description = "특정 가게의 좋아요 수를 조회한다.")
-    @GetMapping("/shop/{shopId}")
-    public int getCountLikesByShop(Long shopId){
+    @GetMapping("/shop")
+    public int getCountLikesByShop(@RequestParam Long shopId){
         return likeService.getCountLikesByShop(shopId);
     }
 

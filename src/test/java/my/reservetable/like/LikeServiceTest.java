@@ -47,10 +47,12 @@ class LikeServiceTest extends IntegrationTestSupport {
 
         // when
         likeService.createLike(request);
-        int count = likesRepository.countByMemberAndShop(user, shop);
+
+        //int count = likesRepository.countByMemberAndShop(user, shop);
+        int likeCnt = shop.getLikeCnt();
 
         // then
-        assertThat(count).isEqualTo(1);
+        assertThat(likeCnt).isEqualTo(1);
     }
 
     @DisplayName("이미 좋아요를 누른적이 있다면, 좋아요를 취소한다")
@@ -74,10 +76,11 @@ class LikeServiceTest extends IntegrationTestSupport {
         likeService.createLike(request);
         likeService.cancelLike(request);
 
-        int count = likesRepository.countByMemberAndShop(user, shop);
+        //int count = likesRepository.countByMemberAndShop(user, shop);
+        int likeCnt = shop.getLikeCnt();
 
         // then
-        assertThat(count).isEqualTo(0);
+        assertThat(likeCnt).isEqualTo(0);
     }
 
     @DisplayName("나의 좋아요 목록을 조회한다.")

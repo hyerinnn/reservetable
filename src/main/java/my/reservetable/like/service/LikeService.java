@@ -43,6 +43,7 @@ public class LikeService {
             throw new IllegalArgumentException("이미 좋아요를 눌렀습니다.");
         }
         likeRepository.save(request.toEntity(member, shop));
+        shop.addLike();
     }
 
     @Transactional
@@ -57,8 +58,8 @@ public class LikeService {
                 .orElseThrow(() -> new NotFoundEntityException("좋아요 정보가 없습니다."));
 
         likeRepository.delete(like);
+        shop.subtractLike();
     }
-
 
     public LikesWithCountResponse getLikesByMember(Long memberId){
         Member member = memberRepository.findById(memberId)
@@ -85,7 +86,6 @@ public class LikeService {
                 .orElseThrow(()-> new NotFoundEntityException("매장을 찾을 수 없습니다."));
         return likeRepository.countByShop(shop);
     }
-
 
 
     // ======================== 공부용(기록용) 좋아요/좋아요 취소 합친 API =====================
