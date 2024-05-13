@@ -6,6 +6,7 @@ import my.reservetable.exception.NotExistMemberException;
 import my.reservetable.member.domain.Member;
 import my.reservetable.member.repository.MemberRepository;
 import my.reservetable.point.domain.Point;
+import my.reservetable.point.domain.PointType;
 import my.reservetable.point.repository.PointRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,31 +22,24 @@ public class PointService {
     private final PointRepository pointRepository;
     private final MemberRepository memberRepository;
 
-    private static final int signUpPoint = 50;
-    private static final int generalPoint = 10;
-
-
     @Transactional
     public int addPoint(Long memberId){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
 
-        Optional<Point> myPoint = pointRepository.findByMember(member);
-
-        // 포인트 정보가 없으면, 회원가입 포인트 지급
-        Point pointEntity = myPoint.orElseGet(() ->{
-                Point point = pointRepository.save(
+        Optional<Point> optionalPoint = pointRepository.findByMember(member);
+        // 포인트 지급내역이 아예 없으면, 회원가입 포인트 지급
+        Point pointEntity = optionalPoint.orElseGet(() ->
+                pointRepository.save(
                         Point.builder()
                                 .member(member)
-                                .point(signUpPoint)
+                                .point(PointType.SIGNUP.getPoint())
                                 .build()
-                );
-                return point;
-            }
+                )
         );
-        // 포인트 정보가 있는 경우
-        if(myPoint.isPresent()){
-            pointEntity.addPoint(generalPoint);
+        // 포인트 지급내역이 있는 경우, 일반 포인트 지급
+        if(optionalPoint.isPresent()){
+            pointEntity.addPoint(PointType.GENERAL.getPoint());
         }
         return pointEntity.getPoint();
     }
@@ -57,9 +51,6 @@ public class PointService {
         Point myPoint = pointRepository.findByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("포인트정보가 없습니다."));
 
-        if(!myPoint.checkPointAmount(point)){
-            throw new IllegalArgumentException("포인트가 부족합니다.");
-        }
         myPoint.subtractPoint(point);
         return myPoint.getPoint();
     }

@@ -34,7 +34,7 @@ public class Point extends AuditingEntity {
     }
 
     public void subtractPoint(int point){
-        if(checkPointAmount(point)){
+        if(!checkPointAmount(point)){
             throw new IllegalArgumentException("포인트가 부족합니다.");
         }
         this.point -= point;
