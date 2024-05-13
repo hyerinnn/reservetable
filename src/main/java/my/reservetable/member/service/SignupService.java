@@ -8,6 +8,7 @@ import my.reservetable.member.domain.MemberRole;
 import my.reservetable.member.dto.MemberResponse;
 import my.reservetable.member.dto.SignupRequest;
 import my.reservetable.member.repository.MemberRepository;
+import my.reservetable.point.service.PointService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class SignupService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PointService pointService;
 
     @Transactional
     public MemberResponse signupOwner(SignupRequest request){
@@ -36,6 +38,7 @@ public class SignupService {
         validateDuplicateMember(request.getEmail());
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
         Member newMember =  memberRepository.save(request.toEntity(encryptedPassword, MemberRole.USER));
+        pointService.addPoint(newMember.getId());
         return MemberResponse.toDto(newMember);
     }
 
