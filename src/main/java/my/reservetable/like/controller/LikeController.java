@@ -17,10 +17,16 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @Operation(summary = "좋아요 버튼 클릭", description = "찜하기 버튼 클릭 시, 찜하기 or 찜하기 취소")
+    @Operation(summary = "좋아요", description = "찜하기 버튼 클릭 시, 찜하기")
     @PostMapping("/like")
-    public int likeShop(@Valid @RequestBody LikeRequest request){
-        return likeService.likeShop(request);
+    public void createLike(@Valid @RequestBody LikeRequest request){
+        likeService.createLike(request);
+    }
+
+    @Operation(summary = "좋아요 취소", description = "찜하기 취소")
+    @DeleteMapping("/like")
+    public void cancelLike(@Valid @RequestBody LikeRequest request){
+        likeService.cancelLike(request);
     }
 
     @Operation(summary = "나의 '좋아요'목록 조회", description = "내가 '좋아요'한 shop의 목록과 수를 조회한다.")

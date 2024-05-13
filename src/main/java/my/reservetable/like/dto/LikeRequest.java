@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import my.reservetable.like.domain.Likes;
+import my.reservetable.member.domain.Member;
+import my.reservetable.shop.domain.Shop;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,5 +24,12 @@ public class LikeRequest {
     private LikeRequest(Long memberId, Long shopId) {
         this.memberId = memberId;
         this.shopId = shopId;
+    }
+
+    public Likes toEntity(Member member, Shop shop){
+        return Likes.builder()
+                .member(member)
+                .shop(shop)
+                .build();
     }
 }

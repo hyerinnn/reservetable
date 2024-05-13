@@ -46,7 +46,8 @@ class LikeServiceTest extends IntegrationTestSupport {
                 .build();
 
         // when
-        int count = likeService.likeShop(request);
+        likeService.createLike(request);
+        int count = likesRepository.countByMemberAndShop(user, shop);
 
         // then
         assertThat(count).isEqualTo(1);
@@ -70,8 +71,8 @@ class LikeServiceTest extends IntegrationTestSupport {
                 .build();
 
         // when
-        likeService.likeShop(request);
-        likeService.likeShop(request);
+        likeService.createLike(request);
+        likeService.cancelLike(request);
 
         int count = likesRepository.countByMemberAndShop(user, shop);
 
@@ -104,8 +105,8 @@ class LikeServiceTest extends IntegrationTestSupport {
                 .shopId(shop2.getShopId())
                 .build();
 
-        likeService.likeShop(request);
-        likeService.likeShop(request2);
+        likeService.createLike(request);
+        likeService.createLike(request2);
 
         LikesWithCountResponse likes = likeService.getLikesByMember(user.getId());
 
