@@ -22,6 +22,20 @@ public class PointService {
     private final PointRepository pointRepository;
     private final MemberRepository memberRepository;
 
+    public int getPoint(Long memberId){
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotExistMemberException("회원을 찾을 수 없습니다."));
+
+        Point point = pointRepository.findByMember(member)
+                .orElseGet(() ->
+                        Point.builder()
+                                .member(member)
+                                .point(0)
+                                .build()
+                );
+        return point.getPoint();
+    }
+
     @Transactional
     public int addPoint(Long memberId){
         Member member = memberRepository.findById(memberId)
