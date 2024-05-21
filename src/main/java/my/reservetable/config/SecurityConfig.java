@@ -38,7 +38,7 @@ public class SecurityConfig {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-            LoginFilter loginFilter = new LoginFilter(authenticationManager);
+            LoginFilter loginFilter = new LoginFilter(authenticationManager, jwtTokenProvider);
             loginFilter.setFilterProcessesUrl("/member/login");
             builder.addFilter(loginFilter);
             super.configure(builder);

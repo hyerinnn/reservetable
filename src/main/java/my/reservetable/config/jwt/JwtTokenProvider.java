@@ -22,17 +22,21 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     @Value("${security.jwt.secret-key}")
-    private static String JWT_SECRET;
+    private String JWT_SECRET;
 
     // 토큰 유효시간
     @Value("${security.jwt.access-expired-time}")
-    private static Long EXPIRATION_TIME;
+    private Long EXPIRATION_TIME;
 
-    private static SecretKey getSigningKey() {
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(JWT_SECRET));
     }
 
-    public static String createJwtToken(MemberDto member, List<String> roles) {
+    public String createAccessToken(MemberDto member, List<String> roles){
+        return createJwtToken(member, roles);
+    }
+
+    public String createJwtToken(MemberDto member, List<String> roles) {
         return Jwts.builder()
                 .issuer("issuer@gmail.com")
                 .signWith(getSigningKey())

@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // Post의 /login 호출 시 동작
     @Override
@@ -58,7 +59,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles);
+        //String jwtToken = JwtTokenProvider.createJwtToken(loginMemberDetails.getMemberDto(), roles);
+        String jwtToken = jwtTokenProvider.createAccessToken(loginMemberDetails.getMemberDto(), roles);
+
         //response.addHeader("Authorization", "Bearer " + jwtToken);
 
         Map<String, Object> tokens = Map.of(
