@@ -11,6 +11,8 @@ import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
 import my.reservetable.shop.dto.response.ShopDetailResponse;
 import my.reservetable.shop.repository.ShopRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +28,12 @@ public class ShopService {
     private final MemberRepository memberRepository;
 
     //TODO : 검색 필터링 필요(queryDSL 적용시 개발예정)
-    public List<ShopDetailResponse> getAllShops(){
-        List<Shop> shops = shopRepository.findAll();
+    //TODO : 무한스크롤용 slice 비교필요
+    public Page<ShopDetailResponse> getAllShops(Pageable pageable){
+/*        Page<Shop> shops = shopRepository.findAll(pageable);
         return shops.stream().map(ShopDetailResponse::toDto).collect(Collectors.toList());
+ */
+        return shopRepository.findAll(pageable).map(ShopDetailResponse::toDto);
     }
 
     public ShopDetailResponse getShop(Long shopId) {

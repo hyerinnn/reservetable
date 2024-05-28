@@ -16,6 +16,8 @@ import my.reservetable.shop.repository.ShopRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -34,7 +36,7 @@ class ShopServiceTest extends IntegrationTestSupport {
 
     @DisplayName("가게목록을 전체 조회한다.")
     @Test
-    void getAllShops() {
+    void getAllShopsWithPageSize() {
         // given
         Member owner = createOwnerMember("owner@owner.com");
         memberRepository.save(owner);
@@ -50,10 +52,10 @@ class ShopServiceTest extends IntegrationTestSupport {
         shopRepository.saveAll(List.of(shop1,shop2,shop3,shop4));
 
         //when
-        List<ShopDetailResponse> shops = shopService.getAllShops();
+        Page<ShopDetailResponse> shops = shopService.getAllShops(PageRequest.of(0,2));
 
         // then
-        assertThat(shops).hasSize(4);
+        assertThat(shops).hasSize(2);
     }
 
     @DisplayName("가게를 등록한다.")

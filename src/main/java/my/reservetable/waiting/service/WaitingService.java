@@ -21,7 +21,6 @@ public class WaitingService {
 
     @Transactional
     public WaitingResponse changeWaitingStatus(Long waitingId, WaitingStatus status) {
-
         Waiting waiting = waitingRepository.findById(waitingId)
                 .orElseThrow(() -> new NotFoundEntityException("웨이팅 정보를 찾을 수 없습니다."));
         checkWaitingStatusForChange(waiting);

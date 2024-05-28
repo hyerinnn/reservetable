@@ -9,6 +9,10 @@ import my.reservetable.shop.dto.request.ShopRegisterRequest;
 import my.reservetable.shop.dto.request.ShopUpdateRequest;
 import my.reservetable.shop.dto.response.ShopDetailResponse;
 import my.reservetable.shop.service.ShopService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +27,9 @@ public class ShopController {
 
     @Operation(summary = "전체 가게목록 조회", description = "전체 가게목록을 조회한다.")
     @GetMapping("/all")
-    public List<ShopDetailResponse> getAllShops(){
-        return shopService.getAllShops();
+    public Page<ShopDetailResponse> getAllShops(
+            @PageableDefault(size = 10, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable){
+        return shopService.getAllShops(pageable);
     }
 
     @Operation(summary = "특정 가게 조회", description = "특정 가게를 조회한다.")
